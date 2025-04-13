@@ -1,0 +1,228 @@
+@import '../../styles/_variables.scss';
+
+.main {
+  padding: 80px;
+  margin-left: 250px;
+  min-height: 100vh;
+  background: #f6f9ff;
+  transition: all 0.3s ease;
+}
+
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+  animation: fadeIn 0.5s ease-out;
+}
+
+.container h2 {
+  color: #012970;
+  font-weight: 600;
+  font-size: 28px;
+  position: relative;
+}
+
+.container h2::after {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  left: 0;
+  width: 60px;
+  height: 4px;
+  background: linear-gradient(135deg, #4154f1, #2db6f0);
+  border-radius: 2px;
+}
+
+.card {
+  background: #ffffff;
+  border: none;
+  border-radius: 15px;
+  box-shadow: 0 5px 20px rgba(1, 41, 112, 0.1);
+  transition: all 0.3s ease;
+  overflow: hidden;
+}
+
+
+.circle {
+  display: inline-block;
+  width: 10px; /* Taille du cercle */
+  height: 10px; /* Taille du cercle */
+  border-radius: 50%; /* Forme circulaire */
+}
+
+.green {
+  background-color: #28a745; /* Vert */
+}
+
+.red {
+  background-color: #dc3545; /* Rouge */
+}
+
+/* Liste des technicien titre*/
+.card-title {
+    font-size: 24px; /* Taille plus grande */
+    font-weight: 700; /* Texte plus gras */
+    color: #012970; /* Couleur élégante */
+    text-transform: uppercase; /* Mettre en majuscules */
+    display: flex;
+    align-items: center;
+    gap: 10px; /* Espacement entre l'icône et le texte */
+    padding-bottom: 8px;
+    border-bottom: 3px solid #4154f1; /* Barre décorative */
+    position: relative;
+  }
+  
+  .card-title::before {
+    content: "\f0c0"; /* Icône FontAwesome (utilisation possible) */
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    color: #4154f1;
+    font-size: 22px;
+  }
+  
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 25px rgba(1, 41, 112, 0.15);
+}
+
+.card-body {
+  padding: 25px;
+}
+
+.table {
+  margin: 0;
+}
+
+.table thead {
+  background: rgba(65, 84, 241, 0.05);
+}
+
+.table thead th {
+  color: #012970;
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 0.9rem;
+  letter-spacing: 0.5px;
+  padding: 15px;
+  border: none;
+}
+
+.table tbody tr {
+  transition: all 0.3s ease;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.table tbody tr:hover {
+  background-color: rgba(65, 84, 241, 0.02);
+  transform: scale(1.01);
+}
+
+.table tbody td {
+  padding: 15px;
+  vertical-align: middle;
+  color: #5a5a5a;
+  font-size: 0.95rem;
+}
+
+.badge {
+  padding: 8px 15px;
+  border-radius: 20px;
+  font-weight: 500;
+  font-size: 0.85rem;
+  letter-spacing: 0.3px;
+  transition: all 0.3s ease;
+}
+
+.badge.bg-warning {
+  background: linear-gradient(135deg, #ffd700, #ffa726) !important;
+  color: #000 !important;
+}
+
+.badge.bg-warning:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(255, 152, 0, 0.2);
+}
+
+.badge.bg-success {
+  background: linear-gradient(135deg, #00b09b, #96c93d) !important;
+}
+
+.badge.bg-danger {
+  background: linear-gradient(135deg, #ff416c, #ff4b2b) !important;
+}
+
+.btn {
+  padding: 8px 20px;
+  border-radius: 8px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.btn.btn-primary {
+  background: linear-gradient(135deg, #4154f1, #2db6f0);
+  border: none;
+}
+
+.btn.btn-primary:hover {
+  background: linear-gradient(135deg, #2db6f0, #4154f1);
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(65, 84, 241, 0.2);
+}
+
+.modal .modal-dialog .modal-content {
+  border: none;
+  border-radius: 15px;
+  overflow: hidden;
+}
+
+.modal .modal-dialog .modal-header {
+  background: linear-gradient(135deg, #4154f1, #2db6f0);
+  border: none;
+  padding: 20px;
+}
+
+.modal .modal-dialog .modal-title {
+  color: #ffffff;
+  font-weight: 600;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 1199px) {
+  .main {
+    margin-left: 0;
+    padding: 20px;
+  }
+}
+
+@media (max-width: 992px) {
+  .container h2 {
+    font-size: 24px;
+  }
+  .table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+}
+
+@media (max-width: 768px) {
+  .main {
+    padding: 15px;
+  }
+  .container h2 {
+    font-size: 20px;
+  }
+  .card .card-body {
+    padding: 15px;
+  }
+}

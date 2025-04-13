@@ -1,0 +1,25 @@
+<div class="nav">
+    <div class="logo">
+      <img src="assets/logo1.png" alt="Logo" class="logo-img" />
+    </div>
+    <div class="nav-links">
+     
+      <a routerLink="/client">Home</a>
+      <a  routerLink="/client/vetrine">Produits</a>
+      <a routerLink="/client/reclamation">Mes réclamations</a>
+      <a routerLink="/client/historique">Historique d'achat</a>
+    </div>
+    <div class="right-section">
+      <div class="profile">
+        <div class="info" (click)="toggleDropdown()">
+          <img src="../../assets/profile.png" alt="User Avatar" class="avatar" />
+          <p>{{ username }}</p>
+          <i class="fa fa-caret-down"></i>
+        </div>
+        <div class="dropdown-menu" [class.show]="isDropdownOpen">
+          <a routerLink="/client/profile">Modifier le profil</a>
+          <a href="#" (click)="logout()">Se déconnecter</a>
+        </div>
+      </div>
+    </div>
+  </div>

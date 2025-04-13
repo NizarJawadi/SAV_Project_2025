@@ -1,0 +1,103 @@
+
+
+.nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #343a40;
+    padding: 15px 30px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.logo img {
+    height: 70px;
+    margin-right: 10px;
+    width: 50px;
+}
+
+.logo-text {
+    font-size: 24px;
+    font-weight: bold;
+    color: white;
+    text-decoration: none;
+}
+
+.nav-links a {
+    color: white;
+    text-decoration: none;
+    margin: 0 15px;
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.nav-links a:hover {
+    text-decoration: underline;
+}
+
+.profile {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+}
+
+.profile .info {
+    display: flex;
+    align-items: center;
+}
+
+.profile img.avatar {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.profile p {
+    color: white;
+    margin: 0;
+    font-size: 16px;
+}
+
+.dropdown-menu {
+    position: absolute;
+    right: -50px; /* Décale le dropdown pour qu'il soit partiellement hors de l'écran */
+    top: 100%;
+    max-width: 200px; /* Définit une largeur max */
+    overflow: hidden; /* Cache ce qui dépasse */
+    white-space: nowrap; /* Empêche le texte de passer à la ligne */
+    position: absolute;
+    top: 100%;
+    left: 0;
+    clip-path: inset(0 30% 0 0); /* Cache 30% de la droite */
+    position: relative;
+    overflow: hidden; /* Cache ce qui dépasse */
+    width: 100vw; /* Ajuste selon la taille de l'écran */
+  }
+  .parent-container {
+    position: relative;
+    overflow: hidden; /* Cache ce qui dépasse */
+    width: 200vw; /* Ajuste selon la taille de l'écran */
+  }
+  
+  .dropdown-menu {
+    position: absolute;
+    left: 90%; /* Positionne partiellement hors de l'écran */
+    transform: translateX(-50%);
+  }
+  
+  
+  
+  .dropdown-menu a {
+      display: block;
+      padding: 10px;
+      text-decoration: none;
+      color: #333;
+  }
+  
+  .dropdown-menu a:hover {
+      background-color: #f1f1f1;
+  }
+  
+  .show {
+      display: block;
+  }

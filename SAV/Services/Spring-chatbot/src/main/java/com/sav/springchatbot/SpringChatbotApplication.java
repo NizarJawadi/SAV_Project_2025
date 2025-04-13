@@ -1,0 +1,15 @@
+package com.sav.springchatbot;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.openfeign.EnableFeignClients;
+
+@EnableFeignClients
+@SpringBootApplication
+public class SpringChatbotApplication {
+
+	public static void main(String[] args) {
+		SpringApplication.run(SpringChatbotApplication.class, args);
+	}
+
+}

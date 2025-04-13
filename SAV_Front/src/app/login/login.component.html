@@ -1,0 +1,66 @@
+<div class="auth-page-wrapper pt-5 min-h-screen bg-cover bg-center flex items-center justify-center" style="background-image: url('assets/bg.jpg');">
+    <!-- Fond de la page d'authentification -->
+    <div class="absolute inset-0 bg-black opacity-50"></div>
+    
+    <div class="relative z-10 w-full max-w-md p-6 bg-white shadow-lg rounded-lg">
+        <div class="text-center">
+            <a href="javascript:void(0);" class="inline-block mb-4">
+                <img src="assets/logo.jpg" alt="Logo" class="h-28 mx-auto">
+            </a>
+            <h5 class="text-xl font-semibold text-gray-700">Bienvenue de nouveau !</h5>
+           <!--  <p class="text-sm text-gray-500">Connectez-vous pour continuer vers votre tableau de bord</p> -->
+        </div>
+        
+        <form class="mt-6" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+            <div class="mb-4">
+                <label class="block text-sm font-medium text-gray-700">Email</label>
+                <input type="email" formControlName="login" class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500" placeholder="Entrez votre email">
+              </div>
+              
+              <div class="mb-4">
+                <label class="block text-sm font-medium text-gray-700">Mot de passe</label>
+                <div class="relative">
+                  <input id="password" type="password" formControlName="password" class="w-full p-3 pr-10 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500" placeholder="Entrez votre mot de passe">
+                  <i class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-600 cursor-pointer fas fa-eye"
+                     (click)="togglePassword()"></i>
+                </div>
+              </div>
+              
+            
+            <div class="flex items-center justify-between mb-4">
+                <div class="flex items-center">
+                    <input type="checkbox" class="w-4 h-4 border-gray-300 rounded">
+                    <label class="ml-2 text-sm text-gray-700">Se souvenir de moi</label>
+                </div>
+                <a href="/pass-reset/basic" class="text-sm text-indigo-600 hover:underline">Mot de passe oublié ?</a>
+            </div>
+            
+            <button type="submit" class="w-full py-3 text-white bg-green-600 rounded-lg hover:bg-green-700 transition" (ngSubmit)="onSubmit()" [formGroup]="loginForm">Se connecter</button>
+        </form>
+        
+        <div class="mt-6 text-center">
+            <p class="text-sm text-gray-600">Vous n'avez pas de compte ? <a routerLink="/register" class="text-indigo-600 font-medium hover:underline">S'inscrire</a></p>
+        </div>
+        
+        <!-- <div class="mt-6 text-center">
+            <h5 class="text-sm text-gray-500">Ou connectez-vous avec</h5>
+            <div class="flex justify-center gap-4 mt-3">
+                <button class="p-3 text-white bg-blue-600 rounded-full hover:bg-blue-700">
+                    <i class="fab fa-facebook-f"></i>
+                </button>
+                <button class="p-3 text-white bg-red-600 rounded-full hover:bg-red-700">
+                    <i class="fab fa-google"></i>
+                </button>
+                <button class="p-3 text-white bg-gray-800 rounded-full hover:bg-gray-900">
+                    <i class="fab fa-github"></i>
+                </button>
+                <button class="p-3 text-white bg-blue-400 rounded-full hover:bg-blue-500">
+                    <i class="fab fa-twitter"></i>
+                </button>
+            </div>
+        </div> -->
+    </div>
+  </div>
+  
+
+  

@@ -1,0 +1,452 @@
+/* Navbar principale */
+.navbar {
+  
+  background: linear-gradient(to right, #4b6cb7, #182848);
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 2px solid #ccc;
+  box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.1);
+}
+
+.navbar .logo {
+  font-size: 24px;
+  font-weight: 700;
+  color: white;
+}
+
+.nav-links {
+  list-style: none;
+  display: flex;
+  gap: 20px;
+}
+
+.nav-links li {
+  position: relative;
+}
+
+.nav-links li a {
+  color: white;
+  text-decoration: none;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.nav-links li a:hover {
+  color: #f39c12;
+  transition: 0.3s;
+}
+
+/* Menu des catégories horizontal */
+.categories-navbar {
+  background: #333;
+  padding: 10px;
+  display: flex;
+  justify-content: center;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.categories-list {
+  list-style: none;
+  display: flex;
+  gap: 40px;
+  margin: 0;
+}
+
+.category-item {
+  position: relative;
+}
+
+.category-link {
+  color: white;
+  text-decoration: none;
+  font-size: 18px;
+  font-weight: 600;
+  padding: 10px;
+  border-radius: 5px;
+  transition: 0.3s;
+}
+
+.category-link:hover {
+  background-color: #4b6cb7;
+  color: white;
+  transform: scale(1.1);
+}
+
+/* Sous-catégories */
+.subcategories {
+  list-style: none;
+  position: absolute;
+  background-color: #444;
+  padding: 10px;
+  top: 40px;
+  left: 0;
+  width: 250px;
+  border-radius: 5px;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(20px);
+  transition: opacity 0.3s, transform 0.3s, visibility 0.3s;
+  z-index: 50;
+}
+
+.subcategories li {
+  padding: 10px;
+}
+
+.subcategory-item {
+  transition: background-color 0.3s ease;
+}
+
+.subcategory-item:hover {
+  background-color: #4b6cb7;
+  cursor: pointer;
+}
+
+.subcategory-link {
+  color: white;
+  text-decoration: none;
+  font-size: 16px;
+}
+
+.category-item:hover .subcategories {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+/* Effets de survol et animation */
+.category-item {
+  transition: transform 0.3s ease;
+}
+
+.category-item:hover {
+  transform: scale(1.05);
+}
+
+.product-image {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 6px;
+  box-shadow: 0 3px 5px rgba(0, 0, 0, 0.1);
+}
+
+
+.home-container {
+  display: flex;
+  gap: 40px;
+  padding: 30px;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  background-color: #f4f4f4;
+}
+
+.search-container {
+  position: fixed; /* Fixe la position de la recherche */
+  top: 190px; /* Position initiale */
+  left: 30px; /* Fixe la recherche sur le côté gauche */
+  width: 250px;
+  background: #fff;
+  padding: 25px;
+  border-radius: 10px;
+  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.15);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  z-index: 10;
+  transition: top 0.3s ease; /* Transition fluide pour le changement de position */
+}
+
+
+.search-container h3 {
+  font-size: 1.6rem;
+  color: #333;
+  margin-bottom: 20px;
+  font-weight: 600;
+}
+
+.search-input, .price-input1, .price-input {
+  padding: 8px; /* Réduire le padding */
+  font-size: 0.9rem; /* Réduire la taille de la police */
+  height: 20px; /* Réduire la hauteur des champs */
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  transition: background-color 0.3s ease;
+}
+
+.filter-select{
+  padding: 8px; /* Réduire le padding */
+  font-size: 0.9rem; /* Réduire la taille de la police */
+  height: 35px; /* Réduire la hauteur des champs */
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  transition: background-color 0.3s ease;
+}
+
+.search-input::placeholder,
+.price-input::placeholder,
+.filter-select {
+  font-style: italic;
+}
+
+.search-input:focus, .price-input:focus, .filter-select:focus {
+  background-color: #e0f7fa;
+  border-color: #007bff;
+  outline: none;
+}
+
+.reset-btn {
+  background-color: #007bff;
+  color: white;
+  padding: 8px 15px; /* Réduire le padding du bouton */
+  font-size: 0.9rem; /* Réduire la taille de la police du bouton */
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.reset-btn:hover {
+  background-color: #0056b3;
+}
+
+.product-list {
+  flex: 1;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 30px;
+  margin-top: 10px;
+  margin-left: 340px; /* Ajouter une marge pour compenser la largeur de la zone de recherche */
+}
+
+.product {
+  background: #fff;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  text-align: center;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.product:hover {
+  transform: scale(1.05);
+  box-shadow: 0px 6px 20px rgba(0, 0, 0, 0.15);
+}
+
+.product-image {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.product h3 {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #333;
+  margin: 10px 0;
+}
+
+.product p {
+  font-size: 1rem;
+  color: #555;
+}
+
+.in-stock {
+  color: green;
+  font-weight: bold;
+}
+
+.out-stock {
+  color: red;
+  font-weight: bold;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .home-container {
+    flex-direction: column;
+    align-items: center;
+    padding-top: 50px; /* Ajuster le padding pour les petits écrans */
+  }
+
+  .search-container {
+    width: 90%;
+    max-width: 400px;
+    margin-bottom: 20px;
+  }
+
+  .product-list {
+    grid-template-columns: 1fr 1fr;
+    margin-left: 0; /* Retirer la marge à gauche pour les petits écrans */
+  }
+}
+
+@media (max-width: 480px) {
+  .product-list {
+    grid-template-columns: 1fr;
+  }
+
+  .search-container {
+    width: 100%;
+  }
+}
+
+
+
+/* Styles pour le footer */
+.footer {
+  background-color: #222;
+  color: hsl(0, 0%, 100%);
+  padding: 5px 0; /* Réduire le padding */
+  width: 100%;
+  box-sizing: border-box;
+  position: fixed; /* Fixer le footer */
+  bottom: 0; /* Le positionner en bas de la page */
+  left: 0; /* Aligner à gauche */
+}
+
+.footer-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 8px; /* Réduire le padding interne */
+  width: 100%;
+  box-sizing: border-box;
+  flex-wrap: wrap; /* Adapter l'affichage sur petit écran */
+}
+
+.footer-logo img {
+  width: 80px; /* Réduire la taille de l'image */
+  height: auto;
+}
+
+.footer-logo-text {
+  font-size: 18px; /* Réduire la taille de la police */
+  color: #fff;
+  text-decoration: none;
+  margin-left: 8px; /* Réduire l'espacement */
+}
+
+.footer-links {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.footer-links a {
+  color: #fff;
+  text-decoration: none;
+  margin-right: 15px; /* Réduire l'espacement entre les liens */
+  font-size: 14px; /* Réduire la taille de la police */
+}
+
+.footer-social {
+  display: flex;
+  flex-wrap: wrap;
+  margin-left: 8px; /* Réduire l'espacement */
+}
+
+.footer-social-icon {
+  color: #fff;
+  font-size: 18px; /* Réduire la taille des icônes */
+  margin-right: 8px; /* Réduire l'espacement entre les icônes */
+  text-decoration: none;
+}
+
+.footer-social-icon:hover {
+  color: #4caf50;
+}
+
+.footer-bottom {
+  
+  text-align: center;
+  margin-top: 3px; /* Réduire l'espacement du bas */
+  font-size: 15px; /* Réduire la taille de la police */
+  width: 100%;
+  box-sizing: border-box;
+  padding-top: 2px; /* Réduire le padding */
+}
+
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  width: 400px;
+  text-align: center;
+  position: relative;
+}
+
+.close {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.modal-image {
+  max-width: 100%;
+  height: auto;
+}
+
+.quantity-input {
+  width: 50px;
+  margin: 10px;
+}
+
+.buy-btn {
+  background-color: #28a745;
+  color: white;
+  padding: 10px;
+  border: none;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+
+.modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal.show {
+  display: flex;
+}
+
+.modal-content {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  text-align: center;
+  width: 300px;
+}
+
+button {
+  margin: 10px;
+}

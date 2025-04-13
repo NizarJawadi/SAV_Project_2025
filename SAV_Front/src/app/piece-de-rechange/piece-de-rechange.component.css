@@ -1,0 +1,71 @@
+/* Styles généraux */
+.main {
+    padding: 20px;
+  }
+  
+  /* Style des cartes */
+  .card {
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Style des titres */
+  .card-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  /* Style des boutons */
+  .btn {
+    border-radius: 6px;
+  }
+  
+  /* Style de la table */
+  .table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .table th, .table td {
+    text-align: center;
+    vertical-align: middle;
+    padding: 12px;
+  }
+  
+  .table th {
+    background-color: #f8f9fa;
+    font-weight: bold;
+  }
+  
+  /* Style des actions */
+  td .btn {
+    margin: 0 5px;
+  }
+  
+  /* Style de l'image des pièces */
+  .product-image {
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  }
+  
+  /* Style du modal */
+  .modal-content {
+    border-radius: 10px;
+    padding: 20px;
+  }
+  
+  /* Style des inputs */
+  .form-control, .form-select {
+    border-radius: 6px;
+  }
+  
+  /* Pagination */
+  .pagination-controls {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 15px;
+  }
+  

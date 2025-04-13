@@ -1,0 +1,18 @@
+/* Add your custom styles here */
+.profile .card-body img {
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+}
+
+.profile .nav-tabs {
+  margin-bottom: 20px;
+}
+
+.profile .nav-item button {
+  font-weight: bold;
+}
+
+.profile .form-check {
+  margin-bottom: 10px;
+}

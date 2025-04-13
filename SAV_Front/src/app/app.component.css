@@ -1,0 +1,21 @@
+/* app.component.css */
+main {
+    padding: 20px;
+    transition: margin-left 0.3s ease;
+  }
+  
+  main.sidebar-open {
+    margin-left: 250px; /* Ajustez la taille du margin selon la taille de votre sidebar */
+  }
+  
+  .sidebar {
+    position: fixed;
+    width: 250px;
+    left: -250px; /* Masqué par défaut */
+    transition: left 0.3s ease;
+  }
+  
+  .sidebar.sidebar-open {
+    left: 0; /* Sidebar visible */
+  }
+  

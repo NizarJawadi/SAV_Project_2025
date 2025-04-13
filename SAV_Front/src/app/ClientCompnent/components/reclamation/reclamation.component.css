@@ -1,0 +1,68 @@
+
+
+
+.container {
+    max-width: 1000px;
+  }
+  
+  .title {
+    font-size: 28px;
+    font-weight: bold;
+    color: #333;
+  }
+  
+  .card {
+    border-radius: 12px;
+    border: none;
+    background: #fff;
+  }
+  
+  .table {
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  
+  .table-hover tbody tr:hover {
+    background-color: #f8f9fa;
+  }
+  
+  .badge {
+    padding: 6px 12px;
+    font-size: 14px;
+    border-radius: 6px;
+  }
+  
+  .statut-badge {
+    font-weight: bold;
+  }
+  
+  /* 🎨 Couleurs des statuts */
+  .statut-badge.approuve { background-color: #28a745; color: white; }
+  .statut-badge.en_attente { background-color: #ffc107; color: black; }
+  .statut-badge.rejete { background-color: #dc3545; color: white; }
+  
+  .btn-sm {
+    padding: 6px 10px;
+    border-radius: 6px;
+  }
+  
+  .btn-outline-primary {
+    border-color: #007bff;
+    color: #007bff;
+  }
+  
+  .btn-outline-danger {
+    border-color: #dc3545;
+    color: #dc3545;
+  }
+  
+  .btn-outline-primary:hover {
+    background-color: #007bff;
+    color: white;
+  }
+  
+  .btn-outline-danger:hover {
+    background-color: #dc3545;
+    color: white;
+  }
+  

@@ -1,0 +1,58 @@
+<div class="container mt-5">
+  <h2 class="text-center mb-4 title">
+    📌 Mes Réclamations
+  </h2>
+
+  <div class="card shadow-lg p-4">
+    <div class="table-responsive">
+      <table class="table table-hover align-middle">
+        <thead class="table-dark">
+          <tr>
+            <th>#</th>
+            
+            <th>Produit</th>
+            <th>Référence</th>
+            
+            <th>Garantie</th>
+            <th>Prix</th>
+            <th>Statut</th>
+            <th>Date Réclamation</th>
+            <th>Responsable SAV</th>
+            <th>Intervention</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let reclamation of reclamations; let i = index">
+            <td>{{ i + 1 }}</td>
+           
+            <td>
+              <img [src]="'http://localhost:9999/images/' + reclamation.produit.imageUrl" 
+                   alt="{{ reclamation.produit.nom }}" width="50">
+            </td>
+            <td>{{ reclamation.produit.reference }}</td>
+            
+            <td>{{ reclamation.produit.dureeGarantie }} mois</td>
+            <td>{{ reclamation.produit.prix }} €</td>
+            <td>
+              <span class="badge statut-badge" [ngClass]="getStatusClass(reclamation.statut)">
+                {{ reclamation.statut }}
+              </span>
+            </td>
+            <td>{{ reclamation.dateReclamation | date: 'dd/MM/yyyy HH:mm' }}</td>
+            <td>{{ reclamation.responsableSAVId ? reclamation.responsableSAVId : 'Non assigné' }}</td>
+            <td>{{ reclamation.interventionId ? reclamation.interventionId : 'Non assigné' }}</td>
+            <td>
+              <button class="btn btn-outline-primary btn-sm me-2">
+                <i class="fa fa-eye"></i>
+              </button>
+              <button class="btn btn-outline-danger btn-sm" (click)="annulerReclamation(reclamation.id)">
+                <i class="fa fa-trash"></i> Annuler
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,74 @@
+<!-- Barre de navigation des catégories -->
+<!-- Navbar des catégories -->
+<div class="categories-navbar">
+    <ul class="categories-list">
+      <li *ngFor="let category of categories" (click)="category.isActive = !category.isActive" class="category-item">
+        <a class="category-link">{{ category.nom }}</a>
+  
+        <ul class="subcategories" *ngIf="category.isActive">
+          <li *ngFor="let subcategory of category.subCategories" class="subcategory-item">
+            <a class="subcategory-link" (click)="selectSubCategory(subcategory)">{{ subcategory.nom }}</a>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+  
+  <div class="home-container">
+    <!-- Barre de recherche avancée à gauche -->
+    <div class="search-container" [style.top.px]="searchTop">
+      <h3>Recherche avancée</h3>
+  
+      <input type="text" [(ngModel)]="searchTerm" placeholder="Rechercher un produit..." class="search-input" />
+  
+      <label>Prix min :</label>
+      <input type="number" [(ngModel)]="minPrice" placeholder="Min DT" class="price-input1" />
+  
+      <label>Prix max :</label>
+      <input type="number" [(ngModel)]="maxPrice" placeholder="Max DT" class="price-input" />
+  
+      <label>Disponibilité :</label>
+      <select [(ngModel)]="selectedAvailability" class="filter-select">
+        <option value="">Toutes</option>
+        <option value="true">En stock</option>
+        <option value="false">Rupture</option>
+      </select>
+  
+      <label>Trier par :</label>
+      <select [(ngModel)]="sortBy" class="filter-select">
+        <option value="">Par défaut</option>
+        <option value="priceAsc">Prix croissant</option>
+        <option value="priceDesc">Prix décroissant</option>
+        <option value="rating">Meilleures notes</option>
+        <option value="newest">Nouveautés</option>
+      </select>
+  
+      <button (click)="resetFilters()" class="reset-btn">Réinitialiser</button>
+    </div>
+  
+    <!-- Liste des produits filtrés -->
+    <!-- Liste des produits -->
+  <!-- Modal HTML -->
+  <div class="modal" [class.show]="isModalOpen" (click)="closeModal()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+      <h2>Confirmation d'achat</h2>
+      <p>Êtes-vous sûr de vouloir acheter ce produit ?</p>
+      <button (click)="confirmPurchase()">Confirmer</button>
+      <button (click)="closeModal()">Annuler</button>
+    </div>
+  </div>
+  
+  <!-- Add Buy button to each product -->
+  <div class="product-list">
+    <div class="product" *ngFor="let produit of produits">
+      <h3>{{ produit.nom }}</h3>
+      <img *ngIf="produit.imageUrl" [src]="produit.imageUrl" alt="{{ produit.nom }}" class="product-image" width="100" />
+      <p>{{ produit.description }}</p>
+      <p>Référence: {{ produit.reference }}</p>
+      <p>Statut: {{ produit.statut }}</p>
+      <b>Prix: {{ produit.prix }} DT TTC</b>
+      <button (click)="openModal(produit)">Acheter</button>
+    </div>
+  </div>
+  
+  </div>

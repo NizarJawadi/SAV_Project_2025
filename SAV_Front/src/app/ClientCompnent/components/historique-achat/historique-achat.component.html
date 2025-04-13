@@ -1,0 +1,88 @@
+<div class="container mt-5">
+  <!-- Historique d'Achats -->
+  <div class="col-12">
+    <div class="card top-selling overflow-auto">
+      <h2 class="text-center mb-4 title">
+        🛒 Historique d'Achats
+      </h2>
+
+      <div class="card-body pb-0">
+        <table class="table table-borderless">
+          <thead>
+            <tr>
+              <th scope="col">Image</th>
+              <th scope="col">Produit</th>
+              <th scope="col">Description</th>
+              <th scope="col">Prix Unitaire</th>
+              <th scope="col">Quantité</th>
+              <th scope="col">Prix Total</th>
+              <th scope="col">Date d'Achat</th>
+              <th scope="col">Garantie</th>
+              <th scope="col">Réclamation</th>
+
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Boucle sur les achats récupérés -->
+            <tr *ngFor="let achat of achats">
+              <th scope="row">
+                
+                  <img [src]="'http://localhost:9999/images/' + achat.imageUrl" alt="{{achat.produitNom}}" style="width: 100px; height: auto;" />
+              
+              </th>
+              <td>
+                <p class="text-primary fw-bold">{{achat.produitNom}}</p>
+              </td>
+              <td>{{achat.produitDescription}}</td>
+              <td>${{achat.prixUnitaire}}</td>
+              <td class="fw-bold">{{achat.quantite}}</td>
+              <td>${{achat.prixTotal}}</td>
+              <td>{{achat.dateAchat | date:'short'}}</td>
+              <td>
+                <!-- Vérification de la garantie et affichage du badge -->
+                <div *ngIf="isUnderWarranty(achat.garantieExpireLe)">
+                  <span class="badge bg-success"><i class="bi bi-check-circle me-1"></i> En Garantie</span>
+                </div>
+                <div *ngIf="!isUnderWarranty(achat.garantieExpireLe)">
+                  <span class="badge bg-danger"><i class="bi bi-exclamation-octagon me-1"></i> Hors Garantie</span>
+                </div>
+              </td>
+              <td>
+                <button class="btn btn-warning btn-sm" (click)="ouvrirModalReclamation(achat)">
+                  <i class="bi bi-exclamation-triangle"></i> Réclamer
+                </button>
+              </td>
+              
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Modal Ajouter Réclamation -->
+<div class="modal fade" id="reclamationModal" tabindex="-1" aria-labelledby="modalTitle" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalTitle">Nouvelle Réclamation</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="reclamationForm" (ngSubmit)="ajouterReclamation()">
+          <div class="mb-3">
+            <label class="form-label">Produit</label>
+            <input type="text" class="form-control" [value]="produitReclame?.produitNom" disabled>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Description de la Réclamation</label>
+            <textarea class="form-control" formControlName="description" rows="3" required></textarea>
+          </div>
+          <button type="submit" class="btn btn-success">Envoyer Réclamation</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

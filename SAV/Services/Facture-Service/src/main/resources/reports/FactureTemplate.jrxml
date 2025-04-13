@@ -1,0 +1,589 @@
+<!-- Created with Jaspersoft Studio version 7.0.2.final using JasperReports Library version 7.0.2-31532122640f516c6d17238ae0e41a08113d5ac0  -->
+<jasperReport name="FactureTemplate" language="java" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="60" >
+	<parameter name="vendeurNom" class="java.lang.String"/>
+	<parameter name="vendeurAdresse" class="java.lang.String"/>
+	<parameter name="clientNom" class="java.lang.String"/>
+	<parameter name="clientAdresse" class="java.lang.String"/>
+	<parameter name="dateFacturation" class="java.lang.String"/>
+	<parameter name="numeroFacture" class="java.lang.String"/>
+	<parameter name="echeance" class="java.lang.String"/>
+	<parameter name="paiement" class="java.lang.String"/>
+	<parameter name="referenceProduit" class="java.lang.String"/>
+	<parameter name="totalHT" class="java.lang.String"/>
+	<parameter name="totalTVA" class="java.lang.String"/>
+	<parameter name="totalTTC" class="java.lang.String"/>
+	<parameter name="matriculeTechnicien" class="java.lang.String"/>
+	<parameter name="nomProduit" class="java.lang.String"/>
+	<parameter name="dateReclamation" class="java.lang.String"/>
+	<parameter name="descriptionReclamation" class="java.lang.String"/>
+	<parameter name="tarifMainOeuvre" class="java.lang.String"/>
+	<parameter name="dureeIntervention" class="java.lang.String"/>
+	<parameter name="tarifHoraire" class="java.lang.String"/>
+	<parameter name="TVA_percent" class="java.lang.String"/>
+	<parameter name="totalTVAMainOeuvre" class="java.lang.String"/>
+	<parameter name="totalTTCMainOeuvre" class="java.lang.String"/>
+
+	<parameter name="informationsAdditionnelles" class="java.lang.String"/>
+	<parameter name="LIGNES" class="net.sf.jasperreports.engine.data.JRBeanCollectionDataSource"/>
+	<parameter name="logo" class="java.io.InputStream"/>
+	<parameter name="Main d'oeuvre"  class="java.lang.String"/>
+	<field name="description" class="java.lang.String"/>
+	<field name="quantite" class="java.lang.Integer"/>
+	<field name="unite" class="java.lang.String"/>
+	<field name="prixUnitaireHT" class="java.lang.String"/>
+	<field name="tva" class="java.lang.Integer"/>
+	<field name="ligneTotalTVA" class="java.lang.String"/>
+	<field name="matriculeTechnicien" class="java.lang.String"/>
+	<field name="ligneTotalTTC" class="java.lang.String"/>
+	<field name="-" class="java.lang.String"/>
+	<title>
+		<band height="86">
+			<staticText>
+				<reportElement x="0" y="10" width="200" height="40"/>
+				<textElement textAlignment="Left">
+					<font size="26" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Facture]]></text>
+			</staticText>
+
+			<image>
+				<reportElement x="500" y="0" width="60" height="60"/>
+				<imageExpression><![CDATA[$P{logo}]]></imageExpression>
+			</image>
+		</band>
+	</title>
+
+	<pageHeader>
+		<band height="108">
+			<textField>
+				<reportElement x="0" y="0" width="250" height="30"/>
+				<textFieldExpression><![CDATA[$P{vendeurNom} + "\n" + ($P{vendeurAdresse} == null ? "" : $P{vendeurAdresse})]]></textFieldExpression>
+			</textField>
+
+			<textField>
+				<reportElement x="300" y="0" width="250" height="30"/>
+				<textFieldExpression><![CDATA[$P{clientNom} + "\n" + $P{clientAdresse}]]></textFieldExpression>
+			</textField>
+
+			<textField>
+				<reportElement x="0" y="40" width="150" height="20"/>
+				<textFieldExpression><![CDATA["Date de facturation : " + $P{dateFacturation}]]></textFieldExpression>
+			</textField>
+
+
+			<textField>
+				<reportElement x="0" y="60" width="250" height="20"/>
+				<textFieldExpression><![CDATA["N° de facture : " + $P{numeroFacture}]]></textFieldExpression>
+			</textField>
+
+			<textField>
+				<reportElement x="280" y="40" width="150" height="20"/>
+				<textFieldExpression><![CDATA["Échéance : " + $P{echeance}]]></textFieldExpression>
+			</textField>
+
+
+			<textField>
+				<reportElement x="282" y="63" width="150" height="20"/>
+				<textFieldExpression><![CDATA["Paiement : " + $P{paiement}]]></textFieldExpression>
+			</textField>
+
+			<textField>
+				<reportElement x="415" y="40" width="150" height="20"/>
+				<textFieldExpression><![CDATA["Référence : " + $P{referenceProduit}]]></textFieldExpression>
+			</textField>
+
+			<textField isBlankWhenNull="true">
+				<reportElement x="0" y="80" width="250" height="20"/>
+				<textFieldExpression><![CDATA[($P{informationsAdditionnelles} == null || $P{informationsAdditionnelles}.isEmpty()) ? "" : "Informations additionnelles : " + $P{informationsAdditionnelles}]]></textFieldExpression>
+			</textField>
+
+
+			<line>
+				<reportElement x="428" y="83" width="1" height="25"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#CCCCCC"/>
+				</graphicElement>
+			</line>
+
+
+		</band>
+	</pageHeader>
+
+	<columnHeader>
+		<band height="90">
+			<!-- Rectangle for header background -->
+			<rectangle>
+				<reportElement x="0" y="0" width="555" height="25" backcolor="#E0E0E0"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#000000"/>
+				</graphicElement>
+			</rectangle>
+
+			<!-- Static texts for column headers -->
+			<staticText>
+				<reportElement x="0" y="0" width="180" height="25"/>
+				<text><![CDATA[Nom produit]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="153" y="0" width="70" height="25"/>
+				<text><![CDATA[Référence]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="243" y="0" width="80" height="25"/>
+				<text><![CDATA[Date création]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="333" y="0" width="120" height="25"/>
+				<text><![CDATA[Description réclamation]]></text>
+			</staticText>
+
+
+			<!-- Second rectangle for row header -->
+			<rectangle>
+				<reportElement x="0" y="62" width="555" height="25" backcolor="#E0E0E0"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#000000"/>
+				</graphicElement>
+			</rectangle>
+
+			<!-- Static texts for second row headers -->
+			<staticText>
+				<reportElement x="0" y="62" width="180" height="25"/>
+				<text><![CDATA[Description]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="180" y="62" width="50" height="25"/>
+				<text><![CDATA[Qté]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="230" y="62" width="50" height="25"/>
+				<text><![CDATA[Unité]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="280" y="62" width="90" height="25"/>
+				<text><![CDATA[PU HT]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="370" y="62" width="50" height="25"/>
+				<text><![CDATA[% TVA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="420" y="62" width="70" height="25"/>
+				<text><![CDATA[TVA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="490" y="62" width="65" height="25"/>
+				<text><![CDATA[TTC]]></text>
+			</staticText>
+
+			<!-- Rectangles for table body -->
+			<rectangle>
+				<reportElement x="0" y="25" width="555" height="25" backcolor="#FFFFFF"/>
+			</rectangle>
+
+
+
+
+			<!-- Lines between columns -->
+			<line>
+				<reportElement x="150" y="25" width="1" height="25"/>
+			</line>
+			<line>
+				<reportElement x="240" y="25" width="1" height="25"/>
+			</line>
+			<line>
+				<reportElement x="330" y="25" width="1" height="25"/>
+			</line>
+<!--			<line>-->
+<!--				<reportElement x="370" y="25" width="1" height="25"/>-->
+<!--			</line>-->
+<!--			<line>-->
+<!--				<reportElement x="420" y="25" width="1" height="25"/>-->
+<!--			</line>-->
+<!--			<line>-->
+<!--				<reportElement x="490" y="25" width="1" height="25"/>-->
+<!--			</line>-->
+
+
+
+			<!-- Text fields to display data -->
+			<textField>
+				<reportElement x="2" y="27" width="176" height="21"/>
+				<textElement>
+					<font size="10" isBold="false" isItalic="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{nomProduit}]]></textFieldExpression>
+			</textField>
+
+
+			<textField>
+				<reportElement x="153" y="27" width="60" height="21"/>
+				<textElement>
+					<font size="10" isBold="false" isItalic="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{referenceProduit}]]></textFieldExpression>
+			</textField>
+
+			<textField>
+				<reportElement x="243" y="27" width="46" height="21"/>
+				<textElement>
+					<font size="10" isBold="false" isItalic="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{dateReclamation}]]></textFieldExpression>
+			</textField>
+
+			<textField>
+				<reportElement x="333" y="27" width="86" height="21" />
+				<textElement>
+					<font size="10" isBold="false" isItalic="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{descriptionReclamation}]]></textFieldExpression>
+			</textField>
+
+
+
+
+
+
+		</band>
+	</columnHeader>
+
+
+	<detail>
+		<band height="62">
+			<!-- Rectangle -->
+			<rectangle>
+				<reportElement x="0" y="0" width="555" height="25" backcolor="#FFFFFF"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#CCCCCC"/>
+				</graphicElement>
+			</rectangle>
+
+			<!-- Ligne -->
+			<line>
+				<reportElement x="180" y="0" width="1" height="25"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#CCCCCC"/>
+				</graphicElement>
+			</line>
+
+			<line>
+				<reportElement x="230" y="0" width="1" height="25"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#CCCCCC"/>
+				</graphicElement>
+			</line>
+
+			<line>
+				<reportElement x="280" y="0" width="1" height="25"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#CCCCCC"/>
+				</graphicElement>
+			</line>
+
+			<line>
+				<reportElement x="370" y="0" width="1" height="25"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#CCCCCC"/>
+				</graphicElement>
+			</line>
+
+			<line>
+				<reportElement x="420" y="0" width="1" height="25"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#CCCCCC"/>
+				</graphicElement>
+			</line>
+
+			<line>
+				<reportElement x="490" y="0" width="1" height="25"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#CCCCCC"/>
+				</graphicElement>
+			</line>
+
+			<!-- TextFields -->
+			<textField>
+				<reportElement x="2" y="2" width="176" height="21"/>
+				<textElement>
+					<font size="10" isBold="false" isItalic="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{Main d'oeuvre}]]></textFieldExpression>
+<!--				<textElement hTextAlign="Left" vTextAlign="Top"/>-->
+			</textField>
+
+			<textField>
+				<reportElement x="182" y="2" width="46" height="21"/>
+				<textElement>
+					<font size="10" isBold="false" isItalic="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{dureeIntervention}]]></textFieldExpression>
+<!--				<textElement hTextAlign="Center" vTextAlign="Middle"/>-->
+			</textField>
+
+
+				<staticText>
+					<reportElement x="232" y="2" width="46" height="21"/>
+					<textElement textAlignment="Center">
+						<font size="10" isBold="false" isItalic="false" />
+					</textElement>
+					<text><![CDATA[Heures]]></text>
+				</staticText>
+
+<!--				<textFieldExpression><![CDATA["-"]]></textFieldExpression>-->
+<!--				<textElement hTextAlign="Center" vTextAlign="Middle"/>-->
+
+
+			<textField>
+				<reportElement x="282" y="2" width="86" height="21" />
+				<textElement>
+					<font size="10" isBold="false" isItalic="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{tarifHoraire}]]></textFieldExpression>
+<!--				<textElement hTextAlign="Right" vTextAlign="Middle"/>-->
+			</textField>
+
+			<textField>
+				<reportElement x="372" y="2" width="46" height="21" />
+				<textElement>
+					<font size="10" isBold="false" isItalic="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{TVA_percent}]]></textFieldExpression>
+<!--				<textElement hTextAlign="Center" vTextAlign="Middle"/>-->
+			</textField>
+
+			<textField>
+				<reportElement x="422" y="2" width="66" height="21" />
+				<textElement>
+					<font size="10" isBold="false" isItalic="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{totalTVAMainOeuvre}]]></textFieldExpression>
+<!--				<textElement hTextAlign="Right" vTextAlign="Middle"/>-->
+			</textField>
+
+			<textField>
+				<reportElement x="492" y="2" width="61" height="21" />
+				<textElement>
+					<font size="10" isBold="false" isItalic="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{totalTTCMainOeuvre}]]></textFieldExpression>
+<!--				<textElement hTextAlign="Right" vTextAlign="Middle"/>-->
+			</textField>
+
+
+			<!-- Rectangle de deuxeime ligne -->
+			<rectangle>
+				<reportElement x="0" y="31" width="555" height="25" backcolor="#FFFFFF"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#CCCCCC"/>
+				</graphicElement>
+			</rectangle>
+
+			<!-- Ligne -->
+			<line>
+				<reportElement x="180" y="31" width="1" height="25"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#CCCCCC"/>
+				</graphicElement>
+			</line>
+
+			<line>
+				<reportElement x="230" y="31" width="1" height="25"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#CCCCCC"/>
+				</graphicElement>
+			</line>
+
+			<line>
+				<reportElement x="280" y="31" width="1" height="25"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#CCCCCC"/>
+				</graphicElement>
+			</line>
+
+			<line>
+				<reportElement x="370" y="31" width="1" height="25"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#CCCCCC"/>
+				</graphicElement>
+			</line>
+
+			<line>
+				<reportElement x="420" y="31" width="1" height="25"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#CCCCCC"/>
+				</graphicElement>
+			</line>
+
+			<line>
+				<reportElement x="490" y="31" width="1" height="25"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#CCCCCC"/>
+				</graphicElement>
+			</line>
+
+			<!-- TextFields -->
+			<textField>
+				<reportElement x="2" y="2" width="176" height="21"/>
+				<textElement>
+					<font size="10" isBold="false" isItalic="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{Main d'oeuvre}]]></textFieldExpression>
+				<!--				<textElement hTextAlign="Left" vTextAlign="Top"/>-->
+			</textField>
+
+			<textField>
+				<reportElement x="182" y="2" width="46" height="21"/>
+				<textElement>
+					<font size="10" isBold="false" isItalic="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{dureeIntervention}]]></textFieldExpression>
+				<!--				<textElement hTextAlign="Center" vTextAlign="Middle"/>-->
+			</textField>
+
+
+			<staticText>
+				<reportElement x="232" y="2" width="46" height="21"/>
+				<textElement textAlignment="Center">
+					<font size="10" isBold="false" isItalic="false" />
+				</textElement>
+				<text><![CDATA[Heures]]></text>
+			</staticText>
+
+			<!--				<textFieldExpression><![CDATA["-"]]></textFieldExpression>-->
+			<!--				<textElement hTextAlign="Center" vTextAlign="Middle"/>-->
+
+
+			<textField>
+				<reportElement x="282" y="2" width="86" height="21" />
+				<textElement>
+					<font size="10" isBold="false" isItalic="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{tarifHoraire}]]></textFieldExpression>
+				<!--				<textElement hTextAlign="Right" vTextAlign="Middle"/>-->
+			</textField>
+
+			<textField>
+				<reportElement x="372" y="2" width="46" height="21" />
+				<textElement>
+					<font size="10" isBold="false" isItalic="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{TVA_percent}]]></textFieldExpression>
+				<!--				<textElement hTextAlign="Center" vTextAlign="Middle"/>-->
+			</textField>
+
+			<textField>
+				<reportElement x="422" y="2" width="66" height="21" />
+				<textElement>
+					<font size="10" isBold="false" isItalic="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{totalTVAMainOeuvre}]]></textFieldExpression>
+				<!--				<textElement hTextAlign="Right" vTextAlign="Middle"/>-->
+			</textField>
+
+			<textField>
+				<reportElement x="492" y="2" width="61" height="21" />
+				<textElement>
+					<font size="10" isBold="false" isItalic="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{totalTTCMainOeuvre}]]></textFieldExpression>
+				<!--				<textElement hTextAlign="Right" vTextAlign="Middle"/>-->
+			</textField>
+
+
+
+
+
+		</band>
+<!--		<band height="15">-->
+<!--		</band>-->
+
+	</detail>
+
+
+
+
+	<pageFooter>
+		<band height="80">
+			<!-- Ligne de séparation -->
+			<line>
+				<reportElement x="0" y="60" width="555" height="0" backcolor="#000000"/>
+			</line>
+
+			<rectangle>
+				<reportElement x="375" y="0" width="180" height="40" backcolor="#FFFFFF"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#000000"/>
+				</graphicElement>
+			</rectangle>
+
+			<!-- Texte de signature -->
+			<staticText>
+				<reportElement x="375" y="10" width="180" height="40" />
+				<textElement textAlignment="Center">
+					<font size="12" isBold="true" isItalic="true" />
+				</textElement>
+				<text><![CDATA[Signature]]></text>
+			</staticText>
+
+
+			<!-- Ligne au bas du pied de page -->
+			<line>
+				<reportElement x="0" y="76" width="555" height="0"/>
+			</line>
+
+			<!-- Message quand aucune donnée n'est présente -->
+<!--			<staticText>-->
+<!--				<reportElement x="0" y="10" width="555" height="30"/>-->
+
+
+<!--					<textElement>-->
+<!--						<font size="12" isBold="true"/>-->
+<!--					</textElement>-->
+<!--				<text><![CDATA[Aucun article sur cette facture.]]></text>-->
+<!--			</staticText>-->
+
+			<!-- Message dans le pied de page -->
+			<staticText>
+				<reportElement x="80" y="60" width="500" height="20"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Merci pour votre confiance - www.monsiteexemple.com - contact@entreprise.com]]></text>
+			</staticText>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="80"> <staticText>
+			<reportElement x="310" y="10" width="100" height="20"/>
+			<textElement textAlignment="Right"/>
+			<text><![CDATA[Total HT :]]></text>
+		</staticText>
+			<textField pattern="#,##0.00 DNT" isBlankWhenNull="true"> <reportElement x="410" y="10" width="140" height="20"/> <textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$P{totalHT}]]></textFieldExpression>
+			</textField>
+
+			<staticText>
+				<reportElement x="310" y="30" width="100" height="20"/>
+				<textElement textAlignment="Right"/>
+				<text><![CDATA[Total TVA :]]></text>
+			</staticText>
+			<textField pattern="#,##0.00 DNT" isBlankWhenNull="true"> <reportElement x="410" y="30" width="140" height="20"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$P{totalTVA}]]></textFieldExpression>
+			</textField>
+
+			<staticText>
+				<reportElement x="310" y="50" width="100" height="20"/>
+				<textElement textAlignment="Right" /> <text><![CDATA[Total TTC :]]></text>
+			</staticText>
+			<textField pattern="#,##0.00 DNT" isBlankWhenNull="true"> <reportElement x="410" y="50" width="140" height="20"/>
+				<textElement textAlignment="Right" /> <textFieldExpression><![CDATA[$P{totalTTC}]]></textFieldExpression>
+			</textField>
+
+		</band>
+	</summary>
+
+
+
+</jasperReport>

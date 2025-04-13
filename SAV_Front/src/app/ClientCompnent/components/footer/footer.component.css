@@ -1,0 +1,94 @@
+body {
+    font-family: Arial, sans-serif;
+    width: 100%;
+    background-color: #f4f7fa;
+    margin: 0;
+    padding: 0;
+    display: flex;               /* Utilise Flexbox */
+    flex-direction: column;      /* Organise les éléments de la page en colonne */
+    min-height: 100vh;           /* Force la hauteur de la page à être d'au moins 100% de la hauteur de la fenêtre */
+}
+
+h2 {
+    justify-content: center;
+    font-size: 24px;
+    color: #343a40;
+    font-weight: 600;
+    margin-bottom: 20px;
+}
+
+/* Le contenu principal */
+.main-content {
+    flex: 1;                     /* Occupe tout l'espace restant disponible */
+}
+
+/* Footer */
+.footer {
+    position: relative;
+    background-color: #222;
+    color: white;
+    padding: 5px 0;
+    width: 100%;
+    box-sizing: border-box;
+    margin-top: auto;             /* Force le footer à rester en bas */
+}
+
+.footer-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 8px;
+    width: 100%;
+    box-sizing: border-box;
+    flex-wrap: wrap;
+}
+
+.footer-logo img {
+    width: 80px;
+    height: auto;
+}
+
+.footer-logo-text {
+    font-size: 18px;
+    color: #fff;
+    text-decoration: none;
+    margin-left: 8px;
+}
+
+.footer-links {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.footer-links a {
+    color: #fff;
+    text-decoration: none;
+    margin-right: 15px;
+    font-size: 14px;
+}
+
+.footer-social {
+    display: flex;
+    flex-wrap: wrap;
+    margin-left: 8px;
+}
+
+.footer-social-icon {
+    color: #fff;
+    font-size: 18px;
+    margin-right: 8px;
+    text-decoration: none;
+}
+
+.footer-social-icon:hover {
+    color: #4caf50;
+}
+
+.footer-bottom {
+    text-align: center;
+    margin-top: 3px;
+    font-size: 12px;
+    width: 100%;
+    box-sizing: border-box;
+    padding-top: 2px;
+}

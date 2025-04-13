@@ -1,0 +1,108 @@
+<div class="container mt-5">
+    <section class="section profile">
+      <div class="container">
+        <div class="row justify-content-center">
+          <!-- Profile Image and Info -->
+          <div class="col-lg-4 text-center">
+            <div class="profile-card p-4 shadow-lg rounded">
+              <img src="assets/img/profile-img.jpg" alt="Profile" class="img-fluid rounded-circle mb-3" />
+              <h2 class="font-weight-bold mb-2">{{ user.name || 'Nom Prénom' }}</h2>
+              <p class="text-muted mb-4">{{ user.job || 'Métier' }}</p>
+              <div class="d-flex justify-content-center gap-3">
+                <a *ngIf="user.twitter" [href]="user.twitter" class="text-primary"><i class="bi bi-twitter"></i></a>
+                <a *ngIf="user.facebook" [href]="user.facebook" class="text-primary"><i class="bi bi-facebook"></i></a>
+                <a *ngIf="user.instagram" [href]="user.instagram" class="text-primary"><i class="bi bi-instagram"></i></a>
+                <a *ngIf="user.linkedin" [href]="user.linkedin" class="text-primary"><i class="bi bi-linkedin"></i></a>
+              </div>
+            </div>
+          </div>
+  
+          <!-- Profile Details and Update -->
+          <div class="col-lg-7">
+            <div class="card shadow-sm rounded">
+              <div class="card-body">
+                <!-- Tabs for Profile Sections -->
+                <ul class="nav nav-tabs" role="tablist">
+                  <li class="nav-item">
+                    <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#overview">Aperçu</button>
+                  </li>
+                  <li class="nav-item">
+                    <button class="nav-link" data-bs-toggle="tab" data-bs-target="#edit-profile">Modifier</button>
+                  </li>
+                  <li class="nav-item">
+                    <button class="nav-link" data-bs-toggle="tab" data-bs-target="#settings">Paramètres</button>
+                  </li>
+                </ul>
+  
+                <!-- Tab Contents -->
+                <div class="tab-content">
+                  <!-- Overview Tab -->
+                  <div class="tab-pane fade show active" id="overview">
+                    <h5>À propos</h5>
+                    <p class="text-muted">{{ user.about || 'Aucune description disponible.' }}</p>
+  
+                    <h5 class="mt-4">Détails du Profil</h5>
+                    <div class="row">
+                      <div class="col-4"><strong>Email:</strong></div>
+                      <div class="col-8">{{ user['email'] || 'Non renseigné' }}</div>
+                    </div>
+                    <div class="row">
+                      <div class="col-4"><strong>Téléphone:</strong></div>
+                      <div class="col-8">{{ user['phone'] || 'Non renseigné' }}</div>
+                    </div>
+                  </div>
+  
+                  <!-- Edit Profile Tab -->
+                  <div class="tab-pane fade" id="edit-profile">
+                    <h5>Modifier les Informations</h5>
+                    <form (ngSubmit)="saveChanges()">
+                      <div *ngFor="let field of editableFields" class="mb-3">
+                        <label [for]="field.id" class="form-label">{{ field.label }}</label>
+                        <input 
+                          *ngIf="field.id !== 'about'" 
+                          type="text" 
+                          class="form-control" 
+                          [id]="field.id" 
+                          [(ngModel)]="user[field.id]" 
+                          [name]="field.id" 
+                          required>
+                        <textarea 
+                          *ngIf="field.id === 'about'" 
+                          class="form-control" 
+                          [id]="field.id" 
+                          [(ngModel)]="user[field.id]" 
+                          [name]="field.id"></textarea>
+                      </div>
+                      <div class="text-center">
+                        <button type="submit" class="btn btn-primary">Sauvegarder les modifications</button>
+                      </div>
+                    </form>
+                  </div>
+  
+                  <!-- Settings Tab -->
+                  <div class="tab-pane fade" id="settings">
+                    <h5>Paramètres du compte</h5>
+                    <form (ngSubmit)="saveSettings()">
+                      <div *ngFor="let notification of notifications" class="mb-3 form-check">
+                        <input 
+                          type="checkbox" 
+                          class="form-check-input" 
+                          [id]="notification.name" 
+                          [(ngModel)]="notification.checked" 
+                          [name]="notification.name">
+                        <label [for]="notification.name" class="form-check-label">{{ notification.label }}</label>
+                      </div>
+                      <div class="text-center">
+                        <button type="submit" class="btn btn-primary">Sauvegarder les paramètres</button>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+  

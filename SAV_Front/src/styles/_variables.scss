@@ -1,0 +1,41 @@
+// Couleurs principales
+$primary-color: #2196F3;
+$secondary-color: #FF4081;
+$accent-color: #FFC107;
+$success-color: #4CAF50;
+$warning-color: #FF9800;
+$error-color: #F44336;
+
+// Couleurs neutres
+$background-color: #F5F5F5;
+$surface-color: #FFFFFF;
+$text-primary: #212121;
+$text-secondary: #757575;
+
+// Espacement
+$spacing-xs: 0.25rem;
+$spacing-sm: 0.5rem;
+$spacing-md: 1rem;
+$spacing-lg: 1.5rem;
+$spacing-xl: 2rem;
+
+// Ombres
+$shadow-sm: 0 2px 4px rgba(0,0,0,0.1);
+$shadow-md: 0 4px 8px rgba(0,0,0,0.12);
+$shadow-lg: 0 8px 16px rgba(0,0,0,0.14);
+
+// Border radius
+$border-radius-sm: 4px;
+$border-radius-md: 8px;
+$border-radius-lg: 12px;
+
+// Breakpoints
+$breakpoint-sm: 576px;
+$breakpoint-md: 768px;
+$breakpoint-lg: 992px;
+$breakpoint-xl: 1200px;
+
+// Transitions
+$transition-fast: 0.2s ease;
+$transition-normal: 0.3s ease;
+$transition-slow: 0.4s ease;

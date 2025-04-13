@@ -1,0 +1,232 @@
+
+
+/* You can add global styles to this file, and also import other style files */
+/*@import '@angular/material/prebuilt-themes/purple-green.css';
+@import 'bootstrap/dist/css/bootstrap.min.css';
+
+// Reset and base styles
+html, body { 
+  height: 100%;
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  background-color: #f6f9ff;
+}
+
+// Variables
+:root {
+  --primary-color: #4154f1;
+  --secondary-color: #2db6f0;
+  --success-color: #00b09b;
+  --warning-color: #ffd700;
+  --danger-color: #ff416c;
+  --text-primary: #012970;
+  --text-secondary: #4a4a4a;
+  --background-light: #f6f9ff;
+  --card-shadow: 0 5px 20px rgba(1, 41, 112, 0.1);
+}
+
+// Global utility classes
+.card {
+  background: white;
+  border-radius: 15px;
+  border: none;
+  box-shadow: var(--card-shadow);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(1, 41, 112, 0.15);
+  }
+}
+
+.btn {
+  border-radius: 8px;
+  padding: 8px 20px;
+  transition: all 0.3s ease;
+  
+  &.btn-primary {
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    border: none;
+    
+    &:hover {
+      background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
+      transform: translateY(-2px);
+    }
+  }
+}
+
+// Table styles
+.table {
+  thead {
+    th {
+      background: rgba(65, 84, 241, 0.05);
+      color: var(--text-primary);
+      font-weight: 600;
+      border: none;
+    }
+  }
+  
+  tbody {
+    tr {
+      transition: all 0.3s ease;
+      
+      &:hover {
+        background-color: rgba(65, 84, 241, 0.02);
+      }
+    }
+  }
+}
+
+// Form styles
+.form-control {
+  border-radius: 8px;
+  border: 1px solid #e0e0e0;
+  padding: 10px 15px;
+  transition: all 0.3s ease;
+  
+  &:focus {
+    box-shadow: 0 0 0 3px rgba(65, 84, 241, 0.1);
+    border-color: var(--primary-color);
+  }
+}
+
+// Modal styles
+.modal {
+  .modal-content {
+    border-radius: 15px;
+    border: none;
+    overflow: hidden;
+    
+    .modal-header {
+      background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+      border: none;
+      color: white;
+      
+      .btn-close {
+        filter: brightness(0) invert(1);
+      }
+    }
+  }
+}
+
+// Animations
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in {
+  animation: fadeIn 0.3s ease-out;
+}
+
+// Custom scrollbar
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 4px;
+  
+  &:hover {
+    background: #555;
+  }
+}
+
+// Styles globaux
+body {
+  overflow-x: hidden;
+}
+
+// Style pour le contenu principal avec sidebar
+.main {
+  margin-left: 300px;
+  padding: 20px;
+  padding-bottom: 100px;
+  transition: all 0.3s ease-in-out;
+  width: calc(100% - 300px);
+  
+  @media (max-width: 991px) {
+    margin-left: 0;
+    width: 100%;
+    padding: 15px;
+    padding-bottom: 100px;
+  }
+}
+
+// Style quand la sidebar est fermée
+body.toggle-sidebar {
+  .main {
+    margin-left: 0;
+    width: 100%;
+  }
+
+  .footer {
+    margin-left: 0;
+    width: 100%;
+  }
+
+  app-header {
+    margin-left: 0;
+    width: 100%;
+  }
+}
+
+/* Style pour le footer
+.footer {
+  margin-left: 0px;
+  width: calc(100% - 300px);
+  transition: all 0.3s ease-in-out;
+  
+  @media (max-width: 991px) {
+    margin-left: 0;
+    width: 100%;
+  }
+}*/
+
+/*.footer {
+  position: fixed;
+  bottom: 0;
+  left: 0px;
+  width: calc(100% - 300px);
+  transition: all 0.3s ease-in-out;
+  background-color: #fff; 
+   z-index: 1000;
+  
+  @media (max-width: 991px) {
+    left: 0;
+    width: 100%;
+  }
+}
+
+
+// Style pour le header
+app-header {
+  margin-left: 300px;
+  width: calc(100% - 300px);
+  transition: all 0.3s ease-in-out;
+  
+  @media (max-width: 991px) {
+    margin-left: 0;
+    width: 100%;
+  }
+}
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+*/
+
+
+/* You can add global styles to this file, and also import other style files */

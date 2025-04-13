@@ -1,0 +1,135 @@
+<app-header></app-header>
+
+<main id="main" class="main">
+  <div class="container">
+    <h2>Liste des Interventions</h2>
+
+    <div class="mb-3">
+      <button class="btn btn-primary me-2" (click)="toggleView()">
+        {{ showGroupedView ? 'Afficher Liste Complète' : 'Afficher Par Statut' }}
+      </button>
+    </div>
+
+    <div *ngIf="!showGroupedView">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Description</th>
+            <th>Date</th>
+            <th>Statut</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let intervention of interventions">
+            <td>{{ intervention.reclamation.description }}</td>
+            <td>{{ intervention.intervention.dateIntervention | date:'dd/MM/yyyy HH:MM' }}</td>
+            <td>
+              <span class="badge" [ngClass]="{
+                'bg-warning': intervention.intervention.statut === 'EN_ATTENTE',
+                'bg-primary': intervention.intervention.statut === 'EN_COURS',
+                'bg-success': intervention.intervention.statut === 'TERMINEE'
+              }">{{ intervention.intervention.statut }}</span>
+            </td>
+            <td>
+              <button class="btn btn-info btn-sm" (click)="viewDetails(intervention)">Détails</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div *ngIf="showGroupedView" class="table-responsive">
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th class="text-center">En Attente</th>
+            <th class="text-center">En Cours</th>
+            <th class="text-center">Terminées</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <!-- En Attente -->
+            <td cdkDropList #enAttenteList="cdkDropList" [cdkDropListData]="enAttente"
+              [cdkDropListConnectedTo]="[enCoursList, termineesList]" class="align-top border"
+              (cdkDropListDropped)="onDrop($event, 'enAttente')">
+              <div *ngFor="let intervention of enAttente" cdkDrag [cdkDragData]="intervention">
+                <div class="p-2 border bg-light">
+                  {{ intervention.intervention.id }} - {{ intervention.intervention.dateIntervention }}
+                  <button class="btn btn-info btn-sm float-end" (click)="viewDetails(intervention)">Détails</button>
+                </div>
+              </div>
+            </td>
+    
+            <!-- En Cours -->
+            <td cdkDropList #enCoursList="cdkDropList" [cdkDropListData]="enCours"
+              [cdkDropListConnectedTo]="[enAttenteList, termineesList]" class="align-top border"
+              (cdkDropListDropped)="onDrop($event, 'enCours')">
+              <div *ngFor="let intervention of enCours" cdkDrag [cdkDragData]="intervention">
+                <div class="p-2 border bg-light">
+                  {{ intervention.intervention.id }} - {{ intervention.intervention.dateIntervention }}
+                  <button class="btn btn-info btn-sm float-end" (click)="viewDetails(intervention)">Détails</button>
+                </div>
+              </div>
+            </td>
+    
+            <!-- Terminées -->
+            <td cdkDropList #termineesList="cdkDropList" [cdkDropListData]="terminees"
+              [cdkDropListConnectedTo]="[enAttenteList, enCoursList]" class="align-top border"
+              (cdkDropListDropped)="onDrop($event, 'terminees')">
+              <div *ngFor="let intervention of terminees" cdkDrag [cdkDragData]="intervention">
+                <div class="p-2 border bg-light">
+                  {{ intervention.intervention.id }} - {{ intervention.intervention.dateIntervention }}
+                  <button class="btn btn-info btn-sm float-end" (click)="viewDetails(intervention)">Détails</button>
+                </div>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    
+  </div>
+
+
+
+
+    <!-- Modal pour afficher les détails de l'intervention 
+    <div class="modal fade" id="interventionModal" tabindex="-1" aria-labelledby="interventionModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="interventionModalLabel">Détails de l'Intervention</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <h5>Intervention:</h5>
+            <p><strong>ID:</strong> {{ modalIntervention?.id || 'Non défini' }}</p>
+            <p><strong>Date Intervention:</strong> {{ modalIntervention?.dateIntervention || 'Non définie' }}</p>
+            <p><strong>Statut:</strong> {{ modalIntervention?.statut || 'Non défini' }}</p>
+            <p><strong>Technicien ID:</strong> {{ modalIntervention?.technicienId || 'Non défini' }}</p>
+
+            <h5>Réclamation:</h5>
+            <p><strong>ID:</strong> {{ modalReclamation?.id || 'Non défini' }}</p>
+            <p><strong>Description:</strong> {{ modalReclamation?.description || 'Non définie' }}</p>
+            <p><strong>Date Réclamation:</strong> {{ modalReclamation?.dateReclamation || 'Non définie' }}</p>
+            <p><strong>Statut:</strong> {{ modalReclamation?.statut || 'Non défini' }}</p>
+
+            <h5>Client:</h5>
+            <p><strong>Nom:</strong> {{ modalClient?.username || 'Non défini' }}</p>
+            <p><strong>Email:</strong> {{ modalClient?.email || 'Non défini' }}</p>
+            <p><strong>Téléphone:</strong> {{ modalClient?.telephone || 'Non défini' }}</p>
+            <p><strong>Ville:</strong> {{ modalClient?.ville || 'Non définie' }}</p>
+            <p><strong>Code Postal:</strong> {{ modalClient?.codePostal || 'Non défini' }}</p>
+            <p><strong>Inscription:</strong> {{ modalClient?.dateInscription || 'Non définie' }}</p>
+
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>-->
+</main>

@@ -1,0 +1,13 @@
+<div class="produit-detail" *ngIf="produit">
+  <h2>{{ produit.nom }}</h2>
+  <img *ngIf="produit.imageUrl" [src]="produit.imageUrl" alt="{{ produit.nom }}" class="product-image" />
+  <p>{{ produit.description }}</p>
+  <p><strong>Référence:</strong> {{ produit.reference }}</p>
+  <p><strong>Statut:</strong> {{ produit.statut }}</p>
+  <p><strong>Prix:</strong> {{ produit.prix }} DT TTC</p>
+
+  <label for="quantite">Quantité:</label>
+  <input type="number" [(ngModel)]="quantite" min="1" class="quantite-input" />
+
+  <button (click)="acheterProduit()" class="btn-acheter">Acheter</button>
+</div>

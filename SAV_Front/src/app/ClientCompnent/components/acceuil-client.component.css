@@ -1,0 +1,133 @@
+/* Styles pour le footer */
+.footer {
+    background-color: #222;
+    color: hsl(0, 0%, 100%);
+    padding: 5px 0; /* Réduire le padding */
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.footer-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 8px; /* Réduire le padding interne */
+    width: 100%;
+    box-sizing: border-box;
+    flex-wrap: wrap; /* Adapter l'affichage sur petit écran */
+}
+
+.footer-logo img {
+    width: 80px; /* Réduire la taille de l'image */
+    height: auto;
+}
+
+.footer-logo-text {
+    font-size: 18px; /* Réduire la taille de la police */
+    color: #fff;
+    text-decoration: none;
+    margin-left: 8px; /* Réduire l'espacement */
+}
+
+.footer-links {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.footer-links a {
+    color: #fff;
+    text-decoration: none;
+    margin-right: 15px; /* Réduire l'espacement entre les liens */
+    font-size: 14px; /* Réduire la taille de la police */
+}
+
+.footer-social {
+    display: flex;
+    flex-wrap: wrap;
+    margin-left: 8px; /* Réduire l'espacement */
+}
+
+.footer-social-icon {
+    color: #fff;
+    font-size: 18px; /* Réduire la taille des icônes */
+    margin-right: 8px; /* Réduire l'espacement entre les icônes */
+    text-decoration: none;
+}
+
+.footer-social-icon:hover {
+    color: #4caf50;
+}
+
+.footer-bottom {
+    text-align: center;
+    margin-top: 3px; /* Réduire l'espacement du bas */
+    font-size: 12px; /* Réduire la taille de la police */
+    width: 100%;
+    box-sizing: border-box;
+    padding-top: 2px; /* Réduire le padding */
+}
+
+/* Responsive styles */
+@media (max-width: 991px) {
+    .footer-content {
+        flex-direction: column; /* Empiler les éléments en colonne */
+        align-items: flex-start; /* Aligner les éléments à gauche */
+        text-align: left;
+    }
+
+    .footer-logo img {
+        width: 60px; /* Réduire la taille de l'image sur les petits écrans */
+    }
+
+    .footer-logo-text {
+        font-size: 16px; /* Réduire la taille de la police */
+        margin-left: 5px; /* Espacement réduit */
+    }
+
+    .footer-links {
+        flex-direction: column; /* Empiler les liens */
+        align-items: flex-start;
+    }
+
+    .footer-links a {
+        margin-right: 0;
+        margin-bottom: 8px; /* Espacement entre les liens */
+        font-size: 12px; /* Réduire la taille de la police */
+    }
+
+    .footer-social {
+        flex-direction: column; /* Empiler les icônes sociales */
+        align-items: flex-start;
+        margin-left: 0;
+    }
+
+    .footer-social-icon {
+        margin-right: 0;
+        margin-bottom: 8px; /* Espacement entre les icônes */
+    }
+
+    .footer-bottom {
+        font-size: 10px; /* Réduire la taille de la police */
+        padding-top: 5px;
+    }
+}
+
+/* Pour les très petits écrans (mobiles) */
+@media (max-width: 576px) {
+    .footer-logo-text {
+        font-size: 14px; /* Taille plus petite pour les petits écrans */
+    }
+
+    .footer-links a {
+        font-size: 12px; /* Plus petit sur mobile */
+    }
+
+    .footer-social-icon {
+        font-size: 16px; /* Taille des icônes plus petite */
+    }
+
+    .footer-bottom {
+        font-size: 10px;
+        padding-top: 5px;
+    }
+}

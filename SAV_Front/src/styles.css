@@ -1,0 +1,68 @@
+/* You can add global styles to this file, and also import other style files */
+@import './styles.scss';
+/* Base styles */
+html, body {
+    height: 100%;
+    margin: 0;
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+    display: flex;
+    flex-direction: column;
+    background-color: #f6f9ff;
+    
+  }
+  
+  /* Conteneur principal qui occupe l'espace restant */
+  .main-content {
+    flex: 1; /* Permet de prendre l'espace restant */
+    padding: 20px;
+    padding-bottom: 280px; /* Pour éviter que le footer ne se superpose au contenu */
+    box-sizing: border-box;
+  }
+  
+  /* Footer */
+  .footer {
+    background-color: #fff; /* Couleur de fond du footer */
+    padding: 20px;
+    text-align: center;
+    border-top: 1px solid #ccc; /* Ligne de séparation */
+    margin-top: auto; /* Le footer sera poussé vers le bas */
+  }
+  
+  /* Layout avec sidebar (si applicable) */
+  .main {
+    flex: 1;
+    margin-left: 300px; /* Espace pour la sidebar */
+    padding: 20px;
+    padding-bottom: 100px; /* Pour éviter que le footer ne se superpose au contenu */
+    box-sizing: border-box;
+    transition: all 0.3s ease-in-out;
+  }
+  
+  @media (max-width: 991px) {
+    .main {
+      margin-left: 0;
+      width: 100%;
+      padding-bottom: 100px; /* Toujours de l'espace sous le contenu */
+    }
+  
+    .footer {
+      width: 100%; /* Le footer prend toute la largeur */
+    }
+  }
+  
+  /* Pour fermer la sidebar (cas d'un bouton de toggle) */
+  body.toggle-sidebar .main {
+    margin-left: 0;
+    width: 100%;
+  }
+  
+  body.toggle-sidebar .footer {
+    margin-left: 0;
+    width: 100%;
+  }
+  
+  body.toggle-sidebar app-header {
+    margin-left: 0;
+    width: 100%;
+  }
+  
