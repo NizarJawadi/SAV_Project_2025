@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } 
 import { HeaderComponent } from '../header/header.component';
 import { PieceDeRechangeService } from '../services/PieceDeRechangeService';
 import * as bootstrap from 'bootstrap';
+import Swal from 'sweetalert2';
 
 
 
@@ -54,29 +55,70 @@ export class PieceDeRechangeComponent implements OnInit {
   }
 
   fetchPieces(): void {
+    this.isLoading = true;
     this.pieceService.getAllPieces().subscribe({
-      next: (data: any[]) => this.pieces = data,
-      error: (error: any) => console.error('Erreur lors du chargement des pièces', error)
+      next: (data: any[]) => {
+        this.pieces = data;
+        this.isLoading = false;
+      },
+      error: (error: any) => {
+        Swal.fire(
+          'Erreur',
+          'Impossible de charger les pièces.',
+          'error'
+        );
+        this.isLoading = false;
+      }
     });
   }
+  
 
   onSubmit() {
     if (this.pieceForm.invalid) return;
-
+  
     const pieceData = this.pieceForm.value;
-    
+  
     if (this.isEditMode && this.selectedPiece) {
       this.pieceService.updatePiece(this.selectedPiece.id, pieceData).subscribe(() => {
+        Swal.fire(
+          'Modifié !',
+          'La pièce a été modifiée avec succès.',
+          'success'
+        ).then(() => {
+          this.closeModal() ;
+        });
         this.fetchPieces();
         this.resetForm();
+      }, (error) => {
+        Swal.fire(
+          'Erreur',
+          'Une erreur est survenue lors de la modification de la pièce.',
+          'error'
+        );
       });
     } else {
       this.pieceService.addPiece(pieceData).subscribe(() => {
+        Swal.fire(
+          'Ajouté !',
+          'La pièce a été ajoutée avec succès.',
+          'success'
+        ).then(() => {
+          this.closeModal() ;
+        });
         this.fetchPieces();
         this.resetForm();
+      }, (error) => {
+        Swal.fire(
+          'Erreur',
+          'Une erreur est survenue lors de l\'ajout de la pièce.',
+          'error'
+        );
       });
     }
+
+    this.closeModal() ;
   }
+  
 
   
   
@@ -95,10 +137,29 @@ export class PieceDeRechangeComponent implements OnInit {
   
 
   onDelete(id: number) {
-    if (confirm('Voulez-vous vraiment supprimer cette pièce ?')) {
-      this.pieceService.deletePiece(id).subscribe(() => this.fetchPieces());
-    }
+    Swal.fire({
+      title: 'Êtes-vous sûr ?',
+      text: 'Vous ne pourrez pas récupérer cette pièce après suppression !',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#d33',
+      cancelButtonColor: '#3085d6',
+      confirmButtonText: 'Oui, supprimer !',
+      cancelButtonText: 'Annuler'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.pieceService.deletePiece(id).subscribe(() => {
+          Swal.fire(
+            'Supprimé !',
+            'La pièce a été supprimée avec succès.',
+            'success'
+          );
+          this.fetchPieces();  // Recharger les données après suppression
+        });
+      }
+    });
   }
+  
 
   openPieceDetails(piece: any) {
     this.selectedPiece = piece;
@@ -108,6 +169,16 @@ export class PieceDeRechangeComponent implements OnInit {
       bsModal.show();
     }
   }
+
+  closeModal() {
+    const modalElement = document.getElementById('pieceModal');
+    if (modalElement) {
+      const modalInstance = bootstrap.Modal.getInstance(modalElement);
+      if (modalInstance) {
+        modalInstance.hide(); // Ferme la modal existante
+      }
+    }
+  }
   
 
   resetForm() {
@@ -115,6 +186,7 @@ export class PieceDeRechangeComponent implements OnInit {
     this.isEditMode = false;
     this.selectedPiece = null;
     this.imagePreview = null;
+    this.closeModal();
   }
 
   prevPage() {

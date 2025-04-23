@@ -26,6 +26,10 @@ public class ResponsableSavController {
             responsableSavServices.addResponsableSav(res);
         }
 
+        @PutMapping("/update/{id}")
+        public ResponsableSAV updateResponsable(@PathVariable Long id, @RequestBody ResponsableSAV updatedResponsable) {
+            return responsableSavServices.updateResponsableSav(id, updatedResponsable);
+        }
 
 
 

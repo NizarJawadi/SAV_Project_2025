@@ -1,0 +1,47 @@
+.unauthorized-page {
+    background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+  
+    .error-section {
+      padding: 40px 20px;
+  
+      .error-code {
+        font-size: 8rem;
+        font-weight: bold;
+        color: #dc3545;
+      }
+  
+      .error-message {
+        padding-top: 50px;
+        font-size: 2rem;
+        font-weight: 600;
+        color: #333;
+      }
+  
+      .error-description {
+        font-size: 1.2rem;
+        color: #666;
+        margin-top: 10px;
+      }
+  
+      .btn {
+        font-weight: 500;
+        padding: 10px 20px;
+      }
+  
+      .credits {
+        font-size: 0.9rem;
+        a {
+          color: #dc3545;
+          text-decoration: none;
+  
+          &:hover {
+            text-decoration: underline;
+          }
+        }
+      }
+    }
+  }
+  

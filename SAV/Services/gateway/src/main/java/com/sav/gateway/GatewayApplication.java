@@ -28,6 +28,8 @@ public class GatewayApplication implements WebFluxConfigurer {
 								.path("/technicien/**")
 								.or()
 								.path("/ResponsableSav/**")
+								.or()
+								.path("/User/**")
 
 								//.filters(f -> f.addRequestHeader("Access-Control-Allow-Origin", "*"))
 						.uri("http://localhost:9090")

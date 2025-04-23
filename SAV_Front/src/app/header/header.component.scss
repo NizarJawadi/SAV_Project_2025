@@ -377,3 +377,22 @@ h6 {
   font-size: 14px;  /* Taille de la police */
   margin-left: 10px;  /* Espace entre l'image et le nom */
 }
+app-header {
+  transition: margin-left 0.3s ease;
+  margin-left: 300px;
+}
+
+body.toggle-sidebar app-header {
+  margin-left: 60px;
+}
+
+
+body.toggle-sidebar .sidebar {
+  margin-left: 300px; /* cache la sidebar */
+  transition: margin-left 0.3s ease;
+}
+
+
+body.toggle-sidebar .sidebar {
+  display: none;
+}

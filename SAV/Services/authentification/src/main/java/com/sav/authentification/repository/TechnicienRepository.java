@@ -5,6 +5,7 @@ import com.sav.authentification.model.Technicien;
 import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface TechnicienRepository extends JpaRepository<Technicien, Long> {
 
@@ -12,4 +13,8 @@ public interface TechnicienRepository extends JpaRepository<Technicien, Long> {
 
     @Query("SELECT DISTINCT t.specialite FROM Technicien t")
     List<String> findAllSpecialites();
+
+
+    Optional<Technicien> findByMatricule(String matricule);
+
 }

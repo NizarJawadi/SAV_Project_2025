@@ -30,6 +30,7 @@ public class FactureController {
         Technicien technicien = factureService.getTechnicien(facture.getTechnicienId());
         Produit produit = factureService.getProduit(facture.getProduitId());
         Intervention intervention = factureService.getInterventionParReclamation(reclamationId);
+        //System.out.println("dans facture je recupére : " +intervention);
         try {
             byte[] pdfBytes = factureService.exportFacture(facture, client, technicien, produit, intervention, reclamation);
             return ResponseEntity.ok()

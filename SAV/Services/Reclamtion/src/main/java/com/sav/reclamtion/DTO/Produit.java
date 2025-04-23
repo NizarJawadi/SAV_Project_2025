@@ -21,4 +21,5 @@ public class Produit {
     private String imageUrl;
     private Long categorieId;
     private Long subCategoryId;
+
 }

@@ -1,0 +1,49 @@
+main {
+    padding-left: 90px !important;
+}
+
+@media (max-width: 1200px) {
+    .main {
+        padding-left: 700px !important;
+    }
+}
+
+.custom-select-container {
+    padding: 0.5rem 1rem; /* Réduire le padding global */
+    background-color: #f8f9fa;
+    border-radius: 0.375rem;
+    border: 1px solid #dee2e6;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem; /* Réduire l'espace entre le label et le select */
+    font-size: 0.875rem; /* Ajuster la taille de la police pour l'ensemble du conteneur */
+}
+
+.custom-select-label {
+    font-weight: 600;
+    margin-bottom: 0;
+    color: #495057;
+    font-size: 0.875rem; /* Aligner la taille de la police avec le conteneur */
+}
+
+.custom-select {
+    border: 1px solid #ced4da;
+    border-radius: 0.25rem;
+    padding: 0.3rem 0.75rem; /* Réduire significativement le padding interne */
+    font-size: 0.875rem; /* Aligner la taille de la police avec le conteneur */
+    background-color: #ffffff;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    appearance: none; /* Supprimer les styles natifs du select pour un meilleur contrôle */
+    background-image: url('data:image/svg+xml;utf8,<svg fill="currentColor" viewBox="0 0 24 24"><path d="M7 10l5 5 5-5z"/></svg>'); /* Ajouter une icône de flèche */
+    background-repeat: no-repeat;
+    background-position-x: 100%;
+    background-position-y: center;
+    padding-right: 1.5rem; /* Ajouter de l'espace pour l'icône de flèche */
+}
+
+.custom-select:focus {
+    border-color: #0d6efd;
+    box-shadow: 0 0 0 0.2rem rgba(13,110,253,.25);
+    outline: none;
+}
+

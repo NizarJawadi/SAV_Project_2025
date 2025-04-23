@@ -31,6 +31,24 @@ public class ResponsableSavServicesImpl implements  ResponsableSavServices {
         }
 
         @Override
+        public ResponsableSAV updateResponsableSav(Long id, ResponsableSAV updatedResponsable) {
+            ResponsableSAV existingResponsable = repository.findById(id)
+                    .orElseThrow(() -> new RuntimeException("ResponsableSAV introuvable avec l'ID : " + id));
+
+            existingResponsable.setUsername(updatedResponsable.getUsername());
+            existingResponsable.setLogin(updatedResponsable.getLogin());
+            existingResponsable.setEmail(updatedResponsable.getEmail());
+            //existingResponsable.setTelephone(updatedResponsable.getTelephone());
+            //existingResponsable.setMatricule(updatedResponsable.getMatricule());
+            existingResponsable.setRegionResponsable(updatedResponsable.getRegionResponsable());
+            existingResponsable.setPriseEnFonction(updatedResponsable.getPriseEnFonction());
+
+
+            return repository.save(existingResponsable);
+        }
+
+
+    @Override
         public ResponsableSAV getResponsableSavById(Long id) {
             return repository.findById(id).orElse(null);
         }

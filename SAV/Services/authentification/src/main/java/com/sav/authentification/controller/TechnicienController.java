@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("technicien")
@@ -19,12 +20,20 @@ public class TechnicienController {
 
 
     // Ajouter un technicien
+    @PostMapping("/add")
     void addTechnician(@RequestBody Technicien t) {
         t.setRole(Roles.TECHNICIEN);  // Associer le rôle "TECHNICIAN" au nouvel utilisateur
         technicienService.addTechnicien(t);
     }
 
-
+    @PutMapping("/{id}")
+    public ResponseEntity<Technicien> updateTechnicien(@PathVariable Long id, @RequestBody Technicien technicien) {
+        Technicien updatedTechnicien = technicienService.updateTechnicien(id, technicien);
+        if (updatedTechnicien == null) {
+            return ResponseEntity.notFound().build(); // Si le technicien n'est pas trouvé
+        }
+        return ResponseEntity.ok(updatedTechnicien); // Retourner le technicien mis à jour
+    }
 
 
     //@Secured("ADMIN") // Autoriser uniquement les utilisateurs avec le rôle "ROLE_USER"
@@ -54,6 +63,22 @@ public class TechnicienController {
     public ResponseEntity<List<String>> getAllSpecialites() {
         List<String> specialites = technicienService.getAllSpecialites();
         return ResponseEntity.ok(specialites);
+    }
+
+    @GetMapping("/count-by-specialite")
+    public ResponseEntity<Map<String, Long>> countTechniciensBySpecialite() {
+        Map<String, Long> data = technicienService.countTechniciensBySpecialite();
+        return ResponseEntity.ok(data);
+    }
+
+
+    @GetMapping("/matricule/{matricule}")
+    public ResponseEntity<Technicien> getTechnicienByMatricule(@PathVariable String matricule) {
+        Technicien technicien = technicienService.getTechnicienByMatricule(matricule);
+        if (technicien == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(technicien);
     }
 
 

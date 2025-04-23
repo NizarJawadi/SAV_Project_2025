@@ -6,12 +6,14 @@ import com.sav.interventions.DTO.StatusDTO;
 import com.sav.interventions.entity.Intervention;
 import com.sav.interventions.repository.InterventionRepository;
 import com.sav.interventions.service.InterventionService;
+import com.sav.interventions.utils.PieceUtilisee;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -45,12 +47,29 @@ public class InterventionController {
         return ResponseEntity.ok(interventionService.getInterventionById(id));
     }
 
-/*
-    @PostMapping("/{id}/pieces/{pieceId}")
-    public ResponseEntity<Intervention> addPieceToIntervention(@PathVariable Long id, @PathVariable Long pieceId) {
-        return ResponseEntity.ok(interventionService.addPieceToIntervention(id, pieceId));
+
+    @PostMapping("/{id}/ajouter-pieces")
+    public ResponseEntity<Void> ajouterPieces(
+            @PathVariable Long id,
+            @RequestBody List<PieceUtilisee> pieces) {
+        interventionService.ajouterPieces(id, pieces);
+        return ResponseEntity.ok().build();
     }
 
+    @GetMapping("/{id}/pieces")
+    public ResponseEntity<List<PieceUtilisee>> getPiecesUtilisees(@PathVariable Long id) {
+        List<PieceUtilisee> pieces = interventionService.getPiecesUtiliseesParIntervention(id);
+        return ResponseEntity.ok(pieces);
+    }
+
+    @DeleteMapping("/{id}/pieces/{pieceId}")
+    public ResponseEntity<Intervention> removePieceFromIntervention(@PathVariable Long id, @PathVariable Long pieceId) {
+        return ResponseEntity.ok(interventionService.removePieceFromIntervention(id, pieceId));
+    }
+
+
+
+/*
     @DeleteMapping("/{id}/pieces/{pieceId}")
     public ResponseEntity<Intervention> removePieceFromIntervention(@PathVariable Long id, @PathVariable Long pieceId) {
         return ResponseEntity.ok(interventionService.removePieceFromIntervention(id, pieceId));
@@ -84,6 +103,44 @@ public class InterventionController {
     public Intervention getInterventionByReclamation ( @PathVariable("id") Long idReclamation){
         return  interventionRepository.findByReclamationId(idReclamation);
     }
+
+
+    @GetMapping("/stats/interventions")
+    public Map<String, Object> getStats() {
+        Map<String, Object> stats = new HashMap<>();
+
+        stats.put("nbTerminees", interventionService.getNombreInterventionsTerminees());
+        stats.put("dureeMoyenne", interventionService.getDureeMoyenne());
+        stats.put("piecesParIntervention", interventionService.getMoyennePiecesUtilisees());
+        stats.put("reclamationsTraitees", interventionService.getReclamationsTraitees());
+        stats.put("tempsAttenteMoyen", interventionService.getTempsMoyenAttente());
+        stats.put("tauxRetard", interventionService.calculerTauxRetard());
+
+        return stats;
+    }
+
+
+    @GetMapping("/by-technicien/matricule/{matricule}")
+    public ResponseEntity<List<InterventionWithReclamationDto>> getInterventionsByMatricule(@PathVariable String matricule) {
+        List<InterventionWithReclamationDto> interventions = interventionService.getInterventionsByTechnicienMatricule(matricule);
+        return ResponseEntity.ok(interventions);
+    }
+
+
+    @GetMapping("/by-technicien/specialite")
+    public ResponseEntity<List<InterventionWithReclamationDto>> getInterventionsBySpecialite(@RequestParam String specialite) {
+        List<InterventionWithReclamationDto> interventions = interventionService.getInterventionsByTechnicienSpecialite(specialite);
+        return ResponseEntity.ok(interventions);
+    }
+
+
+
+    @GetMapping("/by-technicien/id/{id}")
+    public ResponseEntity<List<InterventionWithReclamationDto>> getInterventionsByTechnicienId(@PathVariable Long id) {
+        List<InterventionWithReclamationDto> interventions = interventionService.getInterventionsByTechnicienId(id);
+        return ResponseEntity.ok(interventions);
+    }
+
 
 
 

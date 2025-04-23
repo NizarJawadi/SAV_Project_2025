@@ -1,7 +1,7 @@
 @import '../../styles/variables';
 
 .main {
-  padding: 80px;
+  padding-left: 90px !important;
   margin-left: 250px;
   min-height: 100vh;
   background: #f6f9ff;
@@ -40,6 +40,7 @@
   box-shadow: 0 5px 20px rgba(1, 41, 112, 0.1);
   transition: all 0.3s ease;
   overflow: hidden;
+  padding: 5px;
   
   &:hover {
     transform: translateY(-5px);
@@ -47,7 +48,7 @@
   }
 
   .card-body {
-    padding: 25px;
+    padding: 10px;
   }
 }
 

@@ -30,7 +30,7 @@ h2 {
     padding: 5px 0;
     width: 100%;
     box-sizing: border-box;
-    margin-top: auto;             /* Force le footer à rester en bas */
+    margin-top: 250px;             /* Force le footer à rester en bas */
 }
 
 .footer-content {

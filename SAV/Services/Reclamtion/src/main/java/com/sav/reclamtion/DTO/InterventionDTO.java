@@ -19,4 +19,6 @@ public class InterventionDTO {
          private LocalDateTime dateIntervention;
         private String statut; // "EN_ATTENTE", "EN_COURS", "TERMINEE"
         private Long technicienId;
+
+        private LocalDateTime DateDeadLine ;
 }

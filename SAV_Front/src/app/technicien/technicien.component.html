@@ -7,13 +7,16 @@
         <div class="card">
           <div class="card-body">
             <h5 class="card-title">Liste des Techniciens</h5>
+            <button class="btn btn-success mb-3" data-bs-toggle="modal" data-bs-target="#addTechnicienModal">
+              Ajouter un technicien
+            </button>
 
             <!-- Table des techniciens -->
             <table class="table mt-3">
               <thead>
                 <tr>
                   <th>Nom d'utilisateur</th>
-                  
+
                   <th>Specialite</th>
                   <th>Téléphone</th>
                   <th>Matricule</th>
@@ -24,7 +27,7 @@
               <tbody>
                 <tr *ngFor="let technicien of techniciens.slice(currentPage * pageSize, (currentPage + 1) * pageSize)">
                   <td>{{ technicien.username }}</td>
-                 
+
                   <td>{{ technicien.specialite }}</td>
                   <td>{{ technicien.telephone }}</td>
                   <td>{{ technicien.matricule }}</td>
@@ -36,16 +39,21 @@
                     }"> </span>
                   </td>
                   <td>
-                    <button
-                      class="btn btn-info btn-sm"
-                      data-bs-toggle="modal"
-                      data-bs-target="#technicienDetailModal"
-                      (click)="openTechnicienDetails(technicien)"
-                    >
-                      Détails
+                    <button class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#technicienDetailModal" title="Voir les détails"
+                      (click)="openTechnicienDetails(technicien)">
+                      <i class="bi bi-eye"></i> 
                     </button>
-                    <button class="btn btn-danger btn-sm" (click)="onDelete(technicien.idUser)">Supprimer</button>
+                  
+                    <button class="btn btn-warning btn-sm ms-1" data-bs-toggle="modal"
+                      data-bs-target="#editTechnicienModal" (click)="openEditModal(technicien)" title="Modifier">
+                      <i class="bi bi-pencil-square"></i> 
+                    </button>
+                  
+                    <button class="btn btn-danger btn-sm ms-1" (click)="onDelete(technicien.idUser)" title="Supprimer">
+                      <i class="bi bi-trash"></i> 
+                    </button>
                   </td>
+                  
                 </tr>
               </tbody>
             </table>
@@ -54,11 +62,8 @@
             <div class="pagination-controls d-flex justify-content-between align-items-center">
               <button class="btn btn-secondary" (click)="prevPage()" [disabled]="currentPage === 0">Précédent</button>
               <span>Page {{ currentPage + 1 }} sur {{ Math.ceil(techniciens.length / pageSize) }}</span>
-              <button
-                class="btn btn-secondary"
-                (click)="nextPage()"
-                [disabled]="(currentPage + 1) * pageSize >= techniciens.length"
-              >
+              <button class="btn btn-secondary" (click)="nextPage()"
+                [disabled]="(currentPage + 1) * pageSize >= techniciens.length">
                 Suivant
               </button>
             </div>
@@ -70,8 +75,8 @@
 </main>
 
 <!-- Modal for viewing technicien details -->
-<!-- Modal for viewing technicien details -->
-<div class="modal fade" id="technicienDetailModal" tabindex="-1" aria-labelledby="technicienDetailModalLabel" aria-hidden="true">
+<div class="modal fade" id="technicienDetailModal" tabindex="-1" aria-labelledby="technicienDetailModalLabel"
+  aria-hidden="true" data-bs-backdrop="false" data-bs-keyboard="false">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -87,7 +92,7 @@
           <p><strong>Spécialité :</strong> {{ selectedTechnicien.specialite }}</p>
           <p><strong>Adresse :</strong> {{ selectedTechnicien.adresse }}</p>
           <p><strong>Date d'embauche :</strong> {{ selectedTechnicien.dateEmbauche | date:'dd/MM/yyyy' }}</p>
-          <p><strong>Disponibilité :  {{ selectedTechnicien.disponibilite }}</strong> 
+          <p><strong>Disponibilité : {{ selectedTechnicien.disponibilite }}</strong>
             <span [ngClass]="{
               'circle': true, 
               'green': selectedTechnicien.disponibilite === 'disponible', 
@@ -100,5 +105,108 @@
         </div>
       </div>
     </div>
+  </div>
+</div>
+
+
+<!-- Modal ADD -->
+<div class="modal fade custom-modal" id="addTechnicienModal" tabindex="-1" aria-labelledby="addTechnicienModalLabel"
+  aria-hidden="true" data-bs-backdrop="false" data-bs-keyboard="false">
+  <div class="modal-dialog modal-lg">
+    <form class="modal-content" (ngSubmit)="onAddTechnicien()" [formGroup]="addTechnicienForm">
+      <div class="modal-header bg-primary text-white">
+        <h5 class="modal-title" id="addTechnicienModalLabel">
+          Ajouter un technicien
+        </h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Fermer"></button>
+      </div>
+
+      <div class="modal-body">
+        <div class="container-fluid">
+          <div class="row g-3">
+            <div class="col-md-6" *ngFor="let field of formFields">
+              <label class="form-label">{{ field.label }}</label>
+              <input [type]="field.type" class="form-control" [formControlName]="field.name"
+                [ngClass]="{ 'is-invalid': addTechnicienForm.get(field.name)?.invalid && addTechnicienForm.get(field.name)?.touched }" />
+              <div class="invalid-feedback"
+                *ngIf="addTechnicienForm.get(field.name)?.invalid && addTechnicienForm.get(field.name)?.touched">
+                Ce champ est requis.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+          Annuler
+        </button>
+        <button type="submit" class="btn btn-primary" [disabled]="addTechnicienForm.invalid">
+          Ajouter
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Modal Edit -->
+<div
+  class="modal fade"
+  id="editTechnicienModal"
+  tabindex="-1"
+  aria-labelledby="editTechnicienModalLabel"
+  aria-hidden="true"
+  data-bs-backdrop="false"
+  data-bs-keyboard="false"
+>
+  <div class="modal-dialog modal-lg">
+    <form
+      class="modal-content"
+      [formGroup]="editTechnicienForm"
+      (ngSubmit)="onUpdateTechnicien()"
+    >
+      <div class="modal-header bg-warning text-dark">
+        <h5 class="modal-title" id="editTechnicienModalLabel">
+          Modifier un technicien
+        </h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Fermer"
+        ></button>
+      </div>
+
+      <div class="modal-body">
+        <div class="container-fluid">
+          <div class="row g-3">
+            <div class="col-md-6" *ngFor="let field of formFields">
+              <label class="form-label">{{ field.label }}</label>
+              <input
+                [type]="field.type"
+                class="form-control"
+                [formControlName]="field.name"
+                [ngClass]="{ 'is-invalid': editTechnicienForm.get(field.name)?.invalid && editTechnicienForm.get(field.name)?.touched }"
+              />
+              <div
+                class="invalid-feedback"
+                *ngIf="editTechnicienForm.get(field.name)?.invalid && editTechnicienForm.get(field.name)?.touched"
+              >
+                Ce champ est requis.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+          Annuler
+        </button>
+        <button type="submit" class="btn btn-warning" [disabled]="editTechnicienForm.invalid">
+          Mettre à jour
+        </button>
+      </div>
+    </form>
   </div>
 </div>

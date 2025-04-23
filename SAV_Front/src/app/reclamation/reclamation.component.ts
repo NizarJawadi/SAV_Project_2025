@@ -5,6 +5,7 @@ import { CommonModule } from '@angular/common';
 import { HeaderComponent } from '../header/header.component';
 import * as bootstrap from 'bootstrap';
 import { TechnicienService } from '../services/TechnicienServices';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-reclamation',
@@ -21,6 +22,7 @@ export class ReclamationComponent implements OnInit {
   currentPage = 0;
   Math = Math;
   pageSize = 5;
+  deadline: string = ''; // Format ISO, ex: '2025-04-19T15:30'
 
 
   searchNumeroSerie: string = '';
@@ -127,21 +129,39 @@ export class ReclamationComponent implements OnInit {
   
 
   assignTechnicien() {
-   
-    if (this.currentReclamationId && this.selectedTechnicienId) {
-      
-      console.log(this.selectedTechnicienId)
-      console.log(this.currentReclamationId)
-      this.responsableSAVId = Number(localStorage.getItem("UserId")); 
-      this.currentReclamationId = Number(this.currentReclamationId); 
-      this.selectedTechnicienId = Number(this.selectedTechnicienId);
-      this.reclamationService.assignReclamation(this.currentReclamationId, this.selectedTechnicienId, this.responsableSAVId)
-        .subscribe(() => {
-          alert("Technicien assigné avec succès !");
-          this.getAllReclamations();
-          document.getElementById('assignModal')?.click();
-        });
+    if (!this.selectedTechnicienId || !this.deadline) {
+      Swal.fire({
+        icon: 'warning',
+        title: 'Champs requis',
+        text: 'Veuillez choisir un technicien et une date limite.'
+      });
+      return;
     }
+  
+    const deadlineParam = new Date(this.deadline).toISOString(); // format ISO
+    this.responsableSAVId = Number(localStorage.getItem("UserId")); 
+    this.currentReclamationId = Number(this.currentReclamationId); 
+    this.selectedTechnicienId = Number(this.selectedTechnicienId);
+  
+    this.reclamationService.assignReclamation(this.currentReclamationId, this.selectedTechnicienId, this.responsableSAVId, deadlineParam)
+      .subscribe({
+        next: (response: any) => {
+          Swal.fire({
+            icon: 'success',
+            title: 'Succès',
+            text: response.message // Afficher le message de la réponse JSON
+          });
+          // Fermer la modal ici si besoin
+        },
+        error: err => {
+          console.error(err);
+          Swal.fire({
+            icon: 'error',
+            title: 'Erreur',
+            text: "L'assignation a échoué."
+          });
+        }
+      });
   }
   
 

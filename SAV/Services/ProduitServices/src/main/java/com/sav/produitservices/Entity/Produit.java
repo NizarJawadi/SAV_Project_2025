@@ -15,6 +15,7 @@ public class Produit {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String nom;
+    @Column(length = 1000)
     private String description;
 
     @Column(unique = true)
@@ -26,7 +27,7 @@ public class Produit {
     private String imageUrl; // Stocke l'URL de l'image
     @Column(unique = true, nullable = false)
     private String numeroSerie;
-    @Column(name = "guide_technique_url")
+    @Column(name = "guide_technique_url" , nullable = true)
     private String guideTechniqueUrl;
 
 

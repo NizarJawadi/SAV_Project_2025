@@ -83,7 +83,7 @@ public class FactureService {
                                 Reclamation reclamation) throws JRException {
         System.out.println(facture.toString());
         Map<String, Object> params = new HashMap<>();
-
+        System.out.println(intervention.toString());
         // Infos générales
         params.put("vendeurNom", "SAV Company");
         params.put("vendeurAdresse", technicien.getAdresse());
@@ -115,7 +115,7 @@ public class FactureService {
         params.put("dateReclamation", reclamation.getDateReclamation().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
 
         //Infos Intervention
-        params.put("PieceDeRechange ", intervention.getPiecesIds());
+        //params.put("PieceDeRechange ", intervention.getPiecesIds());
 
         System.out.println(technicien.getTarifParHeure());
 
@@ -134,6 +134,7 @@ public class FactureService {
                 params.put("tarifHoraire", tarifHoraire);
 
                 double dureeHeures = dureeMinutes / 60.0;
+                //System.out.println("dureeHeures :" +dureeHeures);
                 double coutMainOeuvre = dureeHeures * tarifHoraire;
 
                 double TotalTVAMainOuvre =  coutMainOeuvre * TVA_RATE;
@@ -160,7 +161,9 @@ public class FactureService {
         params.put("TVA_percent", (int) (TVA_RATE*100) +" %");
         // Lignes de la facture
 
-
+        // Ajoute la liste dynamique des pièces utilisées
+        JRBeanCollectionDataSource piecesDataSource = new JRBeanCollectionDataSource(intervention.getPiecesUtilisees());
+        params.put("piecesDataSource", piecesDataSource);
 
 
         // Logo

@@ -32,6 +32,7 @@ export class LoginComponent {
       password: ['', Validators.required ]
     });
   }
+  
 
   get f() {
     return this.loginForm.controls;
@@ -78,8 +79,11 @@ export class LoginComponent {
     if (localStorage.getItem("userRole") == "ADMIN" || 
         localStorage.getItem("userRole") == "RESPONSABLE_SAV" ||
         localStorage.getItem("userRole") == "TECHNICIEN")
-      this.router.navigate(['/acceuil']);
-    else 
+      {
+        this.router.navigate(['/acceuil']);
+        location.href = '/dashboard'; // ou route selon rôle
+      }
+        else 
     this.router.navigate(['/client']);
   }
 

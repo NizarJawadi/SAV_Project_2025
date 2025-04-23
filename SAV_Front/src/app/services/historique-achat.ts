@@ -16,4 +16,10 @@ export class HistoriqueAchatService {
     return this.http.get<any>(`${this.apiUrl}/client/${idUser}`);
   }
   
+
+  //methode pour la dashboard 
+  getAchatsParJourSemaine(): Observable<{ [key: string]: number }> {
+    return this.http.get<{ [key: string]: number }>(`${this.apiUrl}/par-jour-semaine`);
+  }
+  
 }

@@ -1,11 +1,8 @@
 @import '../../styles/_variables.scss';
 
 .main {
-  padding: 80px;
-  margin-left: 250px;
-  min-height: 100vh;
-  background: #f6f9ff;
-  transition: all 0.3s ease;
+  padding-left: 90px !important;
+  margin-left: auto;
 }
 
 .container {
@@ -225,4 +222,30 @@
   .card .card-body {
     padding: 15px;
   }
+}
+
+
+.modal-content {
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.modal-header {
+  border-bottom: 1px solid #dee2e6;
+}
+
+.modal-footer {
+  border-top: 1px solid #dee2e6;
+}
+
+input.ng-invalid.ng-touched {
+  border-color: #dc3545;
+}
+
+input.ng-valid.ng-touched {
+  border-color: #198754;
+}
+
+label {
+  font-weight: 500;
 }

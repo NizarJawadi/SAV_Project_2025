@@ -110,7 +110,8 @@
 </main>
 
 <!-- Modal for viewing reclamation details -->
-<div class="modal fade" id="reclamationDetailModal" tabindex="-1" aria-labelledby="reclamationDetailModalLabel" aria-hidden="true">
+<div class="modal fade" id="reclamationDetailModal" tabindex="-1" aria-labelledby="reclamationDetailModalLabel" aria-hidden="true"  data-bs-backdrop="false"
+data-bs-keyboard="false">
   <div class="modal-dialog modal-lg"> <!-- Augmente la taille du modal -->
     <div class="modal-content">
       <div class="modal-header">
@@ -181,7 +182,8 @@
 
 
 <!-- Modal -->
-<div class="modal fade" id="assignModal" tabindex="-1" aria-hidden="true">
+<div class="modal fade" id="assignModal" tabindex="-1" aria-hidden="true"  data-bs-backdrop="false"
+data-bs-keyboard="false">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -212,7 +214,10 @@
               {{ technicien.username }} - {{ technicien.specialite }}
             </label>
           </div>
-          
+          <div class="mt-3">
+            <label for="deadline">Date limite d'intervention :</label>
+            <input type="datetime-local" class="form-control" [(ngModel)]="deadline" id="deadline" name="deadline" />
+          </div>
           
         </div>
         

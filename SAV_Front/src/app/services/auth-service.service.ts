@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { catchError, Observable } from 'rxjs';
+import { JwtService } from './jwt-services.service';
 
 @Injectable({
   providedIn: 'root'
@@ -11,15 +12,24 @@ export class AuthService {
   private baseUrlRegister = 'http://localhost:8888'; // Your backend URL for register
 
 
-  constructor(private http: HttpClient ) {}
+  constructor(private http: HttpClient,
+    private jwtService: JwtService
+   ) {}
 
-  login(credentials: { login: string, password: string }): Observable<any> {
+   login(credentials: { login: string, password: string }): Observable<any> {
     return this.http.post(`${this.baseUrlAuth}/login`, credentials, {
-      headers: new HttpHeaders({  'Content-Type': 'application/json',
-        'Accept': 'application/json', }) 
-    });
-    
+      headers: new HttpHeaders({  
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      })
+    }).pipe(
+      catchError(error => {
+        console.error('Login error:', error);
+        throw error;
+      })
+    );
   }
+  
   
 
   register(userData: any): Observable<any> {
@@ -29,17 +39,39 @@ export class AuthService {
 
   // Logout method
   logout() {
-    return this.http.post(`${this.baseUrlAuth}/logout`, {}).subscribe({
+    this.http.post(`${this.baseUrlAuth}/logout`, {}).subscribe({
       next: () => {
-        // Supprime le token local (si nécessaire)
-        localStorage.removeItem('token');
-        console.log('Déconnexion réussie');
+        this.removeToken();
+        this.removeRefreshToken();
+        this.clearUserInfo();  // Ajoute une méthode pour effacer toutes les informations
+        window.location.href = '/login';  // Rediriger vers la page de login
       },
       error: (err) => {
         console.error('Erreur lors de la déconnexion :', err);
       },
     });
   }
+  
+  clearUserInfo() {
+    localStorage.removeItem('userRole');
+    localStorage.removeItem('UserName');
+    localStorage.removeItem('token');
+    localStorage.removeItem('tokenExpiration');
+    localStorage.removeItem('UserId');
+    console.log('Informations utilisateur effacées du localStorage.');
+  }
+  
+  
+  getUserRoleFromToken(token: string | null = this.getToken()): string | null {
+    if (!token) {
+      // Token est null, donc retourner null ou faire une action si nécessaire
+      return null;
+    }
+  
+    const decoded = this.jwtService.decodeToken(token);
+    return decoded?.role || null;
+  }
+  
 
   // Save token to localStorage
   saveToken(token: string | undefined) {
@@ -84,4 +116,9 @@ export class AuthService {
   isLoggedIn(): boolean {
     return this.getToken() !== null; // Return true if token exists, false otherwise
   }
+
+
+  
+  
+  
 }

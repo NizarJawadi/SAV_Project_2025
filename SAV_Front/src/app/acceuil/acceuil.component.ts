@@ -12,4 +12,13 @@ import { RouterLink, RouterOutlet } from '@angular/router';
 export class AcceuilComponent {
   isLoggedIn = false ; 
  
+  ngOnInit() {
+    history.pushState(null, '', location.href);
+    window.onpopstate = function () {
+      history.go(1); // Annule le retour arrière
+    };
+  }
+
+  
+  
 }

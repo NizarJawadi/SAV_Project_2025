@@ -15,6 +15,7 @@ public interface ResponsableSavServices {
 
     public void deleteResponsableSav(Long id);
 
+    public ResponsableSAV updateResponsableSav(Long id, ResponsableSAV updatedResponsable);
 
 
 }

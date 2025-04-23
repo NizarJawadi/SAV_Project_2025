@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { AuthService } from '../services/auth-service.service';
 
 @Component({
   selector: 'app-header',
@@ -17,9 +18,11 @@ export class HeaderComponent implements OnInit {
   isMessageDropdownOpen = false;
   isProfileDropdownOpen = false;
   isSidebarCollapsed = false;
+  isSidebarOpen: boolean = true;
 
   constructor(
     private router: Router,
+    private authServices: AuthService
     //private sidenavService: SidenavServicesService
   ) {
   }
@@ -29,6 +32,12 @@ export class HeaderComponent implements OnInit {
     this.getUserRole();
     this.isloggedIn = !!localStorage.getItem('token');
     this.getUsername() ;
+  }
+
+
+  toggleSidebar(): void {
+    this.isSidebarOpen = !this.isSidebarOpen;
+    document.body.classList.toggle('toggle-sidebar', !this.isSidebarOpen);
   }
 
   toggle() {
@@ -67,10 +76,12 @@ export class HeaderComponent implements OnInit {
   }
 
   logout() {
-    localStorage.removeItem('token');
-    this.router.navigate(['/login']);
+    this.authServices.logout(); // si tu as besoin d'appeler le backend pour déconnexion
+    localStorage.clear(); // supprime tout
+    this.router.navigate(['/login'], { replaceUrl: true });
   }
-
+  
+  
   closeDropdowns(event: Event) {
     if (!event.target) return;
     

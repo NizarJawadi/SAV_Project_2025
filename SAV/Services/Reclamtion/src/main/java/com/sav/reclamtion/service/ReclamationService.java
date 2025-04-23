@@ -1,9 +1,6 @@
 package com.sav.reclamtion.service;
 
-import com.sav.reclamtion.DTO.ClientDTO;
-import com.sav.reclamtion.DTO.InterventionDTO;
-import com.sav.reclamtion.DTO.Produit;
-import com.sav.reclamtion.DTO.ReclamationDTO;
+import com.sav.reclamtion.DTO.*;
 import com.sav.reclamtion.entity.Reclamation;
 import com.sav.reclamtion.entity.StatutReclamation;
 import com.sav.reclamtion.feign.ClientFeignClient;
@@ -16,7 +13,11 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
-import java.util.List;
+import java.time.format.DateTimeFormatter;
+import java.time.format.TextStyle;
+import java.time.temporal.WeekFields;
+import java.util.*;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Service
@@ -33,6 +34,8 @@ public class ReclamationService {
 
     @Autowired
     ClientFeignClient clientFeignClient;
+
+
 
     public Reclamation createReclamation(Reclamation reclamation) {
         ZonedDateTime dateReclamation = ZonedDateTime.now(ZoneId.of("Africa/Blantyre"));
@@ -134,7 +137,7 @@ public class ReclamationService {
 
 
     // Méthode pour créer une intervention à partir d'une réclamation
-    public InterventionDTO createInterventionForReclamation(Long reclamationId, Long technicienId) {
+    public InterventionDTO createInterventionForReclamation(Long reclamationId, Long technicienId , LocalDateTime deadline) {
         // Créer une intervention à partir des informations nécessaires
         InterventionDTO intervention = new InterventionDTO();
         intervention.setReclamationId(reclamationId);
@@ -142,8 +145,81 @@ public class ReclamationService {
 
         intervention.setStatut("EN_ATTENTE");
         intervention.setDateIntervention(LocalDateTime.now());
+        intervention.setDateDeadLine(deadline);
 
         // Appel au Feign Client pour créer l'intervention dans le service
         return interventionClient.createIntervention(intervention);
     }
+
+
+    public Map<String, Long> getReclamationsGroupBy(String periode) {
+        List<Reclamation> reclamations = reclamationRepository.findAll();
+        DateTimeFormatter formatter;
+        Function<LocalDateTime, String> keyMapper;
+
+        switch (periode) {
+            case "DAY":
+                formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+                keyMapper = date -> date.format(formatter);
+                break;
+            case "WEEK":
+                keyMapper = date -> date.getYear() + "-W" + date.get(WeekFields.ISO.weekOfWeekBasedYear());
+                break;
+            case "MONTH":
+                formatter = DateTimeFormatter.ofPattern("yyyy-MM");
+                keyMapper = date -> date.format(formatter);
+                break;
+            case "YEAR":
+                keyMapper = date -> String.valueOf(date.getYear());
+                break;
+            default:
+                throw new IllegalArgumentException("Période invalide");
+        }
+
+        return reclamations.stream()
+                .collect(Collectors.groupingBy(r -> keyMapper.apply(r.getDateReclamation()), Collectors.counting()));
+    }
+
+    public Map<String, Map<String, Long>> getStatsParJour() {
+        List<Reclamation> all = reclamationRepository.findAll();
+
+        Map<String, Map<String, Long>> result = new LinkedHashMap<>();
+
+        List<String> jours = List.of("Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun");
+
+        for (String jour : jours) {
+            result.put(jour, new HashMap<>());
+            result.get(jour).put("EN_ATTENTE", 0L);
+            result.get(jour).put("EN_COURS", 0L);
+            result.get(jour).put("RESOLUE", 0L);
+        }
+
+        for (Reclamation rec : all) {
+            String day = rec.getDateReclamation().getDayOfWeek().name().substring(0, 3);
+            day = day.substring(0, 1).toUpperCase() + day.substring(1).toLowerCase(); // ex: "Mon"
+            if (result.containsKey(day) && rec.getStatut() != StatutReclamation.ANNULEE) {
+                String statut = rec.getStatut().name();
+                result.get(day).put(statut, result.get(day).get(statut) + 1);
+            }
+        }
+
+        return result;
+    }
+
+    public List<ProduitReclameDTO> getProduitsLesPlusReclames() {
+        List<Object[]> rawStats = reclamationRepository.countReclamationsByProduit();
+
+        return rawStats.stream()
+                .map(obj -> {
+                    Long produitId = (Long) obj[0];
+                    Long count = (Long) obj[1];
+                    Produit produit = produitServiceClient.getProduitById(produitId);
+
+                    return new ProduitReclameDTO(produit, count);
+                })
+                .limit(6)  // Limite le nombre de produits retournés à 6
+                .collect(Collectors.toList());
+
+    }
+
 }

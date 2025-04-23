@@ -12,5 +12,6 @@ public class InterventionWithReclamationDto {
     private Intervention intervention;
     private ReclamationDTO reclamation;
     private Object client; // Ajouter les informations du client
+    private TechnicienDTO technicien;
 }
 

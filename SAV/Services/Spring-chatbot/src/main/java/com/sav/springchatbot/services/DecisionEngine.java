@@ -9,7 +9,11 @@ public class DecisionEngine {
     public QuestionType analyse(String question) {
         String lower = question.toLowerCase();
 
-        if (lower.contains("réclamation") || lower.contains("traitement") || lower.contains("état") || lower.contains("sav")) {
+        if (lower.contains("réclamation") ||
+                lower.contains("traitement") ||
+                lower.contains("état") ||
+                lower.contains("status")||
+                lower.contains("sav")) {
             return QuestionType.TYPE_RECLAMATION;
         }
 

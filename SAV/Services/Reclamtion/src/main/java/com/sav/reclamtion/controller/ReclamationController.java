@@ -2,6 +2,7 @@ package com.sav.reclamtion.controller;
 
 import com.sav.reclamtion.DTO.ClientDTO;
 import com.sav.reclamtion.DTO.InterventionDTO;
+import com.sav.reclamtion.DTO.ProduitReclameDTO;
 import com.sav.reclamtion.DTO.ReclamationDTO;
 import com.sav.reclamtion.entity.Reclamation;
 import com.sav.reclamtion.entity.StatutReclamation;
@@ -13,6 +14,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -82,14 +85,17 @@ public class ReclamationController {
     public ResponseEntity<String> assignReclamation(
             @PathVariable Long reclamationId,
             @RequestParam Long technicienId,
-            @RequestParam Long responsableSAVId) {
+            @RequestParam Long responsableSAVId,
+            @RequestParam String deadline) {
 
+        LocalDateTime dateDeadline = LocalDateTime.parse(deadline); // ISO format
 
-        InterventionDTO intervention = reclamationService.createInterventionForReclamation(reclamationId, technicienId);
+        InterventionDTO intervention = reclamationService.createInterventionForReclamation(reclamationId, technicienId, dateDeadline);
+        reclamationService.assignReclamation(reclamationId, responsableSAVId);
 
-        reclamationService.assignReclamation(reclamationId,  responsableSAVId);
         return ResponseEntity.ok("Réclamation assignée avec succès !");
     }
+
 
 
     @PutMapping("/{id}/update-intervention")
@@ -113,5 +119,38 @@ public class ReclamationController {
         // Retourner la réclamation mise à jour
         return ResponseEntity.ok(reclamation);
     }
+
+
+    @GetMapping("/par-jour")
+    public Map<String, Long> getReclamationsParJour() {
+        return reclamationService.getReclamationsGroupBy("DAY");
+    }
+
+    @GetMapping("/par-semaine")
+    public Map<String, Long> getReclamationsParSemaine() {
+        return reclamationService.getReclamationsGroupBy("WEEK");
+    }
+
+    @GetMapping("/par-mois")
+    public Map<String, Long> getReclamationsParMois() {
+        return reclamationService.getReclamationsGroupBy("MONTH");
+    }
+
+    @GetMapping("/par-annee")
+    public Map<String, Long> getReclamationsParAnnee() {
+        return reclamationService.getReclamationsGroupBy("YEAR");
+    }
+
+    @GetMapping("/stats-par-jour")
+    public Map<String, Map<String, Long>> getStatsParJour() {
+       return reclamationService.getStatsParJour();
+    }
+
+
+    @GetMapping("/produits-plus-reclames")
+    public List<ProduitReclameDTO> getProduitsLesPlusReclames() {
+        return reclamationService.getProduitsLesPlusReclames();
+    }
+
 
 }

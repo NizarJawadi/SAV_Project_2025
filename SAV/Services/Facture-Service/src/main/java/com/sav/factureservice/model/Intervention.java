@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 @Data
 @NoArgsConstructor
@@ -23,6 +24,6 @@ public class Intervention {
 
     private LocalDateTime dateDebut ;
     private LocalDateTime dateFin ;
-    private List<Long> piecesIds;
+    private List<PieceUtilisee> piecesUtilisees = new ArrayList<>();
 
 }

@@ -13,5 +13,19 @@ export class ResponsableSAVServices {
   getAllResponsable(): Observable<any[]> {
     return this.http.get<any[]>(`${this.apiUrl}/responsables`);
   }
+
+  deleteResponsableSAV(id: number): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/remove/${id}`);
+  }
+
+  updateResponsableSAV(id: number, updatedData: any) {
+    return this.http.put(`${this.apiUrl}/update/${id}`, updatedData);
+  }
+
+  addResponsableSAV(technicien: any): Observable<any> {
+    return this.http.post(`${this.apiUrl}/add`, technicien);
+  }
+  
+  
 }
 

@@ -36,32 +36,37 @@
                   <td>{{ product.prix | currency: 'TND   ' }}</td>
                   <td>{{ product.statut }}</td>
 
-                  <td style="display: flex; justify-content: space-between; align-items: center;">
+                  <td style="display: grid; grid-auto-flow: column; justify-content: flex-start; align-items: center; gap: 0.5em;">
                     <button
                       class="btn btn-info btn-sm"
-                      style="border-radius: 6px;"
+                      title="Voir les détails"
                       data-bs-toggle="modal"
                       data-bs-target="#productDetailModal"
                       (click)="openProductDetails(product)"
                     >
-                      Détails
+                      <i class="bi bi-eye"></i>
                     </button>
+                    
                     <button
-                    data-bs-toggle="modal" data-bs-target="#productModal"
                       class="btn btn-warning btn-sm"
-                      style="border-radius: 6px;"
+                      title="Modifier"
+                      data-bs-toggle="modal"
+                      data-bs-target="#productModal"
                       (click)="onEdit(product)"
                     >
-                      Modifier
+                      <i class="bi bi-pencil-square"></i>
                     </button>
+                    
                     <button
                       class="btn btn-danger btn-sm"
-                      style="border-radius: 6px;"
+                      title="Supprimer"
                       (click)="onDelete(product.id)"
                     >
-                      Supprimer
+                      <i class="bi bi-trash"></i>
                     </button>
                   </td>
+                  
+                  
                 </tr>
               </tbody>
             </table>
@@ -86,15 +91,31 @@
 </main>
 
 <!-- Modal for adding or editing a product -->
-<div class="modal fade" id="productModal" tabindex="-1" aria-labelledby="productModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="productModalLabel">{{ isEditMode ? 'Modifier' : 'Ajouter' }} Produit</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+<div
+  class="modal fade"
+  id="productModal"
+  tabindex="-1"
+  aria-labelledby="productModalLabel"
+  aria-hidden="true"
+  data-bs-backdrop="false"
+  data-bs-keyboard="false"
+>
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content rounded-4 shadow">
+      <div class="modal-header bg-primary text-white">
+        <h5 class="modal-title" id="productModalLabel">
+          {{ isEditMode ? 'Modifier' : 'Ajouter' }} Produit
+        </h5>
+        <button
+          type="button"
+          class="btn-close btn-close-white"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
       </div>
       <div class="modal-body">
         <form [formGroup]="productForm" (ngSubmit)="onSubmit()">
+          <!-- Ligne 1 : Nom et Référence -->
           <div class="row mb-3">
             <div class="col-md-6">
               <label for="nom" class="form-label">Nom</label>
@@ -105,42 +126,68 @@
               <input type="text" id="reference" class="form-control" formControlName="reference" />
             </div>
           </div>
+
+          <!-- Description -->
           <div class="mb-3">
             <label for="description" class="form-label">Description</label>
-            <textarea id="description" class="form-control" formControlName="description"></textarea>
+            <textarea
+              id="description"
+              rows="3"
+              class="form-control"
+              formControlName="description"
+            ></textarea>
           </div>
-       
-          <div class="mb-3">
-            <label for="dureeGarantie" class="form-label">Durée de Garantie (en mois)</label>
-            <input type="number" id="dureeGarantie" class="form-control" formControlName="dureeGarantie" />
+
+          <!-- Ligne 2 : Durée garantie et Prix -->
+          <div class="row mb-3">
+            <div class="col-md-6">
+              <label for="dureeGarantie" class="form-label">Durée de Garantie (mois)</label>
+              <input
+                type="number"
+                id="dureeGarantie"
+                class="form-control"
+                formControlName="dureeGarantie"
+              />
+            </div>
+            <div class="col-md-6">
+              <label for="prix" class="form-label">Prix (DNT)</label>
+              <input type="number" id="prix" class="form-control" formControlName="prix" />
+            </div>
           </div>
-          
-          <div class="mb-3">
-            <label for="prix" class="form-label">Prix</label>
-            <input type="number" id="prix" class="form-control" formControlName="prix" />
+
+          <!-- Ligne 3 : Catégorie et Sous-catégorie -->
+          <div class="row mb-3">
+            <div class="col-md-6">
+              <label for="categorie" class="form-label">Catégorie</label>
+              <select
+                id="categorie"
+                class="form-select"
+                formControlName="categorieId"
+                (change)="onCategoryChange($event)"
+              >
+                <option value="">-- Choisir une catégorie --</option>
+                <option *ngFor="let category of categories" [value]="category.id">
+                  {{ category.nom }}
+                </option>
+              </select>
+            </div>
+            <div class="col-md-6">
+              <label for="subCategory" class="form-label">Sous-catégorie</label>
+              <select
+                id="subCategory"
+                class="form-select"
+                formControlName="subCategoryId"
+                [disabled]="!sousCategories.length"
+              >
+                <option value="">-- Choisir une sous-catégorie --</option>
+                <option *ngFor="let subCategory of sousCategories" [value]="subCategory.id">
+                  {{ subCategory.nom }}
+                </option>
+              </select>
+            </div>
           </div>
-          <div class="mb-3">
-            <label for="categorie" class="form-label">Catégorie</label>
-            <select
-              id="categorie"
-              class="form-select"
-              formControlName="categorieId"
-              (change)="onCategoryChange($event)"
-            >
-              <option *ngFor="let category of categories" [value]="category.id">{{ category.nom }}</option>
-            </select>
-          </div>
-          <div class="mb-3">
-            <label for="subCategory" class="form-label">Sous-catégorie</label>
-            <select
-              id="subCategory"
-              class="form-select"
-              formControlName="subCategoryId"
-              [disabled]="!sousCategories.length"
-            >
-              <option *ngFor="let subCategory of sousCategories" [value]="subCategory.id">{{ subCategory.nom }}</option>
-            </select>
-          </div>
+
+          <!-- Statut -->
           <div class="mb-3">
             <label for="statut" class="form-label">Statut</label>
             <select id="statut" class="form-select" formControlName="statut">
@@ -148,18 +195,23 @@
               <option value="Indisponible">Indisponible</option>
             </select>
           </div>
-          <!-- Champ pour l'image -->
+
+          <!-- Image Upload -->
           <div class="mb-3">
             <label for="imageUrl" class="form-label">Image</label>
-            <input type="file" id="imageUrl" class="form-control" (change)="onFileChange($event)">
+            <input type="file" id="imageUrl" class="form-control" (change)="onFileChange($event)" />
           </div>
-          <!-- Affichage de l'aperçu de l'image -->
-          <div *ngIf="imagePreview">
-            <img [src]="imagePreview" alt="Aperçu de l'image" width="100">
+
+          <!-- Image preview -->
+          <div *ngIf="imagePreview" class="mb-3 text-center">
+            <img [src]="imagePreview" alt="Aperçu" class="img-thumbnail" width="150" />
           </div>
-          
-          <div class="d-flex justify-content-end mt-3">
-            <button type="submit" class="btn btn-primary">{{ isEditMode ? 'Modifier' : 'Ajouter' }}</button>
+
+          <!-- Bouton -->
+          <div class="d-flex justify-content-end">
+            <button type="submit" class="btn btn-success">
+              {{ isEditMode ? 'Modifier' : 'Ajouter' }}
+            </button>
           </div>
         </form>
       </div>
@@ -169,7 +221,8 @@
 
 
 <!-- Modal for viewing product details -->
-<div class="modal fade" id="productDetailModal" tabindex="-1" aria-labelledby="productDetailModalLabel" aria-hidden="true">
+<div class="modal fade" id="productDetailModal" tabindex="-1" aria-labelledby="productDetailModalLabel" aria-hidden="true"  data-bs-backdrop="false"
+data-bs-keyboard="false">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">

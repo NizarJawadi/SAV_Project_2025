@@ -18,7 +18,18 @@
         </processorPath>
         <module name="demo" />
       </profile>
-      <profile name="Annotation profile for Facture-Service" enabled="true">
+      <profile name="Annotation profile for interventions" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="false">
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.36/lombok-1.18.36.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.36/lombok-1.18.36.jar" />
+        </processorPath>
+        <module name="authentification" />
+        <module name="interventions" />
+      </profile>
+      <profile name="Annotation profile for PieceDeRechange" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
@@ -33,17 +44,6 @@
         <module name="Facture-Service" />
         <module name="Reclamtion" />
         <module name="HistoriqueAchat" />
-      </profile>
-      <profile name="Annotation profile for interventions" enabled="true">
-        <sourceOutputDir name="target/generated-sources/annotations" />
-        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
-        <outputRelativeToContentRoot value="true" />
-        <processorPath useClasspath="false">
-          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.36/lombok-1.18.36.jar" />
-          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.36/lombok-1.18.36.jar" />
-        </processorPath>
-        <module name="authentification" />
-        <module name="interventions" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>

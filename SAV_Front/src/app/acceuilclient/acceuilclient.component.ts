@@ -17,7 +17,10 @@ export class AcceuilclientComponent implements OnInit {
   ngOnInit(): void {
       this.getUsername() ;
       this.autoSlideCarousel();
-
+      history.pushState(null, '', location.href);
+      window.onpopstate = function () {
+        history.go(1); // Annule le retour arrière
+      };
   }
 
 

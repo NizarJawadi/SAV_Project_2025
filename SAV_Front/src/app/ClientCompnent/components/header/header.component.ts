@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
+import { AuthService } from '../../../services/auth-service.service';
 
 @Component({
   selector: 'app-header',
@@ -12,6 +13,12 @@ export class HeaderComponent implements OnInit {
   isDropdownOpen = false;
   username : any ;
   
+
+  constructor (private authServices: AuthService ,
+         private router: Router,
+   ){
+    
+   }
   ngOnInit(): void {
     this.getUsername() ;
 
@@ -23,9 +30,11 @@ export class HeaderComponent implements OnInit {
   }
 
   logout() {
-    // Ajoutez ici la logique de déconnexion (ex: suppression du token)
-    console.log("Déconnexion...");
-}
+    this.authServices.logout(); // si tu as besoin d'appeler le backend pour déconnexion
+    localStorage.clear(); // supprime tout
+    this.router.navigate(['/login'], { replaceUrl: true });
+  }
+  
 
   toggleDropdown() {
     this.isDropdownOpen = !this.isDropdownOpen;

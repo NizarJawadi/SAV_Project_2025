@@ -1,6 +1,7 @@
 package com.sav.authentification.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import com.sav.authentification.model.Roles;
 import com.sav.authentification.model.Technicien;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 
 @RestController
+@RequestMapping("User")
 public class UserController {
 	
 	@Autowired 
@@ -44,6 +46,10 @@ public class UserController {
 		}
 
 
+	@GetMapping("/stats")
+	public Map<String, Integer> getStats() {
+		return  userService.getStats();
+	}
 
 }
 

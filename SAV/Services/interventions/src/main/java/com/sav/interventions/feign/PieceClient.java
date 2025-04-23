@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 
-@FeignClient(name = "PIECE-SERVICE", url = "http://localhost:8082") // Modifier selon ton port
+@FeignClient(name = "PIECE-SERVICE", url = "http://localhost:8110") // Modifier selon ton port
 public interface PieceClient {
     @GetMapping("/pieces")
     List<PieceDeRechangeDto> getAllPieces();

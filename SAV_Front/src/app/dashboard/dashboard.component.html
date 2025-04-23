@@ -1,0 +1,315 @@
+<app-header></app-header>
+
+<main id="main" class="main">
+    <section class="section dashboard">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="row">
+
+                    <!-- Techniciens Card -->
+                    <div class="col-xxl-4 col-md-6">
+                        <div class="card info-card sales-card">
+                            <div class="filter">
+                                <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+                                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                                    <li class="dropdown-header text-start">
+                                        <h6>Filter</h6>
+                                    </li>
+                                    <li><a class="dropdown-item" href="#">Today</a></li>
+                                    <li><a class="dropdown-item" href="#">This Month</a></li>
+                                    <li><a class="dropdown-item" href="#">This Year</a></li>
+                                </ul>
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title">Techniciens <span>| Total</span></h5>
+                                <div class="d-flex align-items-center">
+                                    <div
+                                        class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                                        <i class="bi bi-tools"></i>
+                                    </div>
+                                    <div class="ps-3">
+                                        <h6>{{ totalTechniciens }}</h6>
+                                    
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Responsables SAV Card -->
+                    <div class="col-xxl-4 col-md-6">
+                        <div class="card info-card revenue-card">
+                            <div class="card-body">
+                                <h5 class="card-title">Responsables SAV <span>| Total</span></h5>
+                                <div class="d-flex align-items-center">
+                                    <div
+                                        class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                                        <i class="bi bi-person-badge"></i>
+                                    </div>
+                                    <div class="ps-3">
+                                        <h6>{{ totalResponsables }}</h6>
+                                      
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Clients Card -->
+                    <div class="col-xxl-4 col-xl-12">
+                        <div class="card info-card customers-card">
+                            <div class="card-body">
+                                <h5 class="card-title">Clients <span>| Total</span></h5>
+                                <div class="d-flex align-items-center">
+                                    <div
+                                        class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                                        <i class="bi bi-people"></i>
+                                    </div>
+                                    <div class="ps-3">
+                                        <h6>{{ totalClients }}</h6>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <!-- Chart Section -->
+        <section class="section">
+            <div class="row">
+
+
+                <div class="col-lg-4">
+                    <div class="card">
+                        <div class="card-body">
+
+                            <div id="lineChart" style="min-height: 300px;" class="echart"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="card shadow-sm border-0">
+                        <div class="card-header custom-select-container">
+                            <label for="periodeSelect" class="custom-select-label">Période&nbsp;:</label> <select
+                                id="periodeSelect" [(ngModel)]="periode" (change)="initAreaChart()"
+                                class="custom-select">
+                                <option value="jour">Par Jour</option>
+                                <option value="semaine">Par Semaine</option>
+                                <option value="mois">Par Mois</option>
+                                <option value="annee">Par Année</option>
+                            </select>
+                        </div>
+                        <div class="card-body">
+                            <div id="areaChart" style="min-height: 300px;" class="echart"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <div id="barChart" style="min-height: 300px;" class="echart"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Reports -->
+        <div class="col-12">
+            <div class="card">
+                <div class="filter">
+                    <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+                    <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                        <li class="dropdown-header text-start">
+                            <h6>Filter</h6>
+                        </li>
+                        <li><a class="dropdown-item" href="#" onclick="updateChart('today')">Today</a></li>
+                        <li><a class="dropdown-item" href="#" onclick="updateChart('month')">This Month</a></li>
+                        <li><a class="dropdown-item" href="#" onclick="updateChart('year')">This Year</a></li>
+                    </ul>
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">Reports <span>/ Today</span></h5>
+                    <div id="reportsChart" style="height: 350px;"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recent Sales -->
+        <div class="col-12">
+            <div class="card recent-sales overflow-auto">
+                <div class="filter">
+                    <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+                    <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                        <li class="dropdown-header text-start">
+                            <h6>Filtrer</h6>
+                        </li>
+                        <li><a class="dropdown-item" href="#">Aujourd'hui</a></li>
+                        <li><a class="dropdown-item" href="#">Ce mois</a></li>
+                        <li><a class="dropdown-item" href="#">Cette année</a></li>
+                    </ul>
+                </div>
+
+                <div class="card-body">
+                    <h5 class="card-title">Produits fréquemment réclamés <span>| Cette année</span></h5>
+                    <table class="table table-borderless datatable align-middle">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Image</th>
+                                <th scope="col">Nom</th>
+                                <th scope="col">Référence</th>
+                                <th scope="col">Prix</th>
+                                <th scope="col">Réclamations</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of produitsReclames; let i = index">
+                                <th scope="row">#{{ i + 1 }}</th>
+                                <td>
+                                    <img [src]="'http://localhost:9999/images/' + item.produit.imageUrl"
+                                        alt="{{ item.produit.nom }}" width="60" height="60" class="rounded" />
+                                </td>
+                                <td>{{ item.produit.nom }}</td>
+                                <td>{{ item.produit.reference }}</td>
+                                <td>{{ item.produit.prix | number:'1.0-2' }} <span class="text-muted">DNT</span></td>
+                                <td><span class="badge bg-info text-dark">{{ item.nombreReclamations }}
+                                        réclamations</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Budget Report -->
+        <div class="col-12">
+            <div class="card">
+                <div class="filter">
+                    <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+                    <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                        <li class="dropdown-header text-start">
+                            <h6>Filter</h6>
+                        </li>
+                        <li><a class="dropdown-item" href="#">Today</a></li>
+                        <li><a class="dropdown-item" href="#">This Month</a></li>
+                        <li><a class="dropdown-item" href="#">This Year</a></li>
+                    </ul>
+                </div>
+                <div class="card-body pb-0">
+                    <h5 class="card-title">Budget Report <span>| This Month</span></h5>
+                    <div id="budgetChart" style="min-height: 400px;" class="echart"></div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- End Polar Area Chart -->
+        <div class="col-lg-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Polar Area Chart</h5>
+
+                    <!-- Polar Area Chart -->
+                    <canvas id="polarAreaChart" style="max-height: 400px;"></canvas>
+                    <script>
+                        document.addEventListener("DOMContentLoaded", () => {
+                            new Chart(document.querySelector('#polarAreaChart'), {
+                                type: 'polarArea',
+                                data: {
+                                    labels: [
+                                        'Électricité',
+                                        'Réseaux',
+                                        'Climatisation',
+                                        'Informatique',
+                                        'Électromécanique',
+                                    ],
+                                    datasets: [{
+                                        label: 'My First Dataset',
+                                        data: [11, 16, 7, 3, 14],
+                                        backgroundColor: [
+                                            'rgb(255, 99, 132)',
+                                            'rgb(75, 192, 192)',
+                                            'rgb(255, 205, 86)',
+                                            'rgb(201, 203, 207)',
+                                            'rgb(54, 162, 235)'
+                                        ]
+                                    }]
+                                }
+                            });
+                        });
+                    </script>
+                    <!-- End Polar Area Chart -->
+                </div>
+            </div>
+        </div>
+
+    </section>
+</main>
+
+<!-- Scripts -->
+<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+<script src="https://cdn.jsdelivr.net/npm/echarts/dist/echarts.min.js"></script>
+<script>
+    const chartData = {
+        today: [{ name: 'Sales', data: [31, 40, 28, 51, 42, 82, 56] },
+        { name: 'Revenue', data: [11, 32, 45, 32, 34, 52, 41] },
+        { name: 'Customers', data: [15, 11, 32, 18, 9, 24, 11] }],
+        month: [{ name: 'Sales', data: [50, 60, 75, 80, 65, 90, 100] },
+        { name: 'Revenue', data: [20, 35, 50, 45, 55, 70, 60] },
+        { name: 'Customers', data: [18, 24, 40, 30, 20, 35, 25] }],
+        year: [{ name: 'Sales', data: [300, 400, 350, 500, 420, 800, 600] },
+        { name: 'Revenue', data: [120, 150, 200, 180, 210, 250, 220] },
+        { name: 'Customers', data: [150, 110, 320, 180, 90, 240, 110] }]
+    };
+
+    document.addEventListener("DOMContentLoaded", () => {
+        const chart = new ApexCharts(document.querySelector("#reportsChart"), {
+            series: chartData.today,
+            chart: { height: 350, type: 'area', toolbar: { show: false } },
+            markers: { size: 4 },
+            colors: ['#4154f1', '#2eca6a', '#ff771d'],
+            fill: { type: "gradient", gradient: { shadeIntensity: 1, opacityFrom: 0.3, opacityTo: 0.4, stops: [0, 90, 100] } },
+            dataLabels: { enabled: false },
+            stroke: { curve: 'smooth', width: 2 },
+            xaxis: {
+                type: 'datetime',
+                categories: ["2018-09-19T00:00:00.000Z", "2018-09-19T01:30:00.000Z", "2018-09-19T02:30:00.000Z", "2018-09-19T03:30:00.000Z", "2018-09-19T04:30:00.000Z", "2018-09-19T05:30:00.000Z", "2018-09-19T06:30:00.000Z"]
+            },
+            tooltip: { x: { format: 'dd/MM/yy HH:mm' } }
+        });
+
+        chart.render();
+
+        window.updateChart = function (period) {
+            chart.updateOptions({ series: chartData[period] });
+        };
+
+        echarts.init(document.querySelector("#budgetChart")).setOption({
+            legend: { data: ['Allocated Budget', 'Actual Spending'] },
+            radar: {
+                indicator: [
+                    { name: 'Sales', max: 6500 },
+                    { name: 'Administration', max: 16000 },
+                    { name: 'IT', max: 30000 },
+                    { name: 'Support', max: 38000 },
+                    { name: 'Development', max: 52000 },
+                    { name: 'Marketing', max: 25000 }
+                ]
+            },
+            series: [{
+                name: 'Budget vs spending',
+                type: 'radar',
+                data: [
+                    { value: [4200, 14000, 28000, 35000, 50000, 19000], name: 'Allocated Budget' },
+                    { value: [5000, 15000, 27000, 30000, 46000, 21000], name: 'Actual Spending' }
+                ]
+            }]
+        });
+    });
+</script>

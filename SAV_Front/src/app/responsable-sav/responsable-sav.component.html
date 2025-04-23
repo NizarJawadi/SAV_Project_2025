@@ -7,7 +7,10 @@
         <div class="card">
           <div class="card-body">
             <h5 class="card-title">Liste des Techniciens</h5>
-
+            <button class="btn btn-success mb-3" data-bs-toggle="modal" data-bs-target="#addTechnicienModal">
+              Ajouter un Technicien
+            </button>
+            
             <!-- Table des techniciens -->
             <table class="table mt-3">
               <thead>
@@ -29,14 +32,16 @@
                   <td>{{ technicien.priseEnFonction | date }}</td>
 
                   <td>
-                    <button
-                      class="btn btn-info btn-sm"
-                      data-bs-toggle="modal"
-                      data-bs-target="#technicienDetailModal"
-                      (click)="openTechnicienDetails(technicien)"
-                    >
+                    <button class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#technicienDetailModal"
+                      (click)="openTechnicienDetails(technicien)">
                       Détails
                     </button>
+
+                    <button class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#editTechnicienModal"
+                      (click)="openEditModal(technicien)">
+                      Modifier
+                    </button>
+
                     <button class="btn btn-danger btn-sm" (click)="onDelete(technicien.idUser)">Supprimer</button>
                   </td>
                 </tr>
@@ -47,11 +52,8 @@
             <div class="pagination-controls d-flex justify-content-between align-items-center">
               <button class="btn btn-secondary" (click)="prevPage()" [disabled]="currentPage === 0">Précédent</button>
               <span>Page {{ currentPage + 1 }} sur {{ Math.ceil(techniciens.length / pageSize) }}</span>
-              <button
-                class="btn btn-secondary"
-                (click)="nextPage()"
-                [disabled]="(currentPage + 1) * pageSize >= techniciens.length"
-              >
+              <button class="btn btn-secondary" (click)="nextPage()"
+                [disabled]="(currentPage + 1) * pageSize >= techniciens.length">
                 Suivant
               </button>
             </div>
@@ -63,7 +65,8 @@
 </main>
 
 <!-- Modal for viewing technicien details -->
-<div class="modal fade" id="technicienDetailModal" tabindex="-1" aria-labelledby="technicienDetailModalLabel" aria-hidden="true">
+<div class="modal fade" id="technicienDetailModal" tabindex="-1" aria-labelledby="technicienDetailModalLabel"
+  aria-hidden="true" data-bs-backdrop="false" data-bs-keyboard="false">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -87,3 +90,86 @@
     </div>
   </div>
 </div>
+
+
+
+<!-- Modal for editing Responsable SAV -->
+<div
+  class="modal fade"
+  id="editTechnicienModal"
+  tabindex="-1"
+  aria-labelledby="editTechnicienModalLabel"
+  aria-hidden="true"
+  data-bs-backdrop="false"
+  data-bs-keyboard="false"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <form [formGroup]="editTechnicienForm" (ngSubmit)="updateTechnicien()">
+        <div class="modal-header">
+          <h5 class="modal-title">Modifier Technicien</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+
+        <div class="modal-body">
+          <div *ngFor="let field of formFields" class="mb-3">
+            <label [for]="field.name" class="form-label">{{ field.label }}</label>
+            <input
+              [type]="field.type"
+              class="form-control"
+              [id]="field.name"
+              [formControlName]="field.name"
+              [placeholder]="field.label"
+            />
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+          <button type="submit" class="btn btn-primary" [disabled]="editTechnicienForm.invalid">Modifier</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Modal for adding Responsable SAV -->
+<div
+  class="modal fade"
+  id="addTechnicienModal"
+  tabindex="-1"
+  aria-labelledby="addTechnicienModalLabel"
+  aria-hidden="true"
+  data-bs-backdrop="false"
+  data-bs-keyboard="false"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <form [formGroup]="addTechnicienForm" (ngSubmit)="addTechnicien()">
+        <div class="modal-header">
+          <h5 class="modal-title">Ajouter un Technicien</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fermer"></button>
+        </div>
+
+        <div class="modal-body">
+          <div *ngFor="let field of formFields" class="mb-3">
+            <label [for]="field.name" class="form-label">{{ field.label }}</label>
+            <input
+              [type]="field.type"
+              class="form-control"
+              [id]="field.name + '_add'"
+              [formControlName]="field.name"
+              [placeholder]="field.label"
+            />
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+          <button type="submit" class="btn btn-primary" [disabled]="addTechnicienForm.invalid">Ajouter</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+

@@ -102,8 +102,8 @@ class ProduitController {
             @RequestParam int dureeGarantie,
             @RequestParam(value = "reference", required = false) String reference,
             @RequestParam(value = "statut", required = false) String statut,
-            @RequestParam("imageUrl") MultipartFile imageUrl,
-            @RequestParam("guidePdf") MultipartFile guidePdf) {
+            @RequestParam(value = "imageUrl", required = false) MultipartFile imageUrl,
+            @RequestParam(value = "guidePdf", required = false) MultipartFile guidePdf) {
 
         try {
             String imageFileName = null;
@@ -147,8 +147,8 @@ class ProduitController {
             produit.setDureeGarantie(dureeGarantie);
             produit.setCategorieId(categorieId);
             produit.setSubCategoryId(subCategoryId);
-            produit.setImageUrl(imageFileName); // Nom de l’image
-            produit.setGuideTechniqueUrl(pdfFileName); // Nom du PDF
+            produit.setImageUrl(imageFileName);
+            produit.setGuideTechniqueUrl(pdfFileName);
 
             if (produit.getNumeroSerie() == null || produit.getNumeroSerie().isEmpty()) {
                 produit.setNumeroSerie("SN-" + UUID.randomUUID().toString());
@@ -161,6 +161,7 @@ class ProduitController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }
+
 
 
     @GetMapping("/subcategorie/{subCategorieId}")

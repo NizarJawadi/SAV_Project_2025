@@ -4,6 +4,8 @@ import { CommonModule } from '@angular/common';
 import { HeaderComponent } from '../header/header.component';
 import { ProduitService } from '../services/ProduitService';
 import { Categorie, CategoryService, SousCategorie } from '../services/CategoryService';
+import Swal from 'sweetalert2';
+
 
 @Component({
   selector: 'app-product',
@@ -118,16 +120,25 @@ export class ProduitComponent implements OnInit {
       this.reloadPage();
       // Soumettre le FormData à l'API
       if (this.isEditMode) {
-        this.productService.updateProduct(this.selectedProduct.id, formData).subscribe(response => {
-          console.log('Produit mis à jour:', response);
-          this.resetForm();
+        this.productService.updateProduct(this.selectedProduct.id, formData).subscribe({
+          next: (response) => {
+            Swal.fire('Mis à jour', 'Le produit a été mis à jour avec succès.', 'success');
+            this.resetForm();
+            this.loadProducts();
+          },
+          error: () => Swal.fire('Erreur', 'Erreur lors de la mise à jour du produit.', 'error')
         });
       } else {
-        this.productService.addProduit(formData).subscribe((response: any) => {
-          console.log('Produit ajouté:', response);
-          this.resetForm();
+        this.productService.addProduit(formData).subscribe({
+          next: (response) => {
+            Swal.fire('Ajouté', 'Le produit a été ajouté avec succès.', 'success');
+            this.resetForm();
+            this.loadProducts();
+          },
+          error: () => Swal.fire('Erreur', 'Erreur lors de l\'ajout du produit.', 'error')
         });
       }
+      
     }
 
     
@@ -190,18 +201,30 @@ export class ProduitComponent implements OnInit {
   }
 
   onDelete(id: number): void {
-    if (confirm('Êtes-vous sûr de vouloir supprimer ce produit ?')) {
-      this.productService.deleteProduct(id).subscribe({
-        next: () => {
-          this.products = this.products.filter((product) => product.id !== id);
-          this.loadProducts();
-          alert('Produit supprimé avec succès.');
-          
-        },
-        error: (err: any) => console.error('Erreur lors de la suppression du produit:', err),
-      });
-    }
+    Swal.fire({
+      title: 'Êtes-vous sûr ?',
+      text: 'Cette action est irréversible !',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Oui, supprimer',
+      cancelButtonText: 'Annuler',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.productService.deleteProduct(id).subscribe({
+          next: () => {
+            this.products = this.products.filter((product) => product.id !== id);
+            this.loadProducts();
+            Swal.fire('Supprimé !', 'Le produit a été supprimé.', 'success');
+          },
+          error: (err: any) => {
+            console.error('Erreur lors de la suppression du produit:', err);
+            Swal.fire('Erreur', 'Une erreur est survenue.', 'error');
+          },
+        });
+      }
+    });
   }
+  
 
   onEdit(product: any): void {
     this.selectedProduct = product;
@@ -237,9 +260,22 @@ export class ProduitComponent implements OnInit {
   }
 
   onCancelEdit(): void {
-    this.selectedProduct = null;
-    this.isEditMode = false;
+    Swal.fire({
+      title: 'Annuler la modification ?',
+      text: 'Les modifications en cours seront perdues.',
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonText: 'Oui',
+      cancelButtonText: 'Non',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.selectedProduct = null;
+        this.isEditMode = false;
+        this.resetForm();
+      }
+    });
   }
+  
 
   // Fonction pour aller à la page suivante
   nextPage(): void {

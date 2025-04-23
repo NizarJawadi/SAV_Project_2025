@@ -1,12 +1,12 @@
 <!-- ======= Header ======= -->
 <header id="header" class="header fixed-top d-flex align-items-center" >
   <!-- Logo et bouton toggle -->
-  <div class="d-flex align-items-center justify-content-between">
+  <div class="d-flex align-items-center justify-content-between" (click)="toggle()">
     <div class="logo-container">
       <img src="../../assets/logo.jpg" alt="logo" class="logo-img">
       <h2 class="logo-text">TechFlow</h2>
     </div>
-    <i class="bi bi-list toggle-sidebar-btn" (click)="toggle()"></i>
+    <i class="bi bi-list toggle-sidebar-btn" (click)="toggleSidebar()"></i>
   </div>
 
   <!-- Barre de recherche -->
@@ -20,156 +20,59 @@
   <!-- Navigation -->
   <nav class="header-nav ms-auto">
     <ul class="d-flex align-items-center">
-      <!-- Recherche mobile -->
+     
       <li class="nav-item d-block d-lg-none">
         <a class="nav-link nav-icon search-bar-toggle" href="#">
           <i class="bi bi-search"></i>
         </a>
       </li>
 
-      <!-- Notifications -->
-      <li class="nav-item dropdown  position-relative" (click)="toggleNotificationDropdown($event)">
-        <a class="nav-link nav-icon" href="#">
-          <i class="bi bi-bell"></i>
-          <span class="badge bg-primary badge-number">4</span>
-        </a>
-        <ul class="dropdown-menu dropdown-menu-start dropdown-menu-end dropdown-menu-arrow notifications" 
-            [class.show]="isNotificationDropdownOpen">
-          <li class="dropdown-header">
-            Vous avez 4 nouvelles notifications
-            <a href="#"><span class="badge rounded-pill bg-primary p-2 ms-2">Voir tout</span></a>
-          </li>
-          <li><hr class="dropdown-divider"></li>
-          <!-- Notifications items -->
-          <li class="notification-item">
-            <i class="bi bi-exclamation-circle text-warning"></i>
-            <div>
-              <h4>Lorem Ipsum</h4>
-              <p>Quae dolorem earum veritatis oditseno</p>
-              <p>30 min. ago</p>
-            </div>
-          </li>
-          <li><hr class="dropdown-divider"></li>
-          <li class="notification-item">
-            <i class="bi bi-x-circle text-danger"></i>
-            <div>
-              <h4>Atque rerum nesciunt</h4>
-              <p>Quae dolorem earum veritatis oditseno</p>
-              <p>1 hr. ago</p>
-            </div>
-          </li>
-          <li><hr class="dropdown-divider"></li>
-          <li class="notification-item">
-            <i class="bi bi-check-circle text-success"></i>
-            <div>
-              <h4>Sit rerum fuga</h4>
-              <p>Quae dolorem earum veritatis oditseno</p>
-              <p>2 hrs. ago</p>
-            </div>
-          </li>
-          <li><hr class="dropdown-divider"></li>
-          <li class="notification-item">
-            <i class="bi bi-info-circle text-primary"></i>
-            <div>
-              <h4>Dicta reprehenderit</h4>
-              <p>Quae dolorem earum veritatis oditseno</p>
-              <p>4 hrs. ago</p>
-            </div>
-          </li>
-          <li><hr class="dropdown-divider"></li>
-          <li class="dropdown-footer">
-            <a href="#">Voir toutes les notifications</a>
-          </li>
-        </ul>
-      </li>
-
-      <!-- Messages -->
-      <li class="nav-item dropdown  position-relative" (click)="toggleMessageDropdown($event)">
-        <a class="nav-link nav-icon" href="#">
-          <i class="bi bi-chat-left-text"></i>
-          <span class="badge bg-success badge-number">3</span>
-        </a>
-        <ul class="dropdown-menu dropdown-menu-start dropdown-menu-end dropdown-menu-arrow messages"
-            [class.show]="isMessageDropdownOpen">
-          <li class="dropdown-header">
-            Vous avez 3 nouveaux messages
-            <a href="#"><span class="badge rounded-pill bg-primary p-2 ms-2">Voir tout</span></a>
-          </li>
-          <li><hr class="dropdown-divider"></li>
-          <li class="message-item">
-            <a href="#">
-              <img src="assets/img/messages-1.jpg" alt="" class="rounded-circle">
-              <div>
-                <h4>Maria Hudson</h4>
-                <p>Velit asperiores et ducimus soluta repudiandae labore officia est ut...</p>
-                <p>4 hrs. ago</p>
-              </div>
-            </a>
-          </li>
-          <li><hr class="dropdown-divider"></li>
-          <li class="message-item">
-            <a href="#">
-              <img src="assets/img/messages-2.jpg" alt="" class="rounded-circle">
-              <div>
-                <h4>Anna Nelson</h4>
-                <p>Velit asperiores et ducimus soluta repudiandae labore officia est ut...</p>
-                <p>6 hrs. ago</p>
-              </div>
-            </a>
-          </li>
-          <li><hr class="dropdown-divider"></li>
-          <li class="message-item">
-            <a href="#">
-              <img src="assets/img/messages-3.jpg" alt="" class="rounded-circle">
-              <div>
-                <h4>David Muldon</h4>
-                <p>Velit asperiores et ducimus soluta repudiandae labore officia est ut...</p>
-                <p>8 hrs. ago</p>
-              </div>
-            </a>
-          </li>
-          <li><hr class="dropdown-divider"></li>
-          <li class="dropdown-footer">
-            <a href="#">Voir tous les messages</a>
-          </li>
-        </ul>
-      </li>
-
+     
+      
       <!-- Profile -->
       <li class="nav-item dropdown pe-3 position-relative" (click)="toggleProfileDropdown($event)">
         <button class="nav-link nav-profile d-flex align-items-center pe-0">
           <h6 class="mb-0 me-2">{{ username }}</h6> <!-- Affichage du nom d'utilisateur -->
-          <img src="assets/img/profile-img.jpg" alt="Profile" class="rounded-circle" width="40" height="40"> <!-- Image du profil -->
+          <img src="assets/img/profile-img.jpg" alt="Profile" class="rounded-circle" width="40" height="40">
+          <!-- Image du profil -->
           <span class="d-none d-md-block dropdown-toggle ps-2"> </span>
         </button>
         <ul class="dropdown-menu dropdown-menu-start dropdown-menu-end dropdown-menu-arrow profile"
-            [class.show]="isProfileDropdownOpen">
+          [class.show]="isProfileDropdownOpen">
           <li class="dropdown-header">
             <h6>{{ username }}</h6>
             <span>{{ userRole }}</span>
           </li>
-          <li><hr class="dropdown-divider"></li>
+          <li>
+            <hr class="dropdown-divider">
+          </li>
           <li>
             <a class="dropdown-item d-flex align-items-center" routerLink="/profile">
               <i class="bi bi-person"></i>
               <span>Mon Profil</span>
             </a>
           </li>
-          <li><hr class="dropdown-divider"></li>
+          <li>
+            <hr class="dropdown-divider">
+          </li>
           <li>
             <a class="dropdown-item d-flex align-items-center" href="#">
               <i class="bi bi-gear"></i>
               <span>Paramètres</span>
             </a>
           </li>
-          <li><hr class="dropdown-divider"></li>
+          <li>
+            <hr class="dropdown-divider">
+          </li>
           <li>
             <a class="dropdown-item d-flex align-items-center" href="#">
               <i class="bi bi-question-circle"></i>
               <span>Aide</span>
             </a>
           </li>
-          <li><hr class="dropdown-divider"></li>
+          <li>
+            <hr class="dropdown-divider">
+          </li>
           <li>
             <a class="dropdown-item d-flex align-items-center" (click)="logout()">
               <i class="bi bi-box-arrow-right"></i>
@@ -177,7 +80,7 @@
             </a>
           </li>
         </ul>
-      </li>
+      </li> 
     </ul>
   </nav>
 </header>
@@ -215,7 +118,7 @@
       </a>
     </li>
 
-    <li class="nav-item" >
+    <li class="nav-item" *ngIf="userRole=='ADMIN'  || userRole=='RESPONSABLE_SAV'">
       <a class="nav-link collapsed" routerLink="/reclamation">
         <i class="bi bi-clipboard"></i>
         <span>Gestion des Réclamations</span>
@@ -238,7 +141,7 @@
 
     <li class="nav-item" *ngIf="userRole=='ADMIN'  || userRole=='RESPONSABLE_SAV'">
       <a class="nav-link collapsed" routerLink="/piece">
-        <i class="bi bi-person-badge"></i>
+        <i class="fas fa-tools"></i>
         <span>Gestion des piece de rechange</span>
       </a>
     </li>
@@ -250,47 +153,14 @@
       </a>
     </li>
 
-    <li class="nav-item" *ngIf="userRole=='ADMIN'">
+    <li class="nav-item" *ngIf="userRole=='RESPONSABLE_SAV'">
       <a class="nav-link collapsed" routerLink="/intervention">
-        <i class="bi bi-tools"></i>
+        <i class="fas fa-cogs"></i>
         <span>Gestion des Interventions</span>
       </a>
     </li>
 
-    <li class="nav-item" *ngIf="userRole=='Admin'">
-      <a class="nav-link collapsed" routerLink="/article">
-        <i class="bi bi-box"></i>
-        <span>Nos Articles</span>
-      </a>
-    </li>
 
-    <li class="nav-item" *ngIf="userRole=='Admin'">
-      <a class="nav-link collapsed" routerLink="/pieceDeRechange">
-        <i class="bi bi-box"></i>
-        <span>Stock des pièces de rechange</span>
-      </a>
-    </li>
-
-    <li class="nav-item" *ngIf="userRole=='Admin'">
-      <a class="nav-link collapsed" routerLink="/parametres">
-        <i class="bi bi-gear"></i>
-        <span>Paramètres</span>
-      </a>
-    </li>
-
-    <li class="nav-item" *ngIf="userRole=='Technicien'">
-      <a class="nav-link collapsed" routerLink="/article">
-        <i class="bi bi-box"></i>
-        <span>Nos Articles</span>
-      </a>
-    </li>
-
-    <li class="nav-item" *ngIf="userRole=='Technicien'">
-      <a class="nav-link collapsed" routerLink="/pieceDeRechange">
-        <i class="bi bi-box"></i>
-        <span>Stock des pièces de rechange</span>
-      </a>
-    </li>
 
     <li class="nav-item" *ngIf="userRole=='TECHNICIEN'">
       <a class="nav-link collapsed" routerLink="/intervention">

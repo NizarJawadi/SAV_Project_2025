@@ -10,8 +10,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.time.format.TextStyle;
+import java.time.temporal.WeekFields;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 public class HistoriqueAchatService {
@@ -109,4 +114,16 @@ public class HistoriqueAchatService {
     public List<HistoriqueAchat> getAchatsByProduit(Long produitId) {
         return repository.findByProduitId(produitId);
     }
+
+
+    public Map<String, Long> getAchatsParJourSemaine() {
+        return repository.findAll().stream()
+                .collect(Collectors.groupingBy(
+                        achat -> achat.getDateAchat().getDayOfWeek().getDisplayName(TextStyle.SHORT, Locale.ENGLISH), // Mon, Tue, ...
+                        Collectors.counting()
+                ));
+    }
+
+
+
 }

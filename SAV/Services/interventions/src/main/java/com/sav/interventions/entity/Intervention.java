@@ -1,5 +1,6 @@
 package com.sav.interventions.entity;
 
+import com.sav.interventions.utils.PieceUtilisee;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -39,10 +40,13 @@ public class Intervention {
     @Column
     private LocalDateTime dateFin ;
 
+    @Column
+    private LocalDateTime DateDeadLine ;
+
     @ElementCollection
     @CollectionTable(name = "intervention_pieces", joinColumns = @JoinColumn(name = "intervention_id"))
-    @Column(name = "piece_id")
-    private List<Long> piecesIds;
+    private List<PieceUtilisee> piecesUtilisees = new ArrayList<>();
+
 
 
 }

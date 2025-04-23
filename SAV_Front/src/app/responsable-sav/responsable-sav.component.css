@@ -1,11 +1,8 @@
 @import '../../styles/_variables.scss';
 
 .main {
-  padding: 80px;
-  margin-left: 250px;
-  min-height: 100vh;
-  background: #f6f9ff;
-  transition: all 0.3s ease;
+  padding-left: 90px !important;
+  margin-left: auto;
 }
 
 .container {

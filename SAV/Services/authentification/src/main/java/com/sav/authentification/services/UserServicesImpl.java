@@ -1,7 +1,9 @@
 package com.sav.authentification.services;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.sav.authentification.model.Roles;
 import com.sav.authentification.model.User;
@@ -17,15 +19,22 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserServicesImpl implements UserServices{
 
-	private final UserRepository repository;
-    private final PasswordEncoder passwordEncoder;
 
-    
-    @Autowired
-    public UserServicesImpl(@Lazy UserRepository userRepository, PasswordEncoder passwordEncoder) {
+
+	@Autowired
+	private  UserRepository repository;
+	@Autowired
+    private  PasswordEncoder passwordEncoder;
+	@Autowired
+	private  UserRepository userRepository;
+
+
+	/*@Autowired
+    public UserServicesImpl(@Lazy UserRepository userRepository, PasswordEncoder passwordEncoder, UserRepository userRepository) {
         this.repository = userRepository;
         this.passwordEncoder = passwordEncoder;
-    }
+		this.userRepository = userRepository;
+	}*/
 	
 	@Override
 	public void addUser(User u) {
@@ -70,6 +79,20 @@ public class UserServicesImpl implements UserServices{
 	public User getUserByLogin(String login) {
 	// TODO Auto-generated method stub
 		return repository.findUserByLogin(login);
+	}
+
+
+	public Map<String, Integer> getStats() {
+		int totalClients = userRepository.countUserByRole(Roles.CLIENT);
+		int totalTechniciens = userRepository.countUserByRole(Roles.TECHNICIEN);
+		int totalResponsables = userRepository.countUserByRole(Roles.RESPONSABLE_SAV);
+
+		Map<String, Integer> stats = new HashMap<>();
+		stats.put("totalClients", totalClients);
+		stats.put("totalTechniciens", totalTechniciens);
+		stats.put("totalResponsables", totalResponsables);
+
+		return stats;
 	}
 
 }

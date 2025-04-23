@@ -1,6 +1,7 @@
 package com.sav.authentification.services;
 
 import java.util.List;
+import java.util.Map;
 
 import com.sav.authentification.model.Roles;
 import com.sav.authentification.model.User;
@@ -23,4 +24,5 @@ public interface UserServices extends UserDetailsService{
 	public User getUserByLogin(String login);
 
 
+	public Map<String, Integer> getStats() ;
 }

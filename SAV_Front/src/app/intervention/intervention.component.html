@@ -1,7 +1,7 @@
 <app-header></app-header>
 
 <main id="main" class="main">
-  <div class="container">
+  <div class="container" *ngIf="isTechnicien()">
     <h2>Liste des Interventions</h2>
 
     <div class="mb-3">
@@ -15,7 +15,7 @@
         <thead>
           <tr>
             <th>Description</th>
-            <th>Date</th>
+            <th>Date limite</th>
             <th>Statut</th>
             <th>Actions</th>
           </tr>
@@ -23,7 +23,8 @@
         <tbody>
           <tr *ngFor="let intervention of interventions">
             <td>{{ intervention.reclamation.description }}</td>
-            <td>{{ intervention.intervention.dateIntervention | date:'dd/MM/yyyy HH:MM' }}</td>
+            <td>{{ intervention.intervention.dateDeadLine | date:'dd/MM/yyyy HH:mm' }}
+            </td>
             <td>
               <span class="badge" [ngClass]="{
                 'bg-warning': intervention.intervention.statut === 'EN_ATTENTE',
@@ -32,6 +33,9 @@
               }">{{ intervention.intervention.statut }}</span>
             </td>
             <td>
+              <button class="btn btn-secondary btn-sm ms-2" (click)="openAddPiecesModal(intervention)"  *ngIf="showGroupedView">
+                Ajouter Pièces
+              </button>
               <button class="btn btn-info btn-sm" (click)="viewDetails(intervention)">Détails</button>
             </td>
           </tr>
@@ -56,32 +60,46 @@
               (cdkDropListDropped)="onDrop($event, 'enAttente')">
               <div *ngFor="let intervention of enAttente" cdkDrag [cdkDragData]="intervention">
                 <div class="p-2 border bg-light">
-                  {{ intervention.intervention.id }} - {{ intervention.intervention.dateIntervention }}
+                  {{ intervention.intervention.id }} - {{ intervention.intervention.dateDeadLine | date: 'dd/MM/yyyy HH:mm' }}
                   <button class="btn btn-info btn-sm float-end" (click)="viewDetails(intervention)">Détails</button>
+                  <button class="btn btn-secondary btn-sm ms-2" (click)="openAddPiecesModal(intervention)">
+                    Ajouter Pièces
+                  </button>
                 </div>
               </div>
+              <div *ngIf="enAttente.length === 0">Aucune intervention en attente.</div>
+
             </td>
-    
+
             <!-- En Cours -->
             <td cdkDropList #enCoursList="cdkDropList" [cdkDropListData]="enCours"
               [cdkDropListConnectedTo]="[enAttenteList, termineesList]" class="align-top border"
               (cdkDropListDropped)="onDrop($event, 'enCours')">
               <div *ngFor="let intervention of enCours" cdkDrag [cdkDragData]="intervention">
                 <div class="p-2 border bg-light">
-                  {{ intervention.intervention.id }} - {{ intervention.intervention.dateIntervention }}
+                  {{ intervention.intervention.id }} - {{ intervention.intervention.dateDeadLine | date: 'dd/MM/yyyy HH:mm' }}
                   <button class="btn btn-info btn-sm float-end" (click)="viewDetails(intervention)">Détails</button>
+                  <button class="btn btn-secondary btn-sm ms-2" (click)="openAddPiecesModal(intervention)">
+                    Ajouter Pièces
+                  </button>
                 </div>
               </div>
+              <div *ngIf="enCours.length === 0">Aucune intervention en cours.</div>
             </td>
-    
+
             <!-- Terminées -->
             <td cdkDropList #termineesList="cdkDropList" [cdkDropListData]="terminees"
               [cdkDropListConnectedTo]="[enAttenteList, enCoursList]" class="align-top border"
               (cdkDropListDropped)="onDrop($event, 'terminees')">
               <div *ngFor="let intervention of terminees" cdkDrag [cdkDragData]="intervention">
                 <div class="p-2 border bg-light">
-                  {{ intervention.intervention.id }} - {{ intervention.intervention.dateIntervention }}
+                  {{ intervention.intervention.id }} - {{ intervention.intervention.dateDeadLine | date: 'dd/MM/yyyy HH:mm' }}
                   <button class="btn btn-info btn-sm float-end" (click)="viewDetails(intervention)">Détails</button>
+
+                  <button class="btn btn-secondary btn-sm ms-2" (click)="openAddPiecesModal(intervention)">
+                    Ajouter Pièces
+                  </button>
+
                 </div>
               </div>
             </td>
@@ -89,47 +107,257 @@
         </tbody>
       </table>
     </div>
-    
+
+  </div>
+
+  <section class="section" *ngIf="!isTechnicien()">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="card">
+          <div class="card-body">
+  
+            <h5 class="card-title">Liste des Interventions</h5>
+  
+            <!-- Filtres -->
+            <div class="row mb-3">
+              <div class="col-md-6 col-lg-4">
+                <input type="text" class="form-control" placeholder="Rechercher par matricule technicien"
+                  [(ngModel)]="searchMatricule" (input)="filterInterventionsResponsable()">
+              </div>
+              <div class="col-md-6 col-lg-4">
+                <select class="form-select" [(ngModel)]="searchStatut" (change)="filterInterventionsResponsable()">
+                  <option value="">Tous les statuts</option>
+                  <option value="EN_ATTENTE">En attente</option>
+                  <option value="EN_COURS">En cours</option>
+                  <option value="TERMINEE">Terminée</option>
+                </select>
+              </div>
+            </div>
+  
+            <!-- Tableau -->
+            <table class="table table-bordered table-striped mt-3">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Description</th>
+                  <th>Date</th>
+                  <th>Statut</th>
+                  <th>Nom technicien</th>
+                  <th>Matricule technicien</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let intervention of filteredInterventions">
+                  <td>{{ intervention.intervention.id }}</td>
+                  <td>{{ intervention.reclamation.description }}</td>
+                  <td>{{ intervention.intervention.dateIntervention | date:'dd/MM/yyyy HH:mm' }}</td>
+                  <td>
+                    <span class="badge" [ngClass]="{
+                      'bg-warning': intervention.intervention.statut === 'EN_ATTENTE',
+                      'bg-primary': intervention.intervention.statut === 'EN_COURS',
+                      'bg-success': intervention.intervention.statut === 'TERMINEE'
+                    }">{{ intervention.intervention.statut }}</span>
+                  </td>
+                  <td>{{ intervention.technicien?.username || 'N/A' }}</td>
+                  <td>{{ intervention.technicien?.matricule || 'N/A' }}</td>
+                  <td style="display: grid; grid-auto-flow: column; gap: 0.5em; align-items: center;">
+                    <button class="btn btn-info btn-sm" (click)="viewDetails(intervention)" title="Voir les détails">
+                      <i class="bi bi-eye"></i>
+                    </button>
+                  
+                    <button class="btn btn-secondary btn-sm" 
+                            (click)="openAddPiecesModal(intervention)" 
+                            *ngIf="isTechnicien()" 
+                            title="Ajouter des pièces">
+                      <i class="bi bi-plus-square"></i>
+                    </button>
+                  </td>
+                  
+                </tr>
+              </tbody>
+            </table>
+  
+            <!-- Alerte si aucune intervention -->
+            <div *ngIf="filteredInterventions?.length === 0" class="d-flex justify-content-center">
+              <div class="alert alert-info mt-3 text-center" *ngIf="searchStatut">
+                Aucune intervention trouvée pour le statut <strong>{{ searchStatut }}</strong>.
+              </div>
+              <div class="alert alert-info mt-3 text-center" *ngIf="!searchStatut">
+                Aucune intervention disponible.
+              </div>
+            </div>
+  
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+
+
+
+  <!-- Modal pour afficher les détails de l'intervention -->
+  <div class="modal fade" id="interventionModal" tabindex="-1" aria-labelledby="interventionModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="interventionModalLabel">Détails de l'Intervention</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fermer"></button>
+        </div>
+        <div class="modal-body">
+          <div class="container">
+            <!-- Intervention -->
+            <div class="mb-4">
+              <h5>📌 Intervention</h5>
+              <div class="row">
+                <div class="col-md-6"><strong>ID:</strong> {{ modalIntervention?.id || 'Non défini' }}</div>
+                <div class="col-md-6"><strong>Date:</strong> {{ modalIntervention?.dateIntervention | date: 'dd MMMM
+                  yyyy à HH:mm' : 'fr' || 'Non définie' }}</div>
+                <div class="col-md-6"><strong>Date:</strong> {{ modalIntervention?.dateIntervention | date: 'dd MMMM
+                  yyyy à HH:mm' : 'fr' || 'Non définie' }}</div>
+
+                <div class="col-md-6"><strong>Statut:</strong> {{ modalIntervention?.statut || 'Non défini' }}</div>
+                <div class="col-md-6"><strong>Technicien ID:</strong> {{ modalIntervention?.technicienId || 'Non défini'
+                  }}</div>
+              </div>
+            </div>
+
+            <!-- Réclamation -->
+            <div class="mb-4">
+              <h5>📄 Réclamation</h5>
+              <div class="row">
+                <div class="col-md-6"><strong>ID:</strong> {{ modalReclamation?.id || 'Non défini' }}</div>
+                <div class="col-md-6"><strong>Date:</strong> {{ modalReclamation?.dateReclamation | date: 'dd MMMM yyyy
+                  à HH:mm' : 'fr' || 'Non définie' }}</div>
+                <div class="col-md-12"><strong>Description:</strong> {{ modalReclamation?.description || 'Non définie'
+                  }}</div>
+                <div class="col-md-6"><strong>Statut:</strong> {{ modalReclamation?.statut || 'Non défini' }}</div>
+              </div>
+            </div>
+
+            <!-- Client -->
+            <div>
+              <h5>👤 Client</h5>
+              <div class="row">
+                <div class="col-md-6"><strong>Nom:</strong> {{ modalClient?.username || 'Non défini' }}</div>
+                <div class="col-md-6"><strong>Email:</strong> {{ modalClient?.email || 'Non défini' }}</div>
+                <div class="col-md-6"><strong>Téléphone:</strong> {{ modalClient?.telephone || 'Non défini' }}</div>
+                <div class="col-md-6"><strong>Ville:</strong> {{ modalClient?.ville || 'Non définie' }}</div>
+                <div class="col-md-6"><strong>Code Postal:</strong> {{ modalClient?.codePostal || 'Non défini' }}</div>
+                <div class="col-md-6"><strong>Inscription:</strong> {{ modalClient?.dateInscription | date: 'dd MMMM
+                  yyyy' : 'fr' || 'Non définie' }}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+        </div>
+      </div>
+    </div>
   </div>
 
 
 
 
-    <!-- Modal pour afficher les détails de l'intervention 
-    <div class="modal fade" id="interventionModal" tabindex="-1" aria-labelledby="interventionModalLabel" aria-hidden="true">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="interventionModalLabel">Détails de l'Intervention</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body">
-            <h5>Intervention:</h5>
-            <p><strong>ID:</strong> {{ modalIntervention?.id || 'Non défini' }}</p>
-            <p><strong>Date Intervention:</strong> {{ modalIntervention?.dateIntervention || 'Non définie' }}</p>
-            <p><strong>Statut:</strong> {{ modalIntervention?.statut || 'Non défini' }}</p>
-            <p><strong>Technicien ID:</strong> {{ modalIntervention?.technicienId || 'Non défini' }}</p>
 
-            <h5>Réclamation:</h5>
-            <p><strong>ID:</strong> {{ modalReclamation?.id || 'Non défini' }}</p>
-            <p><strong>Description:</strong> {{ modalReclamation?.description || 'Non définie' }}</p>
-            <p><strong>Date Réclamation:</strong> {{ modalReclamation?.dateReclamation || 'Non définie' }}</p>
-            <p><strong>Statut:</strong> {{ modalReclamation?.statut || 'Non défini' }}</p>
 
-            <h5>Client:</h5>
-            <p><strong>Nom:</strong> {{ modalClient?.username || 'Non défini' }}</p>
-            <p><strong>Email:</strong> {{ modalClient?.email || 'Non défini' }}</p>
-            <p><strong>Téléphone:</strong> {{ modalClient?.telephone || 'Non défini' }}</p>
-            <p><strong>Ville:</strong> {{ modalClient?.ville || 'Non définie' }}</p>
-            <p><strong>Code Postal:</strong> {{ modalClient?.codePostal || 'Non défini' }}</p>
-            <p><strong>Inscription:</strong> {{ modalClient?.dateInscription || 'Non définie' }}</p>
+  <!-- Modal pour ajouter piece de rechange -->
 
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
-          </div>
+  <div class="modal fade" id="addPiecesModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+
+        <div class="modal-header">
+          <h5 class="modal-title">Ajouter des pièces à l'intervention</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
         </div>
+
+
+
+        <div class="modal-body">
+
+          <table class="table table-bordered">
+            <thead>
+              <tr>
+                <th>Nom de la pièce</th>
+                <th>Quantité</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let piece of piecesUtilisees">
+                <td>{{ piece.pieceName }}</td>
+                <td>{{ piece.quantite }}</td>
+                <td><button class="btn btn-danger btn-sm" (click)="removePiece(piece.pieceId)">
+                    Supprimer
+                  </button></td>
+              </tr>
+              <tr *ngIf="piecesUtilisees.length === 0">
+                <td colspan="3" class="text-center">Aucune pièce utilisée pour cette intervention.</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <!-- Barre de recherche -->
+          <div class="mb-3">
+            <input type="text" class="form-control" placeholder="Rechercher par nom ou référence"
+              [(ngModel)]="recherche" (input)="filtrerPieces()">
+          </div>
+
+          <!-- Liste des pièces filtrées -->
+          <div *ngFor="let piece of piecesFiltrees" class="form-check">
+            <input class="form-check-input" type="checkbox" [id]="'piece_' + piece.id" [(ngModel)]="piece.selected"
+              (change)="onPieceSelectionChange(piece)">
+            <label class="form-check-label" [for]="'piece_' + piece.id">
+              {{ piece.pieceName }} ({{ piece.reference }}) - {{ piece.prix }}€
+            </label>
+          </div>
+
+          <!-- Liste des pièces sélectionnées -->
+          <div *ngIf="piecesSelectionnees.length > 0" class="mt-4">
+            <h6>Pièces sélectionnées :</h6>
+            <table class="table table-sm">
+              <thead>
+                <tr>
+                  <th>Nom</th>
+                  <th>Référence</th>
+                  <th>Quantité</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let piece of piecesSelectionnees">
+                  <td>{{ piece.nom }}</td>
+                  <td>{{ piece.reference }}</td>
+                  <td>
+                    <input type="number" class="form-control form-control-sm" [(ngModel)]="piece.quantite" min="1"
+                      (change)="verifierQuantite(piece)" />
+
+                  </td>
+                  <td>
+                    <button class="btn btn-danger btn-sm" (click)="supprimerPiece(piece)">
+                      Supprimer
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+        </div>
+
+        <div class="modal-footer">
+          <button class="btn btn-primary" (click)="ajouterPieces()">Ajouter</button>
+          <button class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+        </div>
+
       </div>
     </div>
-  </div>-->
+  </div>
+
+
+
 </main>

@@ -124,12 +124,25 @@ body {
 .justify-between { justify-content: space-between; }
 .justify-center { justify-content: center; }
 
-.main-expanded {
-  width: calc(100% - 250px);
-  transition: width 0.3s;
+$sidebar-width: 300px;
+
+/* Style de la sidebar */
+.sidebar {
+  width: $sidebar-width;
+  transition: margin 0.3s ease;
 }
 
-.main-expanded {
-  width: calc(100% - $sidebar-width);
-  transition: width 0.3s;
+.main {
+  margin-left: $sidebar-width;
+  transition: margin-left 0.3s ease;
+}
+
+/* Lorsque la sidebar est repliée */
+.sidebar-collapsed .sidebar {
+  margin-left: -$sidebar-width;
+}
+
+.sidebar-collapsed .main {
+  margin-left: 20px; /* Décalage plus léger (20px) */
+  width: calc(100% - 20px); /* S'ajuste à la nouvelle largeur */
 }

@@ -182,7 +182,7 @@ public class ChatbotService {
             String model = "llama3.1";
             String rawResponse = webClient.post()
                     .uri("/api/generate")
-                    .bodyValue(Map.of("model", model, "prompt", question))
+                    .bodyValue(Map.of("model", model, "prompt", "tu est prond le role d'une application de SAV repondre seulement sur les question relier par des produit, reclamation, et pour des assitance technique  , j'ai une question"+question))
                     .retrieve()
                     .bodyToMono(String.class)
                     .block();

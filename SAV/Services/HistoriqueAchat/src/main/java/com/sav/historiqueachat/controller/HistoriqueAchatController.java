@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/historique")
@@ -44,4 +45,10 @@ public class HistoriqueAchatController {
     public List<HistoriqueAchat> getAchatsByProduit(@PathVariable Long produitId) {
         return service.getAchatsByProduit(produitId);
     }
+
+    @GetMapping("/par-jour-semaine")
+    public Map<String, Long> getAchatsParSemaine() {
+        return service.getAchatsParJourSemaine();
+    }
+
 }

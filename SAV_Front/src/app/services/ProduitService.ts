@@ -12,7 +12,7 @@ export class ProduitService {
   constructor(private http: HttpClient) {}
 
   getProduits(): Observable<any[]> {
-    return this.http.get<any[]>(this.apiUrl);
+    return this.http.get<any[]>(this.apiUrl+"/all");
   }
 
   getProduitById(id :any): Observable<any[]> {
@@ -32,7 +32,7 @@ export class ProduitService {
   return this.http.put<any>(`${this.apiUrl}/${id}`, productData);
 }
   getAllProducts(): Observable<any[]> {
-    return this.http.get<any[]>(this.apiUrl);
+    return this.http.get<any[]>(this.apiUrl+"/all");
   }
 
   deleteProduct(id: number): Observable<void> {

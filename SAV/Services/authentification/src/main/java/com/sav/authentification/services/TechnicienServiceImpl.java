@@ -14,6 +14,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -32,6 +34,14 @@ public class TechnicienServiceImpl implements TechnicienServices{
     public void addTechnicien(Technicien t) {
         t.setPassword(passwordEncoder.encode(t.getPassword()));
         repository.save(t);
+    }
+    @Override
+    public Technicien updateTechnicien(Long id, Technicien technicien) {
+        if (!repository.existsById(id)) {
+            return null; // Retourner null si le technicien n'existe pas
+        }
+        technicien.setIdUser(id); // Assurer que l'ID est correct
+        return repository.save(technicien); // Sauvegarder les modifications
     }
 
     @Override
@@ -60,5 +70,15 @@ public class TechnicienServiceImpl implements TechnicienServices{
         return repository.findAllSpecialites();
     }
 
+
+    public Map<String, Long> countTechniciensBySpecialite() {
+        return repository.findAll().stream()
+                .collect(Collectors.groupingBy(Technicien::getSpecialite, Collectors.counting()));
+    }
+
+    @Override
+    public Technicien getTechnicienByMatricule(String matricule) {
+        return repository.findByMatricule(matricule).orElse(null);
+    }
 
 }
