@@ -1,18 +1,26 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { ReclamationService } from '../../../services/reclamationService';
+import { SipService } from '../../../services/SipService';
+import Swal from 'sweetalert2';
+import { AppelComponent } from '../../../appel/appel.component';
 
 @Component({
   selector: 'app-reclamation',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule , AppelComponent],
   templateUrl: './reclamation.component.html',
   styleUrl: './reclamation.component.css'
 })
 export class ReclamationComponent implements OnInit {
   reclamations: any[] = []; // Initialisation vide
   UserId: any ;
-  constructor(private reclamationService: ReclamationService) {}
+
+  mySip = localStorage.getItem('phoneSIP') || '0000';
+
+  constructor(private reclamationService: ReclamationService,
+    private sipService: SipService
+  ) {}
 
   ngOnInit(): void {
   this.UserId = localStorage.getItem("UserId"); // 🔹 Assurez-vous que UserId est défini avant l'appel
@@ -21,8 +29,44 @@ export class ReclamationComponent implements OnInit {
   } else {
     console.error("UserId non défini dans le localStorage !");
   }
+
+  this.sipService.register(this.mySip);
 }
 
+
+appelerResponsable(sipNumber: string) {
+    // Vérifier si l'utilisateur est connecté au SIP
+     const mySip = localStorage.getItem('phoneSIP') || '0000';
+    if (!this.sipService.isConnected()) {
+      this.sipService.register(mySip).then(() => {
+        this.lancerAppel(sipNumber);
+      });
+    } else {
+      this.lancerAppel(sipNumber);
+    }
+  }
+
+   private lancerAppel(sipNumber: string) {
+    // Stocker le numéro SIP du responsable dans le localStorage
+    localStorage.setItem('currentCallSip', sipNumber);
+    
+    // Lancer l'appel
+    this.sipService.makeCall(sipNumber);
+    
+    // Vous pouvez aussi ouvrir une popup de confirmation
+    Swal.fire({
+      title: 'Appel en cours',
+      text: `Appel vers le responsable SAV (${sipNumber})`,
+      icon: 'info',
+      showCancelButton: true,
+      confirmButtonText: 'Raccrocher',
+      cancelButtonText: 'Continuer'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.sipService.hangUp();
+      }
+    });
+  }
 
   loadReclamations(): void {
     this.reclamationService.getReclamationsByClient(this.UserId).subscribe(

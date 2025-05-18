@@ -72,7 +72,14 @@
   <div class="product" *ngFor="let produit of produits">
     <h3>{{ produit.nom }}</h3>
     <img *ngIf="produit.imageUrl" [src]="produit.imageUrl" alt="{{ produit.nom }}" class="product-image" width="100" />
-    <p>{{ produit.description }}</p>
+   <p style="min-height: 60px; overflow: hidden;">
+    <br>
+  {{ produit.showFullDescription ? produit.description : getShortDescription(produit.description) }}
+  <a href="#" (click)="toggleDescription(produit); $event.preventDefault()">
+    {{ produit.showFullDescription ? 'Réduire' : 'Voir plus' }}
+  </a>
+</p>
+
     <p>Référence: {{ produit.reference }}</p>
     <p>Statut: {{ produit.statut }}</p>
     <b>Prix: {{ produit.prix }} DT TTC</b>
@@ -91,26 +98,4 @@
 
 
 <!-- Footer -->
-<footer class="footer">
-  <div class="footer-content">
-
-  <div class="footer-bottom">
-     <div class="footer-bottom">
-        
-          <a href="#" class="footer-social-icon">
-              <i class="fa fa-facebook"></i>
-          </a>
-          <a href="#" class="footer-social-icon">
-              <i class="fa fa-twitter"></i>
-          </a>
-          <a href="#" class="footer-social-icon">
-              <i class="fa fa-instagram"></i>
-          </a>
-      </div>
-    <a href="#">Politique de confidentialité</a>
-    <a href="#">Conditions d'utilisation</a>
-    <a href="#">Contact</a>
-      <p>&copy; 2025 Votre Entreprise. Tous droits réservés.</p>
-     </div>
-  </div>
-</footer>
+<app-footer></app-footer>

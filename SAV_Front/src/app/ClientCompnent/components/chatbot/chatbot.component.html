@@ -1,0 +1,48 @@
+<div class="chat-container" [class.minimized]="isMinimized">
+    <!-- Chat Header -->
+    <div class="chat-header" (click)="toggleMinimize()">
+      <mat-icon *ngIf="!isMinimized">chat_bubble_outline</mat-icon>
+      <mat-icon *ngIf="isMinimized">chat</mat-icon>
+      <h3 *ngIf="!isMinimized" class="chat-title">Assistant IA</h3>
+    </div>
+  
+    <!-- Liste des messages -->
+    <div class="message-list" *ngIf="!isMinimized">
+      <div *ngFor="let message of messages" class="message" [ngClass]="{'sent': message.user === 'You'}">
+        
+        <div class="message-avatar">
+          <img [src]="message.avatar" alt="Avatar">
+        </div>
+        <div class="message-body">
+          <div [innerHTML]="formatText(message.text)" class="message-text"></div> <!-- Corrected here -->
+          <div class="message-time">{{ message.time }}</div>
+        </div>
+      </div>
+    
+  
+  
+  
+    <!-- Animation "le bot écrit..." -->
+  <div class="message" *ngIf="isBotTyping">
+    <div class="message-avatar">
+      <img src=".././assets/POE-Logo.png" alt="Bot Avatar">
+    </div>
+    <div class="message-body">
+      <div class="typing-indicator">
+        <span></span><span></span><span></span>
+      </div>
+      <div class="message-time">{{ getCurrentTime() }}</div>
+    </div>
+  </div>
+  </div>
+    <!-- Champ de saisie -->
+    <div class="message-input" *ngIf="!isMinimized">
+      <mat-form-field class="input-field">
+        <input matInput [(ngModel)]="messageText" placeholder="Écris un message..." (keyup.enter)="sendMessage()">
+      </mat-form-field>
+      <button mat-icon-button (click)="sendMessage()" [disabled]="!messageText">
+        <mat-icon>send</mat-icon>
+      </button>
+    </div>
+  </div>
+  

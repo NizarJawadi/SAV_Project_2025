@@ -16,12 +16,15 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { AuthGuard } from './services/Auth-Guard';
 import { RoleGuard } from './services/RoleGuard';
 import { UnauthorizedComponent } from './unauthorized/unauthorized.component';
+import { RestpassowrdComponent } from './restpassowrd/restpassowrd.component';
+import { VetrineProduitComponent } from './ClientCompnent/components/vetrine-produit/vetrine-produit.component';
 
 export const routes: Routes = [
     { path: '', component: HomeComponent },
     { path: 'produit/:id', component: ProduitDetailComponent },
     { path: 'home', component: HomeComponent },
     { path: 'login', component: LoginComponent },
+    {path: 'restPassword' , component: RestpassowrdComponent},
     { path: 'register', component: RegisterComponent },
     { path: 'acceuil', component: AcceuilComponent ,  canActivate: [AuthGuard, RoleGuard],
         data: { expectedRoles: ['ADMIN','RESPONSABLE_SAV','TECHNICIEN'] }},

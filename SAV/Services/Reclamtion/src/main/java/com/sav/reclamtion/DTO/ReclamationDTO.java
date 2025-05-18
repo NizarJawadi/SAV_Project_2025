@@ -18,6 +18,7 @@ public class ReclamationDTO {
     private StatutReclamation statut;
     private LocalDateTime dateReclamation;
     private Long responsableSAVId;
+    private String responsableSipNumber;
     private Long interventionId;
     private String guideTechniqueUrl;
 

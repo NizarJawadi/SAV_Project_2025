@@ -27,6 +27,8 @@ public class FactureService {
 
     private static final double TVA_RATE = 0.19;
 
+    private static final double TVA_PRICE = 0.16 ;
+
     public Facture generateFacture(Long reclamationId) {
         // Récupération des données
         Reclamation reclamation = reclamationFeign.getReclamationById(reclamationId);
@@ -84,6 +86,10 @@ public class FactureService {
         System.out.println(facture.toString());
         Map<String, Object> params = new HashMap<>();
         System.out.println(intervention.toString());
+
+
+
+
         // Infos générales
         params.put("vendeurNom", "SAV Company");
         params.put("vendeurAdresse", technicien.getAdresse());
@@ -119,6 +125,8 @@ public class FactureService {
 
         System.out.println(technicien.getTarifParHeure());
 
+        double coutMainOeuvre = 0.0;
+        double totalTVAMainOeuvre = 0.0;
         if (intervention.getDateDebut() != null && intervention.getDateFin() != null) {
             Duration duration = Duration.between(intervention.getDateDebut(), intervention.getDateFin());
             long dureeMinutes = duration.toMinutes();
@@ -135,12 +143,12 @@ public class FactureService {
 
                 double dureeHeures = dureeMinutes / 60.0;
                 //System.out.println("dureeHeures :" +dureeHeures);
-                double coutMainOeuvre = dureeHeures * tarifHoraire;
+                coutMainOeuvre = dureeHeures * tarifHoraire;
 
-                double TotalTVAMainOuvre =  coutMainOeuvre * TVA_RATE;
+                totalTVAMainOeuvre =  calculeTotalTVAMainOuvre(dureeHeures, tarifHoraire);
                 params.put("tarifMainOeuvre", String.format("%.2f DNT", coutMainOeuvre));
-                params.put("totalTVAMainOeuvre", String.format("%.2f DNT", TotalTVAMainOuvre));
-                params.put("totalTTCMainOeuvre", String.format("%.2f DNT", TotalTVAMainOuvre+ coutMainOeuvre));
+                params.put("totalTVAMainOeuvre", String.format("%.2f DNT", totalTVAMainOeuvre));
+                params.put("totalTTCMainOeuvre", String.format("%.2f DNT", totalTVAMainOeuvre + coutMainOeuvre));
 
             } else {
                 params.put("tarifMainOeuvre", "Tarif non défini");
@@ -154,17 +162,32 @@ public class FactureService {
         params.put("Main d'oeuvre", "Main d'oeuvre");
 
 
+// Calcul des totaux des pièces utilisées
+        double totalHTPieces = 0.0;
+        double totalTVAPieces = 0.0;
+        double totalTTCPieces = 0.0;
+
+        for (PieceUtilisee piece : intervention.getPiecesUtilisees()) {
+            totalHTPieces += piece.calculerTotalHT();
+            totalTVAPieces += piece.calculerTVA(TVA_PRICE);
+            totalTTCPieces += piece.calculerTotalTTC(TVA_PRICE);
+        }
+
+
         // Totaux
-        params.put("totalHT", String.format("%.2f DNT", facture.getTotalHT()));
-        params.put("totalTVA", String.format("%.2f DNT", facture.getTotalTVA()));
-        params.put("totalTTC", String.format("%.2f DNT", facture.getTotalTTC()));
+        params.put("totalHT", String.format("%.2f DNT",totalHTPieces + coutMainOeuvre));
+        params.put("totalTVA", String.format("%.2f DNT", totalTVAPieces + totalTVAMainOeuvre ));
+        params.put("totalTTC", String.format("%.2f DNT",  totalTTCPieces + totalTVAMainOeuvre + coutMainOeuvre ));
         params.put("TVA_percent", (int) (TVA_RATE*100) +" %");
         // Lignes de la facture
+
+
 
         // Ajoute la liste dynamique des pièces utilisées
         JRBeanCollectionDataSource piecesDataSource = new JRBeanCollectionDataSource(intervention.getPiecesUtilisees());
         params.put("piecesDataSource", piecesDataSource);
-
+        params.put("TVA_piece_percent", (int) (TVA_PRICE*100) +" %");
+        System.out.println(intervention.getPiecesUtilisees().toString());
 
         // Logo
         InputStream logoStream = getClass().getResourceAsStream("/static/logo.png");

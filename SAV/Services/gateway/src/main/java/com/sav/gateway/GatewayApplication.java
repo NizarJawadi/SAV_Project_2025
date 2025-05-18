@@ -64,6 +64,10 @@ public class GatewayApplication implements WebFluxConfigurer {
 						.uri("http://localhost:9988")
 				)
 
+				.route("Facture-Service", r -> r.path("/factures/**")
+						.uri("http://localhost:6666")
+				)
+
 				.build();
 	}
 

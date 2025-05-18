@@ -1,13 +1,12 @@
 package com.sav.authentification.services;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 import com.sav.authentification.model.Roles;
 import com.sav.authentification.model.User;
 import com.sav.authentification.repository.UserRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -19,7 +18,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserServicesImpl implements UserServices{
 
-
+	private static final int SIP_MIN = 7001;
+	private static final int SIP_MAX = 7999;
 
 	@Autowired
 	private  UserRepository repository;
@@ -29,6 +29,37 @@ public class UserServicesImpl implements UserServices{
 	private  UserRepository userRepository;
 
 
+	public String generateUniqueSIPNumber() {
+		// Récupérer tous les numéros SIP existants
+		Set<String> existingSIPs = userRepository.findByNumSIPIsNotNull()
+				.stream()
+				.map(User::getNumSIP)
+				.collect(Collectors.toSet());
+
+		// Générer un numéro aléatoire jusqu'à en trouver un non utilisé
+		Random random = new Random();
+		String generatedSIP;
+
+		do {
+			int randomNum = SIP_MIN + random.nextInt(SIP_MAX - SIP_MIN + 1);
+			generatedSIP = String.valueOf(randomNum);
+		} while (existingSIPs.contains(generatedSIP) || generatedSIP.length() != 4);
+
+		return generatedSIP;
+	}
+
+	@Transactional
+	public User saveUserWithSIP(User user) {
+		if (user.getNumSIP() == null || user.getNumSIP().isEmpty()) {
+			String sip;
+			do {
+				sip = generateUniqueSIPNumber();
+			} while (userRepository.existsByNumSIP(sip));
+
+			user.setNumSIP(sip);
+		}
+		return userRepository.save(user);
+	}
 	/*@Autowired
     public UserServicesImpl(@Lazy UserRepository userRepository, PasswordEncoder passwordEncoder, UserRepository userRepository) {
         this.repository = userRepository;
@@ -93,6 +124,11 @@ public class UserServicesImpl implements UserServices{
 		stats.put("totalResponsables", totalResponsables);
 
 		return stats;
+	}
+
+
+	public String getUserSipNumber(Long id) {
+		return repository.findUserByIdUser(id).getNumSIP();
 	}
 
 }

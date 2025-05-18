@@ -411,3 +411,94 @@
 button {
   margin: 10px;
 }
+
+
+.product-image {
+  width: 100%; /* Prend toute la largeur du conteneur */
+  height: 200px; /* Hauteur fixe pour uniformité */
+  object-fit: contain; /* Garde les proportions sans déformation */
+  border-radius: 8px;
+  margin: 0 auto; /* Centrage horizontal */
+  display: block;
+  background-color: #f8f9fa; /* Fond neutre pour les images transparentes */
+  padding: 10px;
+  box-sizing: border-box;
+  transition: transform 0.3s ease;
+}
+
+.product:hover .product-image {
+  transform: scale(1.05); /* Légère zoom au survol */
+}
+
+.product {
+  background: #fff;
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  height: 100%; /* Hauteur égale pour tous */
+}
+
+.product-content {
+  flex-grow: 1; /* Pousse le bouton en bas */
+  display: flex;
+  flex-direction: column;
+}
+
+.product-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 25px;
+  margin-left: 300px; /* Ajustement pour la sidebar */
+  padding: 20px;
+}
+
+@media (max-width: 992px) {
+  .product-list {
+    margin-left: 0;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  }
+}
+
+/* Conteneur image */
+.image-container {
+  height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 15px;
+}
+
+/* Détails produit */
+.product-details {
+  display: flex;
+  justify-content: space-between;
+  margin-top: auto; /* Pousse en bas */
+  padding-top: 10px;
+  border-top: 1px solid #eee;
+}
+
+.description {
+  color: #666;
+  font-size: 0.9rem;
+  margin: 10px 0;
+  flex-grow: 1;
+}
+
+.price {
+  font-weight: bold;
+  color: #2a6496;
+}
+
+.reference {
+  font-size: 0.8rem;
+  color: #888;
+}
+
+.text-primary {
+  z-index: 10;
+  position: relative;
+}
+

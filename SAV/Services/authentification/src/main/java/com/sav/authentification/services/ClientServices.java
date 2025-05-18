@@ -14,4 +14,8 @@ public interface ClientServices {
     public List<Client> getAllClients();
 
     public void deleteClient(Long id);
+
+    public void updatePassword(String email, String newPassword);
+
+    public boolean existsByEmail(String email);
 }

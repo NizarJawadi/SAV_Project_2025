@@ -32,7 +32,7 @@
                     <input type="checkbox" class="w-4 h-4 border-gray-300 rounded">
                     <label class="ml-2 text-sm text-gray-700">Se souvenir de moi</label>
                 </div>
-                <a href="/pass-reset/basic" class="text-sm text-indigo-600 hover:underline">Mot de passe oublié ?</a>
+                <a routerLink="/restPassword" class="text-sm text-indigo-600 hover:underline">Mot de passe oublié ?</a>
             </div>
             
             <button type="submit" class="w-full py-3 text-white bg-green-600 rounded-lg hover:bg-green-700 transition" (ngSubmit)="onSubmit()" [formGroup]="loginForm">Se connecter</button>

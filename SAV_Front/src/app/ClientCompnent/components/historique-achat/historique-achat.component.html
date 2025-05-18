@@ -1,16 +1,16 @@
 <div class="container mt-5">
   <!-- Historique d'Achats -->
   <div class="col-12">
-    <div class="card top-selling overflow-auto">
+    <div class="card shadow-sm border-0 rounded-lg">
       <h2 class="text-center mb-4 title">
         🛒 Historique d'Achats
       </h2>
 
       <div class="card-body pb-0">
-        <table class="table table-borderless">
-          <thead>
+        <table class="table table-striped table-bordered align-middle">
+          <thead class="table-dark">
             <tr>
-              <th scope="col">Image</th>
+              <th scope="col" style="width: 120px;">Image</th>
               <th scope="col">Produit</th>
               <th scope="col">Description</th>
               <th scope="col">Prix Unitaire</th>
@@ -19,40 +19,65 @@
               <th scope="col">Date d'Achat</th>
               <th scope="col">Garantie</th>
               <th scope="col">Réclamation</th>
-
             </tr>
           </thead>
           <tbody>
-            <!-- Boucle sur les achats récupérés -->
             <tr *ngFor="let achat of achats">
-              <th scope="row">
-                
-                  <img [src]="'http://localhost:9999/images/' + achat.imageUrl" alt="{{achat.produitNom}}" style="width: 100px; height: auto;" />
-              
-              </th>
               <td>
-                <p class="text-primary fw-bold">{{achat.produitNom}}</p>
+                <img [src]="'http://localhost:9999/images/' + achat.imageUrl"
+                     alt="{{achat.produitNom}}"
+                     class="img-fluid  shadow-sm"
+                     style="width: 100px; height: 100px; object-fit: contain; background-color:white;" />
               </td>
-              <td>{{achat.produitDescription}}</td>
+              
+              <td><strong>{{achat.produitNom}}</strong></td>
+              <td>
+                <p class="description">
+                  <!-- Affichage de la description partielle (si showFullDescription est false) -->
+                  <span *ngIf="!achat.showFullDescription">
+                    {{ achat.produitDescription | slice:0:100 }}...
+                  </span>
+            
+                  <!-- Affichage de la description complète (si showFullDescription est true) -->
+                  <span *ngIf="achat.showFullDescription">
+                    {{ achat.produitDescription }}
+                  </span>
+            
+                  <!-- Lien "Voir plus" (s'affiche si la description est coupée) -->
+                  <span *ngIf="achat.produitDescription.length > 100 && !achat.showFullDescription" 
+                        (click)="toggleDescription(achat)" 
+                        class="text-primary" 
+                        style="cursor: pointer;">
+                    Voir plus
+                  </span>
+            
+                  <!-- Lien "Voir moins" (s'affiche après avoir affiché la description complète) -->
+                  <span *ngIf="achat.showFullDescription" 
+                        (click)="toggleDescription(achat)" 
+                        class="text-primary" 
+                        style="cursor: pointer;">
+                    Voir moins
+                  </span>
+                </p>
+              </td>
+              
               <td>${{achat.prixUnitaire}}</td>
               <td class="fw-bold">{{achat.quantite}}</td>
               <td>${{achat.prixTotal}}</td>
-              <td>{{achat.dateAchat | date:'short'}}</td>
+              <td>{{achat.dateAchat | date:'shortDate'}}</td>
               <td>
-                <!-- Vérification de la garantie et affichage du badge -->
-                <div *ngIf="isUnderWarranty(achat.garantieExpireLe)">
-                  <span class="badge bg-success"><i class="bi bi-check-circle me-1"></i> En Garantie</span>
-                </div>
-                <div *ngIf="!isUnderWarranty(achat.garantieExpireLe)">
-                  <span class="badge bg-danger"><i class="bi bi-exclamation-octagon me-1"></i> Hors Garantie</span>
-                </div>
+                <span *ngIf="isUnderWarranty(achat.garantieExpireLe)" class="badge bg-success rounded-pill">
+                  <i class="bi bi-check-circle me-1"></i> En Garantie
+                </span>
+                <span *ngIf="!isUnderWarranty(achat.garantieExpireLe)" class="badge bg-danger rounded-pill">
+                  <i class="bi bi-exclamation-octagon me-1"></i> Hors Garantie
+                </span>
               </td>
               <td>
-                <button class="btn btn-warning btn-sm" (click)="ouvrirModalReclamation(achat)">
+                <button class="btn btn-outline-primary btn-sm" (click)="ouvrirModalReclamation(achat)">
                   <i class="bi bi-exclamation-triangle"></i> Réclamer
                 </button>
               </td>
-              
             </tr>
           </tbody>
         </table>
@@ -61,28 +86,31 @@
   </div>
 </div>
 
-
 <!-- Modal Ajouter Réclamation -->
 <div class="modal fade" id="reclamationModal" tabindex="-1" aria-labelledby="modalTitle" aria-hidden="true">
-  <div class="modal-dialog">
+  <div class="modal-dialog modal-lg">
     <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="modalTitle">Nouvelle Réclamation</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <form [formGroup]="reclamationForm" (ngSubmit)="ajouterReclamation()">
+      <form [formGroup]="reclamationForm" (ngSubmit)="ajouterReclamation()">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalTitle">Nouvelle Réclamation</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
           <div class="mb-3">
             <label class="form-label">Produit</label>
             <input type="text" class="form-control" [value]="produitReclame?.produitNom" disabled>
           </div>
           <div class="mb-3">
             <label class="form-label">Description de la Réclamation</label>
-            <textarea class="form-control" formControlName="description" rows="3" required></textarea>
+            <textarea class="form-control" formControlName="description" rows="4" required></textarea>
           </div>
-          <button type="submit" class="btn btn-success">Envoyer Réclamation</button>
-        </form>
-      </div>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-success w-100">
+            <i class="bi bi-send me-1"></i> Envoyer Réclamation
+          </button>
+        </div>
+      </form>
     </div>
   </div>
 </div>

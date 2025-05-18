@@ -4,11 +4,12 @@ import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { ProduitService } from '../services/ProduitService';
 import { CategoryService } from '../services/CategoryService';
+import { FooterComponent } from '../ClientCompnent/components/footer/footer.component';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterLink],
+  imports: [CommonModule, FormsModule, RouterLink , FooterComponent],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
 })
@@ -55,6 +56,19 @@ export class HomeComponent {
       });
     });
   }
+
+
+     // Déplacer cette méthode avant ngOnInit pour plus de clarté
+  getShortDescription(description: string): string {
+    if (!description) return '';
+    return description.length > 50 ? description.substring(0, 50) + '...' : description;
+  }
+
+toggleDescription(produit: any): void {
+  produit.showFullDescription = !produit.showFullDescription;
+  console.log(produit.nom + ' => showFullDescription:', produit.showFullDescription);
+}
+
 
   toggleSubcategories(category: any): void {
     category.isActive = !category.isActive;

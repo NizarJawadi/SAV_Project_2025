@@ -13,9 +13,10 @@
 		name="FactureTemplate" language="java" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="60">
 
 
-	<style name="TableCellBorder"  backcolor="#FFFFFF">
-		<box>
-			<pen lineWidth="1.0" lineColor="#000000"/>
+	<style name="TableCellBorder" isBlankWhenNull="true" backcolor="#E0E0E0">
+		<box >
+
+			<pen lineWidth="1.0" lineColor="#544c4c"/>
 		</box>
 	</style>
 
@@ -23,7 +24,21 @@
 		<field name="pieceName" class="java.lang.String"/>
 		<field name="quantite" class="java.lang.Integer"/>
 		<field name="prixUnitaire" class="java.lang.Double"/>
+
+		<variable name="totalHT_PIECES_MAIN" class="java.lang.Double" calculation="Sum">
+			<variableExpression><![CDATA[$F{prixUnitaire} * $F{quantite}]]></variableExpression>
+		</variable>
+
+		<variable name="totalTVA_PIECES" class="java.lang.Double" calculation="Sum">
+			<variableExpression><![CDATA[$F{prixUnitaire} * $F{quantite} * 0.19]]></variableExpression>
+		</variable>
+
+		<variable name="totalTTC_PIECES" class="java.lang.Double" calculation="Sum">
+			<variableExpression><![CDATA[$F{prixUnitaire} * $F{quantite} * 1.19]]></variableExpression>
+		</variable>
 	</subDataset>
+
+
 
 	<parameter name="piecesDataSource" class="net.sf.jasperreports.engine.data.JRBeanCollectionDataSource"/>
 
@@ -48,6 +63,7 @@
 	<parameter name="dureeIntervention" class="java.lang.String"/>
 	<parameter name="tarifHoraire" class="java.lang.String"/>
 	<parameter name="TVA_percent" class="java.lang.String"/>
+	<parameter name="TVA_piece_percent" class="java.lang.String"/>
 	<parameter name="totalTVAMainOeuvre" class="java.lang.String"/>
 	<parameter name="totalTTCMainOeuvre" class="java.lang.String"/>
 
@@ -64,6 +80,10 @@
 	<field name="matriculeTechnicien" class="java.lang.String"/>
 	<field name="ligneTotalTTC" class="java.lang.String"/>
 	<field name="-" class="java.lang.String"/>
+
+	<variable name="totalHT_PIECES_MAIN" class="java.lang.Double"/>
+	<variable name="totalTVA_PIECES_MAIN" class="java.lang.Double"/>
+	<variable name="totalTTC_PIECES_MAIN" class="java.lang.Double"/>
 
 
 
@@ -385,7 +405,7 @@
 
 			<componentElement>
 
-				<reportElement x="0" y="57" width="528" height="21" backcolor="#FFFFFF" mode="Opaque" />
+				<reportElement x="0" y="57" width="560" height="21" backcolor="#FFFFFF" mode="Opaque" />
 				<!-- ajusté à la taille totale des colonnes -->
 				<c:table>
 					<!-- Indiquer le sous-ensemble de données à utiliser -->
@@ -394,11 +414,11 @@
 					</datasetRun>
 
 					<!-- Colonne : Nom -->
-					<c:column width="176">
+					<c:column width="182">
 
 						<c:columnHeader height="21">
 							<staticText>
-								<reportElement x="0" y="0" width="176" height="21" style="TableCellBorder"/>
+								<reportElement x="0" y="0" width="182" height="21" style="TableCellBorder"/>
 								<textElement>
 									<paragraph leftIndent="4" />
 								</textElement>
@@ -408,7 +428,7 @@
 
 						<c:detailCell height="21"> <!-- doit être au moins aussi grand que le contenu -->
 							<textField>
-								<reportElement x="0" y="0" width="176" height="21" style="TableCellBorder"/>
+								<reportElement x="0" y="0" width="182" height="21"  backcolor="E0E0E0" style="TableCellBorder"/>
 								<textElement>
 									<paragraph leftIndent="4" />
 								</textElement>
@@ -417,11 +437,13 @@
 						</c:detailCell>
 					</c:column>
 
+
+
 					<!-- Colonne : Quantité -->
-					<c:column width="176">
+					<c:column width="50">
 						<c:columnHeader height="21">
 							<staticText>
-								<reportElement x="0" y="0" width="176" height="21" style="TableCellBorder"/>
+								<reportElement x="0" y="0" width="50" height="21" style="TableCellBorder"/>
 								<textElement>
 									<paragraph leftIndent="4" />
 								</textElement>
@@ -430,7 +452,7 @@
 						</c:columnHeader>
 						<c:detailCell height="21">
 							<textField>
-								<reportElement x="0" y="0" width="176" height="21" style="TableCellBorder"/>
+								<reportElement x="0" y="0" width="50" height="21" style="TableCellBorder"/>
 								<textElement>
 									<paragraph leftIndent="4" />
 								</textElement>
@@ -439,23 +461,114 @@
 						</c:detailCell>
 					</c:column>
 
-					<c:column width="176">
+					<!-- Colonne : Unitée pieces  -->
+					<c:column width="50">
+
 						<c:columnHeader height="21">
 							<staticText>
-								<reportElement x="0" y="0" width="176" height="21" style="TableCellBorder"/>
+								<reportElement x="0" y="0" width="50" height="21" style="TableCellBorder"/>
 								<textElement>
 									<paragraph leftIndent="4" />
 								</textElement>
-								<text><![CDATA[prixUnitaire]]></text>
+								<text><![CDATA[Unité]]></text>
+							</staticText>
+						</c:columnHeader>
+
+						<c:detailCell height="21"> <!-- doit être au moins aussi grand que le contenu -->
+							<staticText>
+								<reportElement x="0" y="0" width="50" height="21" style="TableCellBorder"/>
+								<textElement>
+									<paragraph leftIndent="4" />
+								</textElement>
+								<text><![CDATA[Pcs]]></text>
+							</staticText>
+						</c:detailCell>
+					</c:column>
+
+
+					<!-- Colonne : prix unitaire  -->
+					<c:column width="90">
+						<c:columnHeader height="21">
+							<staticText>
+								<reportElement x="0" y="0" width="90" height="21" style="TableCellBorder"/>
+								<textElement>
+									<paragraph leftIndent="4" />
+								</textElement>
+								<text><![CDATA[PU HT]]></text>
 							</staticText>
 						</c:columnHeader>
 						<c:detailCell height="21">
 							<textField>
-								<reportElement x="0" y="0" width="176" height="21" style="TableCellBorder"/>
+								<reportElement x="0" y="0" width="90" height="21" style="TableCellBorder"/>
 								<textElement>
 									<paragraph leftIndent="4" />
 								</textElement>
-								<textFieldExpression><![CDATA[$F{prixUnitaire} + " DNT"]]></textFieldExpression>
+								<textFieldExpression><![CDATA[$F{prixUnitaire} * $F{quantite} + " DNT"]]></textFieldExpression>
+							</textField>
+						</c:detailCell>
+					</c:column>
+
+					<!-- Colonne : % taux tva  -->
+					<c:column width="50">
+						<c:columnHeader height="21">
+							<staticText>
+								<reportElement x="0" y="0" width="50" height="21" style="TableCellBorder"/>
+								<textElement>
+									<paragraph leftIndent="4" />
+								</textElement>
+								<text><![CDATA[% TVA  ]]></text>
+							</staticText>
+						</c:columnHeader>
+						<c:detailCell height="21">
+							<textField>
+								<reportElement x="0" y="0" width="50" height="21" style="TableCellBorder"/>
+								<textElement>
+									<paragraph leftIndent="4" />
+								</textElement>
+								<textFieldExpression><![CDATA["%"+ 16  ]]></textFieldExpression>
+							</textField>
+						</c:detailCell>
+					</c:column>
+					<!-- Colonne : TVA DT   -->
+					<c:column width="70">
+						<c:columnHeader height="21">
+							<staticText>
+								<reportElement x="0" y="0" width="70" height="21" style="TableCellBorder"/>
+								<textElement>
+									<paragraph leftIndent="4" />
+								</textElement>
+								<text><![CDATA[TVA (DT)]]></text>
+							</staticText>
+						</c:columnHeader>
+						<c:detailCell height="21">
+							<textField>
+								<reportElement x="0" y="0" width="70" height="21" style="TableCellBorder"/>
+								<textElement>
+									<paragraph leftIndent="4" />
+								</textElement>
+								<textFieldExpression><![CDATA[String.format("%.2f DT", $F{prixUnitaire} * $F{quantite} * 0.16)]]></textFieldExpression>
+							</textField>
+						</c:detailCell>
+					</c:column>
+
+					<!-- Colonne : TTC  -->
+					<c:column width="60">
+						<c:columnHeader height="21">
+							<staticText>
+								<reportElement x="0" y="0" width="60" height="21" style="TableCellBorder"/>
+								<textElement>
+									<paragraph leftIndent="4" />
+								</textElement>
+								<text><![CDATA[TTC]]></text>
+							</staticText>
+						</c:columnHeader>
+						<c:detailCell height="21">
+							<textField>
+								<reportElement x="0" y="0" width="60" height="21" style="TableCellBorder"/>
+								<textElement>
+									<paragraph leftIndent="4" />
+								</textElement>
+								<textFieldExpression><![CDATA[String.format("%.2f DT", $F{prixUnitaire} * $F{quantite} * 1.16)]]></textFieldExpression>
 							</textField>
 						</c:detailCell>
 					</c:column>
@@ -506,33 +619,54 @@
 		</band>
 	</pageFooter>
 	<summary>
-		<band height="80"> <staticText>
-			<reportElement x="310" y="10" width="100" height="20"/>
-			<textElement textAlignment="Right"/>
-			<text><![CDATA[Total HT :]]></text>
-		</staticText>
-			<textField pattern="#,##0.00 DNT" isBlankWhenNull="true"> <reportElement x="410" y="10" width="140" height="20"/> <textElement textAlignment="Right"/>
+		<band height="80">
+
+			<staticText>
+				<reportElement x="310" y="10" width="100" height="20"/>
+				<textElement textAlignment="Right">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Total HT :]]></text>
+			</staticText>
+			<textField pattern="#,##0.00 DNT" isBlankWhenNull="true">
+				<reportElement x="410" y="10" width="140" height="20"/>
+				<textElement textAlignment="Right">
+					<font isBold="true"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$P{totalHT}]]></textFieldExpression>
 			</textField>
 
 			<staticText>
 				<reportElement x="310" y="30" width="100" height="20"/>
-				<textElement textAlignment="Right"/>
+				<textElement textAlignment="Right">
+					<font isBold="true"/>
+				</textElement>
 				<text><![CDATA[Total TVA :]]></text>
 			</staticText>
-			<textField pattern="#,##0.00 DNT" isBlankWhenNull="true"> <reportElement x="410" y="30" width="140" height="20"/>
-				<textElement textAlignment="Right"/>
+			<textField pattern="#,##0.00 DNT" isBlankWhenNull="true">
+				<reportElement x="410" y="30" width="140" height="20"/>
+				<textElement textAlignment="Right">
+					<font isBold="true"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$P{totalTVA}]]></textFieldExpression>
 			</textField>
 
 			<staticText>
 				<reportElement x="310" y="50" width="100" height="20"/>
-				<textElement textAlignment="Right" /> <text><![CDATA[Total TTC :]]></text>
+				<textElement textAlignment="Right">
+					<font  isBold="true"/>
+				</textElement>
+				<text><![CDATA[Total TTC :]]></text>
 			</staticText>
-			<textField pattern="#,##0.00 DNT" isBlankWhenNull="true"> <reportElement x="410" y="50" width="140" height="20"/>
-				<textElement textAlignment="Right" /> <textFieldExpression><![CDATA[$P{totalTTC}]]></textFieldExpression>
+			<textField pattern="#,##0.00 DNT" isBlankWhenNull="true">
+				<reportElement x="410" y="50" width="140" height="20"/>
+				<textElement textAlignment="Right">
+					<font  isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{totalTTC}]]></textFieldExpression>
 			</textField>
 
 		</band>
 	</summary>
+
 </jasperReport>

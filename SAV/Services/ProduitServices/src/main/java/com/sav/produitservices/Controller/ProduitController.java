@@ -36,7 +36,7 @@ class ProduitController {
     @Autowired
     ProduitRepository produitRepository;
 
-    @Value("${upload.dir}") // Chemin du dossier de stockage des images
+    @Value("${upload.dir}")
     private String uploadDir;
 
     @PostMapping("/{id}/uploadImage")

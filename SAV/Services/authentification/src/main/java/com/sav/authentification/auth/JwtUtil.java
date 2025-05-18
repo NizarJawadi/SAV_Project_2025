@@ -54,10 +54,11 @@ public class JwtUtil {
                 .compact();
     }
 
-    public String generateToken(Long idUser ,String username, String login, Roles role ,String email) {
+    public String generateToken(Long idUser ,String username, String login, Roles role ,String email , String phoneSIP) {
         Map<String, Object> claims = new HashMap<>();
         claims.put("login", login);
         claims.put("email", email);
+        claims.put("phoneSIP", phoneSIP);
         claims.put("idUser", idUser);
         claims.put("role", role);
         return createToken(claims, username, 1000 * 60 * 1); // 30 minutes

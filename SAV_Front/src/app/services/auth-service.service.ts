@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { catchError, Observable } from 'rxjs';
+import { catchError, Observable, of } from 'rxjs';
 import { JwtService } from './jwt-services.service';
 
 @Injectable({
@@ -33,7 +33,7 @@ export class AuthService {
   
 
   register(userData: any): Observable<any> {
-    const url = `${this.baseUrlRegister}/client`;
+    const url = `${this.baseUrlRegister}/client/add`;
     return this.http.post(url, userData); // Envoi de la requête POST
   }
 
@@ -119,6 +119,44 @@ export class AuthService {
 
 
   
-  
+sendVerificationCode(email: string): Observable<any> {
+    return this.http.post(`${this.baseUrlRegister}/client/send-code`, { email }).pipe(
+      catchError(error => {
+        console.error('Erreur envoi code:', error);
+        return of({ error: 'Erreur lors de l\'envoi du code' });
+      })
+    );
+  }
+
+  verifyCode(email: string, code: string): Observable<any> {
+    return this.http.post(`${this.baseUrlRegister}/client/verify-code`, { email, code }).pipe(
+      catchError(error => {
+        console.error('Erreur vérification code:', error);
+        return of({ valid: false, message: 'Erreur serveur' });
+      })
+    );
+  }
+
+  requestPasswordReset(email: string): Observable<any> {
+  return this.http.post(`${this.baseUrlRegister}/client/request-password-reset`, { email });
+}
+
+resetPassword(email: string, code: string, newPassword: string, confirmPassword: string): Observable<any> {
+  const body = {
+    email: email,
+    code: code,
+    newPassword: newPassword,
+    confirmPassword: confirmPassword
+  };
+
+  console.log('Corps de la requête:', body); // Debug
+
+  return this.http.post(`${this.baseUrlRegister}/client/reset-password`, body).pipe(
+    catchError(error => {
+      console.error('Erreur détaillée:', error);
+      throw error;
+    })
+  );
+}
   
 }

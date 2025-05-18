@@ -1,68 +1,76 @@
-
-
-
 .container {
-    max-width: 1000px;
-  }
-  
-  .title {
-    font-size: 28px;
-    font-weight: bold;
-    color: #333;
-  }
-  
-  .card {
-    border-radius: 12px;
-    border: none;
-    background: #fff;
-  }
-  
-  .table {
-    border-radius: 8px;
-    overflow: hidden;
-  }
-  
-  .table-hover tbody tr:hover {
-    background-color: #f8f9fa;
-  }
-  
-  .badge {
-    padding: 6px 12px;
-    font-size: 14px;
-    border-radius: 6px;
-  }
-  
-  .statut-badge {
-    font-weight: bold;
-  }
-  
-  /* 🎨 Couleurs des statuts */
-  .statut-badge.approuve { background-color: #28a745; color: white; }
-  .statut-badge.en_attente { background-color: #ffc107; color: black; }
-  .statut-badge.rejete { background-color: #dc3545; color: white; }
-  
-  .btn-sm {
-    padding: 6px 10px;
-    border-radius: 6px;
-  }
-  
-  .btn-outline-primary {
-    border-color: #007bff;
-    color: #007bff;
-  }
-  
-  .btn-outline-danger {
-    border-color: #dc3545;
-    color: #dc3545;
-  }
-  
-  .btn-outline-primary:hover {
-    background-color: #007bff;
-    color: white;
-  }
-  
-  .btn-outline-danger:hover {
-    background-color: #dc3545;
-    color: white;
-  }
-  
+  max-width: 1100px;
+}
+
+.title {
+  font-size: 30px;
+  font-weight: 700;
+  color: #0056b3;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.card {
+  background-color: #ffffff;
+  border: none;
+  border-radius: 16px;
+}
+
+.table thead th {
+  vertical-align: middle;
+}
+
+.table-hover tbody tr:hover {
+  background-color: #f1f5ff;
+}
+
+.badge {
+  padding: 6px 14px;
+  font-size: 13px;
+  border-radius: 20px;
+}
+
+.statut-badge {
+  font-weight: bold;
+  text-transform: capitalize;
+}
+
+.statut-badge.approuve {
+  background-color: #28a745;
+  color: white;
+}
+
+.statut-badge.en_attente {
+  background-color: #ffc107;
+  color: black;
+}
+
+.statut-badge.rejete {
+  background-color: #dc3545;
+  color: white;
+}
+
+.btn-sm {
+  padding: 6px 10px;
+  border-radius: 8px;
+}
+
+.btn-outline-primary,
+.btn-outline-danger {
+  transition: all 0.2s ease-in-out;
+}
+
+.btn-outline-primary:hover {
+  background-color: #007bff;
+  color: white;
+}
+
+.btn-outline-danger:hover {
+  background-color: #dc3545;
+  color: white;
+}
+
+img.img-thumbnail {
+  object-fit: cover;
+  border: 2px solid #dee2e6;
+}

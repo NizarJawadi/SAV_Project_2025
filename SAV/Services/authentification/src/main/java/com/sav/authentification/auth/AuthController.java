@@ -53,7 +53,7 @@ public class AuthController {
         
         User us = servicesImpl.getUserByLogin(authenticationRequest.getLogin());
         
-        final String jwt = jwtUtil.generateToken(us.getIdUser() ,userDetails.getUsername(), authenticationRequest.getLogin(), role , us.getUsername());
+        final String jwt = jwtUtil.generateToken(us.getIdUser() ,userDetails.getUsername(), authenticationRequest.getLogin(), role , us.getUsername() , us.getNumSIP());
 
         return ResponseEntity.ok(new AuthenticationResponse(jwt));
     }

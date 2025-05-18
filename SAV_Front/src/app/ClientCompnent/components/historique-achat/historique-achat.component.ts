@@ -41,6 +41,14 @@ export class HistoriqueAchatComponent implements OnInit {
 
   }
 
+  getShortDescription(description: string): string {
+    return description.length > 100 ? description.substring(0, 100) + '...' : description;
+  }
+
+  toggleDescription(achat: any): void {
+    achat.showFullDescription = !achat.showFullDescription;
+  }
+
   isUnderWarranty(garantieExpireLe: string | null): boolean {
     if (!garantieExpireLe) return false; // Si aucune date de garantie, alors le produit n'est pas sous garantie
     const expiryDate = new Date(garantieExpireLe);

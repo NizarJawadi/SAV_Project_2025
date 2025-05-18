@@ -4,6 +4,8 @@ import { RouterLink, RouterOutlet } from '@angular/router';
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
 import { MainContentComponent } from './main-content/main-content.component';
+import { ChatbotComponent } from './chatbot/chatbot.component';
+import { AppelComponent } from '../../appel/appel.component';
 
 @Component({
   selector: 'app-acceuil-client',
@@ -13,10 +15,18 @@ import { MainContentComponent } from './main-content/main-content.component';
              HeaderComponent ,
              FooterComponent ,
              MainContentComponent,
-             RouterOutlet  ],
+             ChatbotComponent,
+             RouterOutlet  ,
+            AppelComponent ],
   templateUrl: './acceuil-client.component.html',
   styleUrl: './acceuil-client.component.css'
 })
 export class AcceuilClientComponent {
 
+  userRole : any ; 
+
+  constructor(){
+  this.userRole = localStorage.getItem('userRole');
+
+  }
 }

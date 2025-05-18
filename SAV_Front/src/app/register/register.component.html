@@ -1,86 +1,93 @@
-<div class="auth-page-wrapper pt-5 min-h-screen bg-cover bg-center flex items-center justify-center px-4" style="background-image: url('assets/bg.jpg');">
-  <!-- Fond sombre -->
-  <div class="absolute inset-0 bg-black opacity-50"></div>
-  
-  <!-- Conteneur du formulaire -->
-  <div class="relative z-10 w-full max-w-lg p-6 bg-white shadow-lg rounded-lg">
-      <div class="text-center">
-          <a href="javascript:void(0);" class="inline-block mb-4">
-              <img src="assets/logo.jpg" alt="Logo" class="h-24 mx-auto">
-          </a>
-          <h5 class="text-xl font-semibold text-gray-700">Créer un compte</h5>
-      </div>
-      
-      <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="space-y-4">
-          <!-- Nom & Téléphone -->
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
-                <label class="block text-sm font-medium text-gray-700">Nom</label>
-                <input formControlName="username" class="input-field" placeholder="Entrez votre nom">
-              </div>
-              <div>
-                <label class="block text-sm font-medium text-gray-700">Téléphone</label>
-                <input formControlName="telephone" class="input-field" placeholder="Votre numéro de téléphone">
-              </div>
-          </div>
+<div class="auth-page-wrapper pt-5 min-h-screen bg-cover bg-center flex items-center justify-center px-4"
+    style="background-image: url('assets/bg.jpg');">
+    <!-- Fond sombre -->
+    <div class="absolute inset-0 bg-black opacity-50"></div>
 
-          <!-- Email -->
-          <div>
-              <label class="block text-sm font-medium text-gray-700">Email</label>
-              <input formControlName="email" class="input-field" placeholder="Votre adresse email">
-          </div>
+    <!-- Conteneur du formulaire -->
+    <div class="relative z-10 w-full max-w-lg p-6 bg-white shadow-lg rounded-lg">
+        <div class="text-center">
+            <a href="javascript:void(0);" class="inline-block mb-4">
+                <img src="assets/logo.jpg" alt="Logo" class="h-24 mx-auto">
+            </a>
+            <h5 class="text-xl font-semibold text-gray-700">Créer un compte</h5>
+        </div>
 
-          <!-- Login -->
-          <div>
-              <label class="block text-sm font-medium text-gray-700">Login</label>
-              <input formControlName="login" class="input-field" placeholder="Choisissez un identifiant">
-          </div>
+        <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="space-y-4">
+            <!-- Nom & Téléphone -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Nom</label>
+                    <input formControlName="username" class="input-field" placeholder="Entrez votre nom">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Téléphone</label>
+                    <input formControlName="telephone" class="input-field" placeholder="Votre numéro de téléphone">
+                </div>
+            </div>
 
-          <!-- Mot de passe & Confirmation -->
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
-                  <label class="block text-sm font-medium text-gray-700">Mot de passe</label>
-                  <div class="relative">
-                      <input formControlName="password" type="password" class="input-field pr-10" placeholder="Mot de passe">
-                      <i class="password-toggle-icon fas fa-eye" ></i>
-                  </div>
-              </div>
-              <div>
-                  <label class="block text-sm font-medium text-gray-700">Confirmer</label>
-                  <div class="relative">
-                      <input formControlName="confirmPassword" type="password" class="input-field pr-10" placeholder="Confirmez">
-                      <i class="password-toggle-icon fas fa-eye" ></i>
-                  </div>
-              </div>
-          </div>
+            <!-- Email -->
+            <div>
+                <label class="block text-sm font-medium text-gray-700">Email</label>
+                <input formControlName="email" class="input-field" placeholder="Votre adresse email">
+            </div>
 
-          <!-- Ville & Code Postal -->
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
-                <label class="block text-sm font-medium text-gray-700">Ville</label>
-                <input formControlName="ville" class="input-field" placeholder="Votre ville">
-              </div>
-              <div>
-                <label class="block text-sm font-medium text-gray-700">Code Postal</label>
-                <input formControlName="codePostal" class="input-field" placeholder="Code postal">
-              </div>
-          </div>
+            <!-- Login -->
+            <div>
+                <label class="block text-sm font-medium text-gray-700">Login</label>
+                <input formControlName="login" class="input-field" placeholder="Choisissez un identifiant">
+            </div>
 
-          <!-- Acceptation des termes -->
-          <div class="flex items-center space-x-2">
-              <input type="checkbox" formControlName="termsAccepted" class="w-4 h-4 border-gray-300 rounded">
-              <label class="text-sm text-gray-700">J'accepte les termes et conditions</label>
-          </div>
+            <!-- Mot de passe & Confirmation -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Mot de passe</label>
+                    <div class="relative">
+                        <input formControlName="password" type="password" class="input-field pr-10"
+                            placeholder="Mot de passe">
+                        <i (click)="togglePassword($event, 'password')" class="password-toggle-icon fas fa-eye absolute right-3 top-3 cursor-pointer"></i>
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Confirmer</label>
+                    <div class="relative">
+                        <input formControlName="confirmPassword" type="password" class="input-field pr-10"
+                            placeholder="Confirmez">
+                        <i (click)="togglePassword($event, 'confirmPassword')" class="password-toggle-icon fas fa-eye absolute right-3 top-3 cursor-pointer"></i>
+                    </div>
+                </div>
+            </div>
 
-          <!-- Bouton de soumission -->
-          <button type="submit" class="w-full py-3 text-white bg-green-600 rounded-lg hover:bg-green-700 transition">S'inscrire</button>
-      </form>
+            <!-- Ville & Code Postal -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Ville</label>
+                    <input formControlName="ville" class="input-field" placeholder="Votre ville">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Code Postal</label>
+                    <input formControlName="codePostal" class="input-field" placeholder="Code postal">
+                </div>
+            </div>
 
-      <!-- Lien vers la connexion -->
-      <div class="mt-4 text-center">
-          <p class="text-sm text-gray-600">Vous avez déjà un compte ? 
-              <a routerLink="/login" class="text-indigo-600 font-medium hover:underline">Se connecter</a>
-          </p>
-      </div>
-  </div>
+            <!-- Acceptation des termes -->
+            <div class="flex items-center space-x-2">
+                <input type="checkbox" formControlName="termsAccepted" class="w-4 h-4 border-gray-300 rounded">
+                <label class="text-sm text-gray-700">J'accepte les termes et conditions</label>
+            </div>
+
+            <!-- Bouton de soumission -->
+            <div>
+                <button type="submit" class="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition duration-200">
+                    {{ codeSent ? 'Finaliser l\'inscription' : 'Commencer l\'inscription' }}
+                </button>
+            </div>
+        </form>
+
+        <!-- Lien vers la connexion -->
+        <div class="mt-4 text-center">
+            <p class="text-sm text-gray-600">Vous avez déjà un compte ?
+                <a routerLink="/login" class="text-indigo-600 font-medium hover:underline">Se connecter</a>
+            </p>
+        </div>
+    </div>
 </div>

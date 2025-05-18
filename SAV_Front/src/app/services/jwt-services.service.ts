@@ -58,8 +58,9 @@ export class JwtService {
     if (decodedToken) {
       // Assuming 'sub' is the user name
       const userName = decodedToken.sub || '';
+      const phoneSIP = decodedToken.phoneSIP || '';
       localStorage.setItem('UserName', userName);
-
+      localStorage.setItem('phoneSIP', phoneSIP);
       // Stockage du rôle utilisateur (directement depuis 'role')
       const userRole = decodedToken.role || '';
       if (userRole) {

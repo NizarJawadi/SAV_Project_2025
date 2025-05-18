@@ -18,8 +18,8 @@ import lombok.*;
 @NoArgsConstructor
 @ToString
 @Builder
-@Inheritance(strategy = InheritanceType.JOINED) // Stratégie JOINED pour l'héritage
-@DiscriminatorColumn(name = "user_type") // Optionnel, pour identifier le type d'utilisateur
+@Inheritance(strategy = InheritanceType.JOINED)
+@DiscriminatorColumn(name = "user_type")
 public class User implements UserDetails {
 
 	@Id
@@ -29,6 +29,9 @@ public class User implements UserDetails {
 	private String username;
 	private String login;
 	private String password;
+
+	@Column(name = "num_sip", unique = true)
+	private String numSIP;
 
 	@Enumerated(EnumType.STRING)
 	private Roles role;

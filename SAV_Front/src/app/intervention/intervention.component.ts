@@ -133,8 +133,8 @@ this.toastr.info('Info simple');
       const client = intervention.client.username;
       const technicien = intervention.technicien.username;
       const interventionDescription = intervention.reclamation.description;
-      
-      if (deadline < now) {
+      console.log(intervention.intervention.statut)
+      if (deadline < now && intervention.intervention.statut != "TERMINEE" ) {
         // Notification avec SweetAlert2 pour un retard
         Swal.fire({
           title: 'Intervention en retard',
@@ -142,7 +142,7 @@ this.toastr.info('Info simple');
           icon: 'warning',
           confirmButtonText: 'OK'
         });
-      } else if (deadline < threshold) {
+      } else if (deadline < threshold && intervention.intervention.statut != "TERMINEE" ) {
         // Notification avec SweetAlert2 pour une intervention proche de la date limite
         Swal.fire({
           title: 'Date limite proche',

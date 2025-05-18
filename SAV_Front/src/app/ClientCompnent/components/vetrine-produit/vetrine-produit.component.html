@@ -63,7 +63,13 @@
     <div class="product" *ngFor="let produit of produits">
       <h3>{{ produit.nom }}</h3>
       <img *ngIf="produit.imageUrl" [src]="produit.imageUrl" alt="{{ produit.nom }}" class="product-image" width="100" />
-      <p>{{ produit.description }}</p>
+      
+ <p><br>
+      {{ produit.showFullDescription ? produit.description : getShortDescription(produit.description) }}
+      <a href="#" (click)="toggleDescription(produit); $event.preventDefault()">
+        {{ produit.showFullDescription ? 'Réduire' : 'Voir plus' }}
+      </a>
+    </p>      
       <p>Référence: {{ produit.reference }}</p>
       <p>Statut: {{ produit.statut }}</p>
       <b>Prix: {{ produit.prix }} DT TTC</b>
@@ -72,3 +78,4 @@
   </div>
   
   </div>
+

@@ -1,0 +1,70 @@
+<div class="auth-page-wrapper pt-5 min-h-screen bg-cover bg-center flex items-center justify-center" style="background-image: url('assets/bg.jpg');">
+  <div class="absolute inset-0 bg-black opacity-50"></div>
+
+  <div class="relative z-10 w-full max-w-md p-6 bg-white shadow-lg rounded-lg">
+    <div class="text-center">
+      <a href="javascript:void(0);" class="inline-block mb-4">
+        <img src="assets/logo.jpg" alt="Logo" class="h-28 mx-auto">
+      </a>
+      <h5 class="text-xl font-semibold text-gray-700">Réinitialiser le mot de passe</h5>
+    </div>
+
+    <form [formGroup]="resetForm" class="mt-6" *ngIf="!emailVerified">
+      <!-- Étape 1 : Demande d'email -->
+      <div *ngIf="!codeSent">
+        <div class="mb-4">
+          <label class="block text-sm font-medium text-gray-700">Adresse e-mail</label>
+          <input type="email" formControlName="email" 
+                 class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500" 
+                 placeholder="Entrez votre e-mail">
+        </div>
+
+        <button type="button" (click)="requestResetCode()" 
+                class="w-full py-3 text-white bg-green-600 rounded-lg hover:bg-green-700 transition">
+          Envoyer le code
+        </button>
+      </div>
+
+      <!-- Étape 2 : Vérification du code -->
+      <div *ngIf="codeSent && !emailVerified">
+        <div class="mb-4">
+          <label class="block text-sm font-medium text-gray-700">Code de vérification</label>
+          <input type="text" formControlName="code" 
+                 class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500" 
+                 placeholder="Entrez le code reçu">
+        </div>
+
+        <button type="button" (click)="verifyCode()" 
+                class="w-full py-3 text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition">
+          Vérifier le code
+        </button>
+      </div>
+    </form>
+
+    <!-- Étape 3 : Nouveau mot de passe -->
+    <form [formGroup]="resetForm" class="mt-6" *ngIf="emailVerified">
+      <div class="mb-4">
+        <label class="block text-sm font-medium text-gray-700">Nouveau mot de passe</label>
+        <input type="password" formControlName="newPassword" 
+               class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500" 
+               placeholder="Nouveau mot de passe">
+      </div>
+
+      <div class="mb-4">
+        <label class="block text-sm font-medium text-gray-700">Confirmer le mot de passe</label>
+        <input type="password" formControlName="confirmPassword" 
+               class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500" 
+               placeholder="Confirmer le mot de passe">
+      </div>
+
+      <button type="button" (click)="resetPassword()" 
+              class="w-full py-3 text-white bg-green-600 rounded-lg hover:bg-green-700 transition">
+        Réinitialiser le mot de passe
+      </button>
+    </form>
+
+    <div class="mt-6 text-center">
+      <a routerLink="/login" class="text-sm text-indigo-600 hover:underline">Retour à la connexion</a>
+    </div>
+  </div>
+</div>

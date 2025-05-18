@@ -35,4 +35,7 @@ public class ClientDTO {
 
     @JsonProperty("username")
     private String username;
+
+    @JsonProperty("numSIP")
+    private String numSIP;
 }

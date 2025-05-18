@@ -34,7 +34,7 @@ public class FactureController {
         try {
             byte[] pdfBytes = factureService.exportFacture(facture, client, technicien, produit, intervention, reclamation);
             return ResponseEntity.ok()
-                    .header("Content-Disposition", "attachment; filename=facture_" + facture.getId() + ".pdf")
+                    .header("Content-Disposition", "inline; filename=facture_" + facture.getId() + ".pdf")
                     .header("Content-Type", "application/pdf")
                     .body(pdfBytes);
         } catch (Exception e) {

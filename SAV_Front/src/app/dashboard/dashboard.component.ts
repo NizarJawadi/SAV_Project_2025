@@ -81,6 +81,7 @@ export class DashboardComponent implements OnInit,AfterViewInit {
 
   initLineChart() {
     const orderedDays = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+    this.periode= 'semaine';
   
     this.historiqueService.getAchatsParJourSemaine().subscribe((data: { [x: string]: any; }) => {
       const values = orderedDays.map(day => data[day] || 0); // Remplir avec 0 si absent
@@ -177,6 +178,7 @@ export class DashboardComponent implements OnInit,AfterViewInit {
       const enCours = days.map(day => data[day]?.EN_COURS || 0);
       const terminee = days.map(day => data[day]?.RESOLUE || 0);
   
+      console.log(terminee);
       chart.setOption({
         tooltip: { trigger: 'axis' },
         legend: { data: ['En attente', 'En cours', 'Términée'] },

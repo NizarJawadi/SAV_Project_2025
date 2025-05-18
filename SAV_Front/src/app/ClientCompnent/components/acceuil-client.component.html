@@ -1,5 +1,11 @@
 <app-header></app-header>
 <main class="main-content">
-    <router-outlet></router-outlet>
+    <router-outlet>
+      <app-chatbot>
+        
+      </app-chatbot>
+
+      <app-appel *ngIf="userRole === 'CLIENT'"></app-appel>
+    </router-outlet>
   </main>
 <app-footer class="footer"></app-footer>

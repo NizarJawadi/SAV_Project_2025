@@ -2,12 +2,14 @@
 <project version="4">
   <component name="CompilerConfiguration">
     <annotationProcessing>
+      <profile default="true" name="Default" enabled="true" />
       <profile name="Maven default annotation processors profile" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="Spring-chatbot" />
         <module name="gateway" />
+        <module name="MailSender" />
       </profile>
       <profile name="Annotation profile for categoriesService" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
@@ -18,32 +20,32 @@
         </processorPath>
         <module name="demo" />
       </profile>
-      <profile name="Annotation profile for interventions" enabled="true">
+      <profile name="Annotation profile for Reclamtion" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="false">
           <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.36/lombok-1.18.36.jar" />
-          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.36/lombok-1.18.36.jar" />
-        </processorPath>
-        <module name="authentification" />
-        <module name="interventions" />
-      </profile>
-      <profile name="Annotation profile for PieceDeRechange" enabled="true">
-        <sourceOutputDir name="target/generated-sources/annotations" />
-        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
-        <outputRelativeToContentRoot value="true" />
-        <processorPath useClasspath="false">
           <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.36/lombok-1.18.36.jar" />
         </processorPath>
         <module name="config-server" />
+        <module name="interventions" />
         <module name="PieceDeRechange" />
-        <module name="VoIP-Service" />
         <module name="discovery" />
         <module name="ProduitServices" />
         <module name="Facture-Service" />
         <module name="Reclamtion" />
         <module name="HistoriqueAchat" />
+      </profile>
+      <profile name="Annotation profile for VoIP-Service" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="false">
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.36/lombok-1.18.36.jar" />
+        </processorPath>
+        <module name="VoIP-Service" />
+        <module name="authentification" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
@@ -54,6 +56,7 @@
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="Facture-Service" options="-parameters" />
       <module name="HistoriqueAchat" options="-parameters" />
+      <module name="MailSender" options="-parameters" />
       <module name="PieceDeRechange" options="-parameters" />
       <module name="ProduitServices" options="-parameters" />
       <module name="Reclamtion" options="-parameters" />

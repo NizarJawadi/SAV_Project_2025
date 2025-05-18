@@ -1,19 +1,20 @@
-import { Component, HostListener } from '@angular/core';
+import { Component, HostListener, Pipe, PipeTransform } from '@angular/core';
 import { ProduitService } from '../../../services/ProduitService';
 import { CategoryService } from '../../../services/CategoryService';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { AchatService } from '../../../services/AchatService';
+import { FooterComponent } from '../footer/footer.component';
 
 @Component({
   selector: 'app-vetrine-produit',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterLink],
+  imports: [CommonModule, FormsModule, RouterLink , FooterComponent],
   templateUrl: './vetrine-produit.component.html',
   styleUrl: './vetrine-produit.component.css'
 })
-export class VetrineProduitComponent {
+export class VetrineProduitComponent  {
  private lastScrollTop: number = 0;
   public searchTop: number = 190;
   searchTerm: string = '';
@@ -42,6 +43,10 @@ export class VetrineProduitComponent {
   ) {
     //this.loadFilters();
   }
+  
+  
+  
+
 
   ngOnInit(): void {
     // Charger les catégories avec sous-catégories
@@ -53,11 +58,17 @@ export class VetrineProduitComponent {
 
       // Charger les produits après les catégories
       this.produitService.getProduits().subscribe((data) => {
-        this.produits = data;
-        console.log(this.produits)
+        this.produits = data.map(produit => ({
+          ...produit,
+          showFullDescription: false,
+          description: produit.description || '' // Valeur par défaut
+        }));
       });
     });
   }
+
+
+
 
   toggleSubcategories(category: any): void {
     category.isActive = !category.isActive;
@@ -79,10 +90,28 @@ export class VetrineProduitComponent {
     this.lastScrollTop = currentScroll;
   }
 
+
+   // Déplacer cette méthode avant ngOnInit pour plus de clarté
+  getShortDescription(description: string): string {
+    if (!description) return '';
+    return description.length > 50 ? description.substring(0, 50) + '...' : description;
+  }
+
+toggleDescription(produit: any): void {
+  produit.showFullDescription = !produit.showFullDescription;
+  console.log(produit.nom + ' => showFullDescription:', produit.showFullDescription);
+}
+
+
+
   loadProduits() {
     if (this.selectedSubCategoryId) {
       this.produitService.getProduitsBySubCategorie(this.selectedSubCategoryId).subscribe((data) => {
-        this.produits = data;
+        //this.produits = data;
+        this.produits = data.map(produit => ({
+  ...produit,
+  showFullDescription: false
+  }));
       });
     } else {
       this.produitService.getProduits().subscribe((data) => {
@@ -189,5 +218,6 @@ export class VetrineProduitComponent {
 
   
 }
+
 
 

@@ -9,6 +9,7 @@ import com.sav.authentification.model.User;
 import com.sav.authentification.services.TechnicienServiceImpl;
 import com.sav.authentification.services.UserServicesImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,8 +22,20 @@ public class UserController {
 	private UserServicesImpl userService ;
 
 
-	
-	
+	@PostMapping
+	public ResponseEntity<User> createUser(@RequestBody User user) {
+		User savedUser = userService.saveUserWithSIP(user);
+		return ResponseEntity.ok(savedUser);
+	}
+
+	@GetMapping("/client/{id}/sip")
+	public String getUserSipNumber(@PathVariable Long id) {
+
+		String sipNumber = userService.getUserSipNumber(id);
+		return sipNumber;
+
+	}
+
 	@PostMapping(path = "user")
 	void addUser (@RequestBody User user) {
 		userService.addUser(user);

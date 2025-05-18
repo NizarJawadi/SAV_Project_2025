@@ -20,6 +20,7 @@
         <option value="$PROJECT_DIR$/interventions/pom.xml" />
         <option value="$PROJECT_DIR$/PieceDeRechange/pom.xml" />
         <option value="$PROJECT_DIR$/Facture-Service/pom.xml" />
+        <option value="$PROJECT_DIR$/MailSender/pom.xml" />
       </list>
     </option>
     <option name="ignoredFiles">

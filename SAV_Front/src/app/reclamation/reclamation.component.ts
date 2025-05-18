@@ -6,11 +6,13 @@ import { HeaderComponent } from '../header/header.component';
 import * as bootstrap from 'bootstrap';
 import { TechnicienService } from '../services/TechnicienServices';
 import Swal from 'sweetalert2';
+import { SipService } from '../services/SipService';
+import { AppelComponent } from '../appel/appel.component';
 
 @Component({
   selector: 'app-reclamation',
   standalone: true,
-  imports: [HeaderComponent, CommonModule, ReactiveFormsModule, FormsModule],
+  imports: [HeaderComponent, CommonModule, ReactiveFormsModule, FormsModule ],
   templateUrl: './reclamation.component.html',
   styleUrls: ['./reclamation.component.css']
 })
@@ -35,14 +37,41 @@ export class ReclamationComponent implements OnInit {
   currentReclamationId: any;
   responsableSAVId:any ;
 
+   mySip = localStorage.getItem('phoneSIP') || '0000';
+
   constructor(private reclamationService: ReclamationService,
     private technicienService: TechnicienService,
-    private cdRef: ChangeDetectorRef
+    private cdRef: ChangeDetectorRef,
+    private sipService: SipService
   ) {}
 
   ngOnInit(): void {
     this.loadReclamationsByStatut(this.statutFilter);
     this.loadSpecialites();
+this.sipService.register(this.mySip);
+  }
+
+
+ appelerClient(sipNumber: string) {
+  // Vérifier la connexion SIP
+  if (!this.sipService.isConnected()) {
+    const mySip = localStorage.getItem('phoneSIP') || '0000'; // Valeur par défaut
+    if (!mySip) {
+      console.error('Numéro SIP non trouvé');
+      return;
+    }
+    
+    this.sipService.register(mySip).then(() => {
+      this.lancerAppelClient(sipNumber);
+    });
+  } else {
+    this.lancerAppelClient(sipNumber);
+  }
+}
+
+  private lancerAppelClient(sipNumber: string) {
+    localStorage.setItem('currentCallSip', sipNumber);
+    this.sipService.makeCall(sipNumber);
   }
 
 
@@ -65,7 +94,7 @@ export class ReclamationComponent implements OnInit {
       this.reclamationService.getReclamationsByStatut(statut).subscribe(
         (data) => {
           this.reclamations = data;
-          
+          console.log(this.reclamations)
         },
         (error) => {
           console.error('Erreur lors de la récupération des réclamations par statut : ', error);
@@ -114,6 +143,7 @@ export class ReclamationComponent implements OnInit {
     this.reclamationService.getAllReclamations().subscribe(
       (data) => {
         this.allReclamations = data;
+        console.log(data)
         this.reclamations = [...this.allReclamations];
       },
       (error) => {
@@ -198,4 +228,11 @@ export class ReclamationComponent implements OnInit {
       modal.show();
     }
   }
+
+
+  ouvrirFacture(reclamationId: number): void {
+  const url = `http://localhost:8888/factures/export/${reclamationId}`;
+  window.open(url, '_blank');
+}
+
 }

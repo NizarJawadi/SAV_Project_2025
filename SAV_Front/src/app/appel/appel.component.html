@@ -1,0 +1,68 @@
+<!-- Connexion SIP 
+<button (click)="init()">Se connecter</button>-->
+
+<!-- Numéro à appeler 
+<input [(ngModel)]="target" placeholder="Numéro à appeler" />-->
+
+<!-- Contrôles d'appel 
+<div class="phone-controls">
+  <button *ngIf="!isCallActive && !isCalling" (click)="makeCall()">📞 Appeler</button>
+  <button *ngIf="isCallActive" (click)="hangUp()">❌ Raccrocher</button>
+</div>-->
+
+<!-- Popup d'appel entrant -->
+<div *ngIf="incomingCall" class="call-popup">
+  <div class="popup-content">
+    <h3 *ngIf="!callEnded">Appel entrant de {{ incomingCaller }}</h3>
+    <h3 *ngIf="callEnded">Appel terminé avec {{ incomingCaller }}</h3>
+    
+    <div *ngIf="isCallActive" class="call-timer">
+      {{ callDuration }}
+    </div>
+    
+    <div class="call-actions" *ngIf="!callEnded && !isCallActive">
+      <button (click)="answerCall()" class="accept-btn">Accepter</button>
+      <button (click)="declineCall()" class="decline-btn">Refuser</button>
+    </div>
+    
+    <div class="call-actions" *ngIf="isCallActive">
+      <button (click)="hangUp()" class="hangup-btn">Raccrocher</button>
+    </div>
+    
+    <div class="call-actions" *ngIf="callEnded">
+      <button (click)="closePopup()" class="close-btn">OK</button>
+    </div>
+  </div>
+</div>
+
+<!-- Popup d'appel sortant -->
+<div *ngIf="outgoingCallData" class="call-popup outgoing-call">
+  <div class="popup-content">
+    <h3 *ngIf="outgoingCallData.status === 'calling'">
+      Appel en cours vers {{ outgoingCallData.target }}
+    </h3>
+    <h3 *ngIf="outgoingCallData.status === 'connected'">
+      En communication avec {{ outgoingCallData.target }}
+    </h3>
+    <h3 *ngIf="outgoingCallData.status === 'ended'">
+      Appel terminé avec {{ outgoingCallData.target }}
+    </h3>
+    
+    <div *ngIf="outgoingCallData.status === 'connected'" class="call-timer">
+      {{ callDuration }}
+    </div>
+    
+    <div class="call-actions">
+      <button *ngIf="outgoingCallData.status !== 'ended'" 
+              (click)="hangUp()" 
+              class="hangup-btn">
+        Raccrocher
+      </button>
+      <button *ngIf="outgoingCallData.status === 'ended'" 
+              (click)="closeOutgoingPopup()" 
+              class="close-btn">
+        OK
+      </button>
+    </div>
+  </div>
+</div>

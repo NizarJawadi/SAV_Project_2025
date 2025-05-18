@@ -67,6 +67,20 @@
                   <td>{{ reclamation.dateReclamation | date: 'dd/MM/yyyy' }}</td>
                   <td>{{ reclamation.statut }}</td>
                   <td>
+                     <!-- Bouton Appeler le client -->
+                    <button class="btn btn-success btn-sm me-1" 
+                            (click)="appelerClient(reclamation.clientDTO.numSIP)"
+                            title="Appeler le client">
+                      <i class="fas fa-phone"></i> Appeler
+                    </button>
+                      <!-- Bouton Facture (affiché uniquement si la réclamation est terminée) -->
+                     <button class="btn btn-dark btn-sm me-1"
+                          *ngIf="reclamation.statut === 'RESOLUE'"
+                          (click)="ouvrirFacture(reclamation.id)">
+                          <i class="fas fa-file-pdf"></i> Facture
+                  </button>
+
+
                     <button
                       class="btn btn-info btn-sm"
                       data-bs-toggle="modal"

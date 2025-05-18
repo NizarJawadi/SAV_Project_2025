@@ -3,35 +3,30 @@
     📌 Mes Réclamations
   </h2>
 
-  <div class="card shadow-lg p-4">
+  <div class="card shadow rounded-4 p-4">
     <div class="table-responsive">
-      <table class="table table-hover align-middle">
-        <thead class="table-dark">
+      <table class="table table-hover align-middle mb-0">
+        <thead class="table-primary text-center">
           <tr>
             <th>#</th>
-            
             <th>Produit</th>
             <th>Référence</th>
-            
             <th>Garantie</th>
             <th>Prix</th>
             <th>Statut</th>
             <th>Date Réclamation</th>
-            <th>Responsable SAV</th>
             <th>Intervention</th>
             <th>Actions</th>
           </tr>
         </thead>
-        <tbody>
+        <tbody class="text-center">
           <tr *ngFor="let reclamation of reclamations; let i = index">
             <td>{{ i + 1 }}</td>
-           
             <td>
-              <img [src]="'http://localhost:9999/images/' + reclamation.produit.imageUrl" 
-                   alt="{{ reclamation.produit.nom }}" width="50">
+              <img [src]="'http://localhost:9999/images/' + reclamation.produit.imageUrl"
+                alt="{{ reclamation.produit.nom }}" class="img-thumbnail rounded-4" width="100">
             </td>
             <td>{{ reclamation.produit.reference }}</td>
-            
             <td>{{ reclamation.produit.dureeGarantie }} mois</td>
             <td>{{ reclamation.produit.prix }} DNT</td>
             <td>
@@ -40,14 +35,21 @@
               </span>
             </td>
             <td>{{ reclamation.dateReclamation | date: 'dd/MM/yyyy HH:mm' }}</td>
-            <td>{{ reclamation.responsableSAVId ? reclamation.responsableSAVId : 'Non assigné' }}</td>
-            <td>{{ reclamation.interventionId ? reclamation.interventionId : 'Non assigné' }}</td>
+            <td>{{ reclamation.responsableSAVId ? 'Assignée' : 'Non assignée' }}</td>
             <td>
-              <button class="btn btn-outline-primary btn-sm me-2">
+
+                <button *ngIf="reclamation.responsableSAVId" 
+                      class="btn btn-outline-success btn-sm me-1" 
+                      (click)="appelerResponsable(reclamation.responsableSipNumber)"
+                      title="Appeler le responsable">
+                <i class="fa fa-phone"></i>
+              </button>
+              <button class="btn btn-outline-primary btn-sm me-1" title="Voir">
                 <i class="fa fa-eye"></i>
               </button>
-              <button class="btn btn-outline-danger btn-sm" (click)="annulerReclamation(reclamation.id)">
-                <i class="fa fa-trash"></i> Annuler
+              <button class="btn btn-outline-danger btn-sm" (click)="annulerReclamation(reclamation.id)"
+                title="Annuler">
+                <i class="fa fa-trash"></i>
               </button>
             </td>
           </tr>

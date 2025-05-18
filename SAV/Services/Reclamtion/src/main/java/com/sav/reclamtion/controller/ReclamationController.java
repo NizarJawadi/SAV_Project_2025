@@ -7,6 +7,7 @@ import com.sav.reclamtion.DTO.ReclamationDTO;
 import com.sav.reclamtion.entity.Reclamation;
 import com.sav.reclamtion.entity.StatutReclamation;
 import com.sav.reclamtion.feign.ClientFeignClient;
+import com.sav.reclamtion.feign.UserFeignClient;
 import com.sav.reclamtion.repository.ReclamationRepository;
 import com.sav.reclamtion.service.ReclamationService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +33,8 @@ public class ReclamationController {
 
     @Autowired
     private ReclamationRepository reclamationRepository;
+    @Autowired
+    private UserFeignClient userFeignClient;
 
     @PostMapping("/add")
     public ResponseEntity<Reclamation> creerReclamation(@RequestBody Reclamation reclamation) {
@@ -55,6 +58,21 @@ public class ReclamationController {
     @GetMapping("/client/{clientId}")
     public ResponseEntity<List<ReclamationDTO>> getReclamationsByClient(@PathVariable Long clientId) {
         List<ReclamationDTO> reclamations = reclamationService.getReclamationsByClient(clientId);
+
+        String sipNumber;
+        for (ReclamationDTO reclamationDTO : reclamations) {
+            if (reclamationDTO.getResponsableSAVId() != null) {
+                sipNumber = userFeignClient.getUserSipNumber(reclamationDTO.getResponsableSAVId());
+                reclamationDTO.setResponsableSipNumber(sipNumber);
+            }
+            else{
+                reclamationDTO.setResponsableSipNumber(null);
+            }
+
+        }
+
+
+
         return ResponseEntity.ok(reclamations);
     }
 
